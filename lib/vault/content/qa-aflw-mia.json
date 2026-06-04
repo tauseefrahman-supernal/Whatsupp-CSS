@@ -1,0 +1,117 @@
+{
+  "id": "aflw-mia-caffeine",
+  "scenarios": [1, 2],
+  "athlete_archetype": {
+    "name": "Mia",
+    "age": 28,
+    "sex": "F",
+    "weight_kg": null,
+    "sport": "AFLW (Australian rules football, women's)",
+    "level": "Professional, with a demanding day job",
+    "context": "Semi-final, night game, big crowd, high anxiety, work day after, building toward Grand Final"
+  },
+  "tags": ["caffeine", "AFLW", "team-sport", "night-game", "anxiety", "sleep", "female-athlete", "finals"],
+  "supplement_categories": ["caffeine"],
+  "question_summary": "Should Mia take five No Doz tablets pre-match like the male players do, given anxiety, post-match sleep difficulty, and a work day after?",
+  "dialogue_mode": {
+    "turns": [
+      {
+        "role": "athlete",
+        "speaker": "Mia",
+        "text": "Louise, I really need your help. We're in the semi-final — a night game — and I'm already more nervous than usual because of the big crowd. I've been taking five No Doz tablets about an hour before important day games, same as the male players do. Should I just do the same thing tonight? The thing is, I can't even have a coffee after 4pm without lying awake half the night. I've got work the next morning in a demanding job, and if I'm wrecked for three or four days I won't be able to train properly before the Grand Final. I want to give everything tonight, but I don't want to blow up my whole week."
+      },
+      {
+        "role": "george",
+        "text": "Mia, first — take a breath. The fact that you're thinking this carefully about your preparation tells me you're already approaching this like the professional you are. These are exactly the right questions to be asking, and we can absolutely find a smarter approach than just copying what the men do.\n\nBefore I say anything else, can I ask — how has the caffeine actually felt on game days in the past? Did you feel sharp and focused, or were there moments where the jitters got on top of you?"
+      },
+      {
+        "role": "athlete",
+        "speaker": "Mia",
+        "text": "Honestly? There have been times where I felt really wired and almost too amped up in the first quarter. Like my heart was racing before I'd even had a hard contest. And afterwards I'm absolutely buzzing — I can't wind down for hours. Then I'm exhausted but I can't sleep."
+      },
+      {
+        "role": "george",
+        "text": "That makes complete sense, and thank you for being honest about it — that's really useful information. What you're describing is classic overshoot. The dose you've been taking — five No Doz is 500 mg, which is probably around 6–7 mg per kilogram of bodyweight for most AFLW players — is considerably higher than what the research actually supports for performance. We have good evidence now, including studies in elite female athletes, that 3 mg/kg is just as effective for improving running output and skill execution. That's roughly half what you've been taking. So you've been paying a cost — the nerves, the sleeplessness — for no extra benefit.\n\n*Science note: Studies in team sports confirm 3 mg/kg caffeine produces equivalent performance gains to higher doses, with substantially fewer side effects — and this holds in female-athlete populations.*"
+      },
+      {
+        "role": "athlete",
+        "speaker": "Mia",
+        "text": "Okay that's a relief actually. But what about the timing? I always thought you had to take it an hour before. And for a night game, does all of this change?"
+      },
+      {
+        "role": "george",
+        "text": "Great question, and the timing piece is where things get really interesting for your situation. The old 'one hour before' rule came from older research that was mostly looking at when caffeine peaks in the bloodstream. But we now know the effects start working much earlier than that — within 10 to 30 minutes if you're using drinks or gels. And if you use caffeinated chewing gum or mouth-dissolving strips, it's even faster, because the caffeine is absorbed directly through the lining of your cheek rather than waiting to be digested.\n\nFor a night game where you're already nervous and wired, here's what I'd suggest you genuinely consider: don't take caffeine before the game at all."
+      },
+      {
+        "role": "athlete",
+        "speaker": "Mia",
+        "text": "Wait — nothing before the game? Won't I be at a disadvantage?"
+      },
+      {
+        "role": "george",
+        "text": "I understand the instinct. But think about it this way — you're already going to be highly activated by the crowd, the occasion, the adrenaline of finals. Adding caffeine on top of that in a pre-game nervous state is like adding fuel to a fire that's already burning hot. You risk tipping into a zone where anxiety actually hurts your decision-making and your skill execution.\n\nAFLW is perfectly set up for an in-game caffeine strategy. You have quarter-time breaks and bench rotations — opportunities that male players in other codes simply don't have in the same way. The real fatigue and skill drop-off in a tight match tends to happen in the third and fourth quarters. That's where caffeine earns its money. Taking two caffeinated gums at quarter time or half time — around 200 mg total, which is your 3 mg/kg dose — means the caffeine is doing its job right when you actually need it most. And critically, it's working with your body's fatigue state, not fighting against your pre-game nerves.\n\n*Strategy option: 2 caffeine gums at quarter time or half time (≈ 200 mg / 3 mg/kg). Optional: one additional gum before the last quarter if the game is tight and you feel fatigue setting in. Skip entirely if the result is already decided — protecting your sleep.*"
+      },
+      {
+        "role": "athlete",
+        "speaker": "Mia",
+        "text": "That actually makes a lot of sense. And I love that I can just… not take it if we're comfortably ahead and I don't need to worry about sleep. But I'm still nervous about the sleep piece even with a lower dose later in the game. Night games finish late as it is."
+      },
+      {
+        "role": "george",
+        "text": "Your concern is well-founded, and you clearly know your own body — the fact that you can't have a late-afternoon coffee is a real signal that you metabolise caffeine slowly. So every milligram matters for you more than for some of your teammates. That's another strong argument for the lower dose and the 'skip it if you don't need it' flexibility.\n\nBut I also want to be honest — even with good caffeine strategy, post-match sleep after night games is genuinely hard. The high-intensity exercise, the excitement, the crowd, the adrenaline — caffeine is only one part of a bigger picture. There are evidence-based strategies around winding down after matches that are worth building into your recovery routine: keeping the lights dim after the game, avoiding screens, having a consistent post-match nutrition routine that includes carbohydrate and protein to start the recovery process. These things compound. And given you've got work the next day and a Grand Final preparation to protect, your recovery routine deserves just as much planning as your pre-game one."
+      },
+      {
+        "role": "athlete",
+        "speaker": "Mia",
+        "text": "One more thing — is caffeinated gum even safe to use? I've heard supplements can be risky for drug testing."
+      },
+      {
+        "role": "george",
+        "text": "Really smart to raise that. Caffeine itself is not a banned substance, but you're right that the risk with supplements is contamination — products that contain trace amounts of banned substances that aren't listed on the label. The way to protect yourself is to only use products that are batch-tested by a reputable third-party programme. There are caffeine gum and strip brands that are certified this way, and I can point you to those directly.\n\nAnd please — loop in your club's sports-science and nutrition team before match day. Make sure the gum will actually be available to you on the bench or during a rotation, because if it's sitting in the change rooms and you're on the ground, it's useless. The logistics matter as much as the science.\n\nYou've got everything you need to do this well, Mia. A lower dose, better timing, a plan that works with your body rather than against it, and the flexibility to protect your sleep and your training week. That's not a compromise — that's smart performance nutrition.\n\n*Final checklist: Use batch-tested caffeine gum (check certification) · Confirm logistics with club nutrition/sports-science staff · Keep a record of how each strategy feels — you're your own best case study.*"
+      }
+    ]
+  },
+  "structured_mode": {
+    "intro": "Caffeine is an effective performance supplement, perfectly suited to the running and skill requirements of AFL football. Its major benefit is to mask feelings of fatigue to allow you to play for longer at top speed and with your best concentration and skill execution. That might be important throughout the game, but particularly to the match outcome if scores are tight in the last quarter. We can certainly improve on your current routine for using caffeine. It's based on old studies and neither makes use of the new research on caffeine in sport nor suits the match scenario you described. The dose (500 mg — probably about 6–7 mg/kg for the average AFLW player) is higher than needed. It's probably higher than your everyday caffeine use, particularly if you take it in a single dose. This may exacerbate your existing pre-match nerves, as well as interfere with your sleep. Your caffeine protocol can be altered in a number of ways to suit your special needs.",
+    "sections": [
+      {
+        "heading": "1. Reduce the dose",
+        "body": "Caffeine intakes of 3 mg/kg of bodyweight (about half your usual dose) are just as effective and will reduce the side effects. Studies in real-life team sports show that this dose of caffeine improves different aspects of game outcomes. Some of these involve professional sports and some even focused on female athletes, so we can be confident that there's a benefit for elite athletes across both sexes."
+      },
+      {
+        "heading": "2. Update on caffeine timing — especially if you use fast-acting forms",
+        "body": "We now know that you don't need to wait for an hour to get the benefits of caffeine. The effects occur pretty quickly, especially if you are beginning to feel fatigued. For example, the effects of caffeine from drinks or gels/gummies are noticeable within 10–30 minutes, even before blood concentrations peak at about 60 minutes. However, caffeinated gum or caffeinated strips that melt in your mouth are even more fast-acting. Here, the caffeine is rapidly absorbed across your cheek cells rather than having to be swallowed and absorbed in the gut. These fast-acting options can give you more flexibility about when you take the caffeine."
+      },
+      {
+        "heading": "3. Consider whether you need to take caffeine before the game at all",
+        "body": "Maybe it's best to enjoy the cheer of the large crowd as you run onto the field as your game boost. Rather than adding caffeine jitters to your pre-game nerves, you could wait until you have settled into your game before you take the caffeine. The game of AFLW is convenient for this strategy because your quarter-time breaks and rotations on the bench provide lots of options for in-game nutrition strategies."
+      },
+      {
+        "heading": "4. Consider different within-game options",
+        "body": "Studies show that different ways of using caffeine can work equally well and can be adapted to different needs. You might have different options for day games and night games, or matches that are fast and furious throughout the whole game and get decided in the last minutes versus matches that are one-sided where the results are already certain by half time. Our Wise Crowd suggested that you could take your caffeine dose (3 mg/kg — equal to 200 mg or two caffeine gums) at quarter time or half time. You could even top up with another gum just before the last quarter if you felt fatigued and needed a final boost to win a tight game. If your routine is to take your dose at half-time, but the game was already decided and you were confident that you didn't need the caffeine boost, you could choose to skip it totally, and not have to worry about its effect on your sleep."
+      },
+      {
+        "heading": "5. Integrate your caffeine strategies into your larger nutrition plan",
+        "body": "Optimal performance in a running game over the duration of an AFL match (~100 min) requires a plan for fuelling and hydration. Make sure you have a pre- and within-game nutrition plan that limits your overall fluid deficit and maintains carbohydrate availability. This plan will play the major role in your performance and help to limit overall fatigue. However, a decline in running patterns and game skills is still inevitable and caffeine can help to address this. The other reason to integrate your strategies is that the drinks and sports foods that are part of the bigger plan can provide a vehicle to consume caffeine."
+      },
+      {
+        "heading": "6. Choose a reputable caffeine source",
+        "body": "Because you are a professional athlete, it's important to consider the risk of inadvertent intake of banned substances that are sometimes found in supplements. Use websites from companies that make caffeine gum and caffeine strips that are batch-tested. That's always the best strategy when you've made a decision to use supplements and need to reduce the risk of an Anti-Doping Rule Violation (ADRV) if you get drug tested after the match."
+      },
+      {
+        "heading": "7. Connect with your sports-science support team",
+        "body": "Talk to the sports-science and nutrition experts at your club. Make use of their expertise about caffeine, and other nutritional strategies (fuelling and fluid intake) for the game. Also check in about your plans for caffeine use to make sure they fit club policies on supplements, and that the match-day staff can have your caffeine sources available for the occasions you want to use them. This is especially important if you want to take caffeine during a rotation on the bench or at other breaks when you are on the ground rather than in the club rooms."
+      },
+      {
+        "heading": "8. Note that post-competition sleep is a common problem",
+        "body": "Maybe it's the high-intensity exercise. Maybe it's the excitement of the match and the crowd. Maybe the caffeine adds an extra effect. Strategies that can help you to recover — including better sleep — after each match and over the next days will be important for your preparation for the Grand Final, as well as helping in future matches and training scenarios."
+      },
+      {
+        "heading": "9. Learn from your experiences",
+        "body": "Although we like to use studies to guide evidence-based sports-nutrition practices, you are a case study of yourself. It's a great idea to keep records of different strategies you trial and their outcomes, so that you (and your club dietitian / high-performance manager) can look over a series of results to find the patterns. If you like, you can share your records with our Wise Crowd cloud. Pooling your results will help to make us all smarter."
+      }
+    ],
+    "weaving_note": "Points 5, 6, 7 and 9 could be woven into every answer.",
+    "closing": "You've got a big day ahead of you, so we've kept this information brief and to the point. But it would be great to check in after the race and learn from your experience. We can reflect together on how it worked out today, plus add some more information for you to consider. We all benefit from learning together and can suggest some case-study approaches to prepare for your next race."
+  }
+}

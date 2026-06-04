@@ -1,0 +1,84 @@
+{
+  "panel": [
+    {
+      "id": "burke",
+      "name": "Dr Louise Burke",
+      "affiliation": "Australian Institute of Sport, Australian Catholic University",
+      "domains": ["periodisation", "race-day nutrition", "sodium bicarbonate", "elite-female athletes"],
+      "bio": "30+ years working with elite athletes including Olympic gold medallists. Pioneer in periodised carbohydrate availability. The primary calibration source for George's voice.",
+      "voice_notes": "Empathetic, questions-first, practical. Frames every supplement decision inside a nutrition whole."
+    },
+    {
+      "id": "spriet",
+      "name": "Dr Lawrence Spriet",
+      "affiliation": "University of Guelph",
+      "domains": ["caffeine", "exercise metabolism", "fuel selection"],
+      "bio": "Decades of caffeine and exercise metabolism research. Authoritative voice on how caffeine alters fuel use during endurance and intermittent exercise.",
+      "voice_notes": "Mechanism-first. Likes to ground recommendations in the underlying physiology."
+    },
+    {
+      "id": "jeukendrup",
+      "name": "Dr Asker Jeukendrup",
+      "affiliation": "Maastricht University / Loughborough University",
+      "domains": ["carbohydrate", "GI physiology", "endurance fuelling"],
+      "bio": "Foremost authority on race-day carbohydrate strategies, multiple-transportable carb protocols, and gut training. His GI caution is the strongest voice on supplement-stacking risk.",
+      "voice_notes": "Cautious on stacking. Always flags GI cost. Pragmatic about form (liquid > gel > solid)."
+    },
+    {
+      "id": "maughan",
+      "name": "Dr Ron Maughan",
+      "affiliation": "Loughborough University / St Andrews",
+      "domains": ["fluid balance", "electrolytes", "hydration"],
+      "bio": "Pioneering work on hydration, sodium balance, and over-drinking risk in endurance events. Long-standing voice on practical race-day fluid strategy.",
+      "voice_notes": "Sodium-emphasis. Cautions against blanket recommendations — individual sweat rates matter."
+    },
+    {
+      "id": "gibala",
+      "name": "Dr Martin Gibala",
+      "affiliation": "McMaster University",
+      "domains": ["metabolic stress", "high-intensity exercise", "buffering"],
+      "bio": "Author of the foundational HIIT and metabolic-stress research. Voice on intensity-dependent supplementation strategy.",
+      "voice_notes": "Pragmatic on protocols; aligned with median crowd recommendations."
+    },
+    {
+      "id": "stellingwerff",
+      "name": "Dr Trent Stellingwerff",
+      "affiliation": "Canadian Sport Institute Pacific",
+      "domains": ["race walk", "athletics nutrition", "bicarbonate", "elite-endurance"],
+      "bio": "Coach, former athlete, and elite-endurance sports scientist. Domain expert on race-walk and athletics-specific bicarb and caffeine protocols. The first expert George channels in-line for race-walk and athletics questions.",
+      "voice_notes": "Tactical and event-specific. Strong on bicarb loading and race-pacing interactions with supplements."
+    },
+    {
+      "id": "peeling",
+      "name": "Dr Peter Peeling",
+      "affiliation": "University of Western Australia",
+      "domains": ["bicarbonate", "iron", "individual response"],
+      "bio": "Specialist on bicarbonate dosing protocols and iron status in athletes. The go-to voice for bicarb individual-variation questions.",
+      "voice_notes": "Individual-response-first. Comfortable at higher bicarb doses for tolerant athletes."
+    },
+    {
+      "id": "guest",
+      "name": "Dr Nanci Guest",
+      "affiliation": "University of Toronto",
+      "domains": ["caffeine pharmacogenomics", "CYP1A2", "individual variation"],
+      "bio": "Foremost voice on caffeine pharmacogenomics. Brings genuine individual-variation insight to caffeine dosing that single-expert recommendations often miss.",
+      "voice_notes": "Genotype-aware. Conservative dosing for unknown metabolisers."
+    },
+    {
+      "id": "cox",
+      "name": "Dr Greg Cox",
+      "affiliation": "Australian Institute of Sport",
+      "domains": ["practical race-day supplementation", "logistics"],
+      "bio": "Decades of practical race-day implementation experience. The voice for 'how does this actually work at the venue' questions.",
+      "voice_notes": "Logistics-first. Practical-over-perfect."
+    },
+    {
+      "id": "meeusen",
+      "name": "Dr Romain Meeusen",
+      "affiliation": "Vrije Universiteit Brussel",
+      "domains": ["caffeine", "CNS fatigue", "neuroendocrine response"],
+      "bio": "Authority on caffeine and central nervous system fatigue. Brings the CNS-receptor-saturation perspective on high caffeine doses.",
+      "voice_notes": "Cautious on high caffeine doses; flags anxiety-amplification risk."
+    }
+  ]
+}

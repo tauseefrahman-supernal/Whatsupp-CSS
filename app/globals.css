@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+:root {
+  /* Neutrals — warm cream that plays with the lavender brand */
+  --background: #f7f3ee;       /* warm cream chat backdrop */
+  --foreground: #1a1525;       /* deep ink — slightly purple-tinted */
+  --muted: #6b6478;            /* secondary text — muted plum */
+  --border: #ece6f0;           /* divider — soft lavender-grey */
+  --surface: #ffffff;
+  --surface-2: #f4eff7;        /* app surface — faintest lavender */
+  --accent: #1a1525;
+  --accent-foreground: #ffffff;
+  --george: #4a2470;           /* George avatar/eyebrow — deep aubergine */
+
+  /* Brand — from the CSS pitch deck (theme1.xml). Pinkish-purple anchor
+     with a pink CTA accent and a deeper plum for header bands. */
+  --brand: #BC72F0;            /* CSS pitch-deck primary — pinkish lavender */
+  --brand-hover: #9D4DE0;      /* darker lavender — hover state */
+  --brand-foreground: #ffffff;
+  --brand-soft: #F5E9FF;       /* very light lavender — pills + soft fills */
+  --brand-soft-border: #E0C5F5;
+  --brand-accent: #DE478E;     /* pink CTA accent (deck colour) — send button etc. */
+  --brand-deep: #4F3478;       /* deep plum — for header bands */
+
+  /* Chat surfaces */
+  --chat-bg: #f0e9f5;          /* lavender-warm chat backdrop (replaces WA cream) */
+  --bubble-out: #F3E1FB;       /* outgoing (athlete) bubble — soft lavender */
+  --bubble-in: #ffffff;        /* incoming (George) bubble */
+  --bubble-shadow: 0 1px 0.5px rgba(26, 21, 37, 0.13);
+
+  --confidence-high: #16a34a;
+  --confidence-moderate: #ca8a04;
+  --confidence-low: #ea580c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-accent: var(--accent);
+  --color-george: var(--george);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-soft-border: var(--brand-soft-border);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-deep: var(--brand-deep);
+  --color-chat-bg: var(--chat-bg);
+  --color-bubble-in: var(--bubble-in);
+  --color-bubble-out: var(--bubble-out);
+  --color-confidence-high: var(--confidence-high);
+  --color-confidence-moderate: var(--confidence-moderate);
+  --color-confidence-low: var(--confidence-low);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(188, 114, 240, 0.25);
+  color: var(--foreground);
+}
+
+/* Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.15) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 4px; }
+*::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.22); }
+
+/* Chat surface — lavender backdrop with a soft repeating doodle motif. */
+.chat-surface {
+  background-color: var(--chat-bg);
+  background-image:
+    radial-gradient(rgba(79, 52, 120, 0.05) 1px, transparent 1px),
+    radial-gradient(rgba(79, 52, 120, 0.035) 1px, transparent 1px);
+  background-size: 22px 22px, 38px 38px;
+  background-position: 0 0, 11px 19px;
+}
+
+/* Sidebar + chat header band — CSS-deck plum, with a soft pink-to-purple gradient
+   that nods to the deck's accent pairing. */
+.wa-rail-header {
+  background: linear-gradient(135deg, var(--brand-deep) 0%, var(--brand-hover) 60%, var(--brand) 100%);
+  color: var(--brand-foreground);
+}
+
+/* Prose defaults for George messages (legacy class — still used by some surfaces) */
+.george-prose {
+  line-height: 1.55;
+}
+.george-prose p { margin-bottom: 0.7em; }
+.george-prose p:last-child { margin-bottom: 0; }
+.george-prose strong { font-weight: 600; }
+.george-prose em { color: var(--muted); font-style: italic; }
+
+/* Markdown-rendered chat bubble — handles long words, lists, tables cleanly. */
+.george-md {
+  line-height: 1.5;
+}
+.george-md > :first-child { margin-top: 0; }
+.george-md > :last-child { margin-bottom: 0; }
+.george-md p { margin: 0 0 0.55em; }
+.george-md ul, .george-md ol { margin: 0.1em 0 0.55em; }
+.george-md li { margin: 0.1em 0; }
+.george-md li > p { margin: 0; }
+.george-md strong { font-weight: 600; }
+.george-md em { color: var(--muted); }
+
+/* WA bubble — outgoing (athlete). Tail on bottom-right. */
+.bubble-out {
+  background: var(--bubble-out);
+  color: var(--foreground);
+  border-radius: 7.5px;
+  box-shadow: var(--bubble-shadow);
+  position: relative;
+}
+.bubble-out::after {
+  content: "";
+  position: absolute;
+  right: -7px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 12px 8px;
+  border-color: transparent transparent var(--bubble-out) transparent;
+}
+
+/* WA bubble — incoming (George). Tail on bottom-left. */
+.bubble-in {
+  background: var(--bubble-in);
+  color: var(--foreground);
+  border-radius: 7.5px;
+  box-shadow: var(--bubble-shadow);
+  position: relative;
+}
+.bubble-in::after {
+  content: "";
+  position: absolute;
+  left: -7px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 8px 12px 0;
+  border-color: transparent var(--bubble-in) transparent transparent;
+}
+
+/* Card surfaces */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 1px 0 rgba(11, 20, 26, 0.02), 0 2px 4px rgba(11, 20, 26, 0.02);
+}
+.card-soft {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+/* Brand button — WA-bright-green CTA */
+.btn-primary {
+  background: var(--brand);
+  color: var(--brand-foreground);
+  transition: background 120ms ease, transform 60ms ease;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--brand-hover);
+}
+.btn-primary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-send {
+  background: var(--brand-accent);
+  color: #ffffff;
+}
+.btn-send:hover:not(:disabled) { background: #C2367A; }
+.btn-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Active sidebar pill */
+.nav-active-bar {
+  position: relative;
+}
+.nav-active-bar::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--brand-accent);
+}
+
+/* WA-style header eyebrow under bubbles */
+.bubble-meta {
+  font-size: 10.5px;
+  color: var(--muted);
+}

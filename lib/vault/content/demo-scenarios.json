@@ -1,0 +1,137 @@
+{
+  "id": "demo-scenarios",
+  "version": "2026-05-23",
+  "description": "The four canonical scenarios that anchor the investor demo films. Each one references the canonical athlete archetype + Vault entry that grounds George's response. The UI uses this manifest to render a 'play this scenario' picker on the Scenarios page and to seed pre-recorded conversations for filming.",
+  "scenarios": [
+    {
+      "number": 1,
+      "slug": "aflw-mia-dialogue",
+      "title": "AFLW Caffeine — Empathetic Dialogue",
+      "tagline": "Mia, 28, AFLW semi-final tonight. Voice/audio.",
+      "summary": "George leads with empathy, asks one clarifier, then walks Mia from 5 No Doz to 3 mg/kg gum at quarter-time. Models the 3 Rs visibly, lands the privacy reassurance early, closes on N-of-1.",
+      "demonstrates": [
+        "Empathy-first opening under pre-match anxiety",
+        "One question per turn — never stacked",
+        "Female-athlete sport-specific reframe (3 mg/kg, not the male 6–7 mg/kg)",
+        "Quarter-time / half-time strategy as the AFLW-specific lever",
+        "Skip-if-not-needed flexibility",
+        "Batch-tested certification + sports-science team loop-in",
+        "N-of-1 closing"
+      ],
+      "primary_channel": "voice",
+      "secondary_channel": "text-overlay",
+      "athlete": {
+        "name": "Mia",
+        "sex": "F",
+        "age": 28,
+        "sport": "AFLW (Australian rules football, women's)",
+        "level": "Professional, with a demanding day job",
+        "context": "Semi-final, night game, big crowd, high anxiety, work day after, building toward Grand Final. Slow caffeine metaboliser (can't tolerate coffee after 4pm)."
+      },
+      "vault_entry_id": "aflw-mia-caffeine",
+      "vault_path": "dialogue_mode",
+      "opening_question": "Louise, I really need your help. We're in the semi-final — a night game — and I'm already more nervous than usual because of the big crowd. I've been taking five No Doz tablets about an hour before important day games, same as the male players do. Should I just do the same thing tonight? The thing is, I can't even have a coffee after 4pm without lying awake half the night. I've got work the next morning in a demanding job, and if I'm wrecked for three or four days I won't be able to train properly before the Grand Final. I want to give everything tonight, but I don't want to blow up my whole week.",
+      "video_treatment": "Voice-first. George's voice plays as text streams onto screen. Six-turn exchange. Confidence pill shifts from moderate (after Q1) to high (after the in-game-strategy turn). Final frame: the Vault citation + 'batch-tested certified' badge."
+    },
+    {
+      "number": 2,
+      "slug": "aflw-mia-structured",
+      "title": "AFLW Caffeine — Full Text Answer",
+      "tagline": "Same Mia, same question, full written reply.",
+      "summary": "Same athlete, same question — but Mia just wants the whole thing in one go. George delivers the nine-section structured answer, still in his voice, with the Wise Crowd cited where the in-game options come from.",
+      "demonstrates": [
+        "Posed-question mode — structured nine-section scaffold",
+        "Same expertise as the dialogue scenario, expressed once",
+        "Wise Crowd cited inline ('Our Wise Crowd suggested…')",
+        "ADRV / contamination flag as a first-class point",
+        "Post-competition sleep treated as a real strategy, not an afterthought"
+      ],
+      "primary_channel": "text",
+      "secondary_channel": null,
+      "athlete": {
+        "name": "Mia",
+        "sex": "F",
+        "age": 28,
+        "sport": "AFLW (Australian rules football, women's)",
+        "level": "Professional, with a demanding day job",
+        "context": "Same as scenario 1 — but Mia wants the full text answer this time, not a back-and-forth."
+      },
+      "vault_entry_id": "aflw-mia-caffeine",
+      "vault_path": "structured_mode",
+      "opening_question": "Give me the full thing in one go. I'm a 28-year-old female AFLW player, professional but I still have a day job. We're in the finals and they're playing them at night to get the big crowds. Should I take pre-match caffeine like I do before important day games and just like the male players in the club — five No Doz tablets an hour before? I can't sleep after night matches (in fact I can't even drink coffee after 4pm and still get a good night's sleep), and I have to work the next day in a demanding job. I'm worried it will take me 3–4 days to get back to normal and I won't get to train effectively before then. We need to play as hard as possible to win. How do I get the best from caffeine and bounce back?",
+      "video_treatment": "Text-first. Camera slowly scrolls the structured answer as voiceover reads it. Highlight the nine numbered sections as they appear. Final frame: Wise Crowd badge."
+    },
+    {
+      "number": 3,
+      "slug": "ironman-kona-self-test",
+      "title": "Ironman Kona — Caffeine + Self-Testing Loop",
+      "tagline": "Tom, 40, 75 kg, 9-hr Kona goal. Multi-turn.",
+      "summary": "George moves from general advice (6–8 mg/kg distributed) to a six-session brick-workout self-test plan, pulls in Garmin/Strava/TrainingPeaks, and frames the athlete as a case study of themselves.",
+      "demonstrates": [
+        "Multi-turn chat with deepening detail",
+        "Total dose before timing (architecture)",
+        "Three protocols A/B/C compared",
+        "Heat caveat — caffeine supports execution, doesn't override cooling",
+        "Withdrawal warning",
+        "Six-session brick test with logged variables",
+        "Connected-platform integration (Garmin, Strava, TrainingPeaks, Zwift)",
+        "N-of-1 ('case study of yourself') framing"
+      ],
+      "primary_channel": "text",
+      "secondary_channel": "voice-intro",
+      "athlete": {
+        "name": "Tom",
+        "sex": "M",
+        "age": 40,
+        "weight_kg": 75,
+        "sport": "Triathlon — 70.3 and full Ironman",
+        "level": "Competitive amateur, 4 years racing",
+        "context": "Training 16–20 hrs/week. Goal: Kona, ~9 hours flat. Likes detail."
+      },
+      "vault_entry_id": "ironman-kona-caffeine",
+      "vault_path": "dialogue + protocol_table",
+      "opening_question": "I'm a 40-year-old male triathlete competing in 70.3 and full-distance Ironman events. I weigh 165 pounds, about 75 kg, and I've been racing competitively for four years. I'm training 16 to 20 hours per week, and my goal for Kona is around nine hours flat. How should I integrate caffeine into my pre-race and during-race nutrition plan for a full-distance Ironman? Because the race is so long, I assume a single dose won't last the distance. And Kona will be hot. Does that change anything? I like detail, so give me lots to think about.",
+      "video_treatment": "Text-first, ~7 turns. Final beat: the protocol table renders inline, then a 'connected to Garmin' tile lights up to show the data path. Voice intro could be a 5-second 'Hey Tom, I've been waiting to dig into Kona with you.'"
+    },
+    {
+      "number": 4,
+      "slug": "race-walk-postponed",
+      "title": "Race Walk — Postponed at the Start Line",
+      "tagline": "World Champs 35 km. Storm. Two-hour delay.",
+      "summary": "Athlete at the start line, already loaded with bicarb + caffeine, race postponed two hours by electrical storm. George opens with the reframe (threat → opportunity), walks fuelling/hydration, holds caffeine, then channels Trent Stellingwerff in-line for the bicarb piece — blood-bicarb depletes by tactics, not time. Sticks with the plan.",
+      "demonstrates": [
+        "Empathy under acute, high-stakes pressure",
+        "Reframe (threat → opportunity) as the opening move",
+        "Holding the plan is the recommendation — not 'do more'",
+        "In-line Wise Crowd: a named expert (Trent Stellingwerff) channelled for his domain",
+        "Honest uncertainty about an emerging area (bicarb in endurance)",
+        "Confidence-restoration close, no false certainty"
+      ],
+      "primary_channel": "text",
+      "secondary_channel": "voice-overlay",
+      "athlete": {
+        "name": "Race walker",
+        "sex": null,
+        "age": null,
+        "sport": "Race walk, 35 km, World Championships",
+        "level": "Elite, podium-contention",
+        "context": "On the starting line. Pre-race meal + 20 g bicarb + 200 mg caffeine gum already in. Electrical storm has just postponed the race by 2 hours. Has never encountered this before; nervous."
+      },
+      "vault_entry_id": "race-walk-postponed",
+      "vault_path": "louise_solo_answer + wotc-race-walk-postponed",
+      "opening_question": "I am on the starting line of the 35 km race walk at the World Championships. I had my usual pre-race meal (carbohydrate based, with a cup of coffee) two hours before the event, along with my sodium bicarbonate loading protocol. This is where I have 20 g of bicarb in capsules (~300 mg/kg) with 1600 ml of fluid to give me the benefits of a fluid load as well as extra buffering capacity for my race. Then I had a 200 mg dose of caffeine from gum while I was in the call room, waiting to move to the race start. However, an electrical storm has come through and the race has been postponed for 2 hours. What should I do? I'm feeling pretty nervous anyway because this is something I have never encountered before. Do I top up my caffeine and bicarb doses before I start? I usually take another 200 mg caffeine at the 20 km mark of the race but now I don't know if I will have too little or too much on board to execute my race depending on whether I take more now. I have extra supplements available. But how much should I use if I decide to top up?",
+      "video_treatment": "Text-first with calm voice overlay. The opening reframe lands first, then George 'taps the network' — an animated pill labelled 'Trent Stellingwerff — Wise Crowd' fades in as the bicarb section delivers. Confidence pill is moderate-high — honest about the emerging area. Close on 'You've got this!'"
+    }
+  ],
+  "production_notes": {
+    "voice_intro_template": "A 10–20 second voice-first opener at the start of each demo where George introduces himself and the athlete by name. Recorded in the calibrated older-counsel register. Audio overlaid on the WhatSupp UI showing the first chat bubble streaming in.",
+    "audio_chat_blend": "Scenarios 1 and 4 use voice + text combined — voice carries the opener and the emotional turns; text carries the protocol detail. Scenarios 2 and 3 are text-primary; voiceover reads on top for the demo film.",
+    "ui_motifs_to_film": [
+      "Confidence pill animating from moderate to high",
+      "Wise Crowd CTA pill emerging on a complex turn",
+      "Compare-with-ChatGPT button revealing a generic answer side-by-side",
+      "Onboarding voice flow building the profile field-by-field in real time",
+      "Protocol table rendering inline at the end of scenario 3"
+    ]
+  }
+}
