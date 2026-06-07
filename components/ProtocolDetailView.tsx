@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useAthleteId } from "@/lib/useAthleteId";
 
 interface ProtocolSession {
   session: number;
@@ -37,8 +37,7 @@ interface SessionLog {
 }
 
 export function ProtocolDetailView({ protocolId }: { protocolId: string }) {
-  const searchParams = useSearchParams();
-  const athleteId = searchParams.get("a");
+  const athleteId = useAthleteId();
 
   const [protocol, setProtocol] = useState<ProtocolDetail | null>(null);
   const [logs, setLogs] = useState<SessionLog[]>([]);
@@ -107,18 +106,19 @@ export function ProtocolDetailView({ protocolId }: { protocolId: string }) {
       <div className="max-w-3xl mx-auto px-8 py-8">
         <Link href={`/protocols?a=${athleteId ?? ""}`} className="text-xs text-muted hover:text-foreground transition-colors">← All protocols</Link>
 
-        <header className="mt-3 mb-6">
-          <h1 className="text-xl font-semibold">{data.title}</h1>
-          <p className="text-xs text-muted mt-1">
+        <header className="mt-4 mb-6">
+          <div className="eyebrow mb-2">N = 1 · Active protocol</div>
+          <h1 className="text-2xl font-semibold tracking-[-0.01em]" style={{ fontFamily: "var(--font-display)" }}>{data.title}</h1>
+          <p className="text-[11px] text-text-4 mt-1.5" style={{ fontFamily: "var(--font-mono-deck)" }}>
             {protocol.supplement}{protocol.event ? ` · ${protocol.event}` : ""}{" · "}{data.sessions.length} sessions
           </p>
-          <p className="text-sm text-foreground/85 leading-relaxed mt-3">{data.rationale}</p>
+          <p className="text-[13.5px] text-text-2 leading-relaxed mt-3 max-w-2xl">{data.rationale}</p>
         </header>
 
         {/* Sessions table */}
-        <section className="mb-8">
-          <h2 className="text-sm font-semibold mb-3">Sessions</h2>
-          <div className="rounded-xl border border-border overflow-hidden bg-surface">
+        <section className="mb-6">
+          <div className="hd mb-3">Sessions</div>
+          <div className="panel overflow-hidden">
             {data.sessions.map((s, i) => {
               const sessionLogs = logsBySession.get(s.session) ?? [];
               const completed = sessionLogs.length > 0;
@@ -131,9 +131,9 @@ export function ProtocolDetailView({ protocolId }: { protocolId: string }) {
                   >
                     <div className="flex items-baseline justify-between gap-3">
                       <div>
-                        <div className="text-sm font-semibold">
+                        <div className="text-sm font-semibold" style={{ fontFamily: "var(--font-display)" }}>
                           Session {s.session}
-                          {completed && <span className="ml-2 text-[10px] uppercase tracking-wider text-confidence-high">logged</span>}
+                          {completed && <span className="check-pill ok ml-2">logged ✓</span>}
                         </div>
                         <div className="text-xs text-muted">{s.workout} · {s.focus}</div>
                       </div>
@@ -158,27 +158,27 @@ export function ProtocolDetailView({ protocolId }: { protocolId: string }) {
         </section>
 
         {/* Bottom line */}
-        <section className="mb-8 rounded-xl border border-border bg-surface-2/60 px-5 py-4">
-          <div className="text-[10px] uppercase tracking-wider text-muted mb-1">Bottom line</div>
-          <p className="text-sm text-foreground/90 leading-relaxed">{data.bottom_line}</p>
+        <section className="mb-6 answer-block">
+          <div className="k">Bottom line</div>
+          <p className="text-[13px] text-foreground leading-relaxed">{data.bottom_line}</p>
         </section>
 
         {/* Summary */}
         <section className="mb-8">
           <div className="flex items-baseline justify-between mb-3">
-            <h2 className="text-sm font-semibold">George reads the patterns</h2>
+            <div className="hd">George reads the patterns</div>
             <button
               onClick={handleSummarise}
               disabled={summarising || logs.length === 0}
-              className="px-3 py-1.5 rounded-md text-xs font-medium border border-border bg-surface hover:bg-surface-2 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="btn-ghost px-3.5 py-1.5 rounded-lg text-xs font-medium disabled:opacity-40 disabled:cursor-not-allowed"
               title={logs.length === 0 ? "Log at least one session first" : "Summarise across all logged sessions"}
             >
               {summarising ? "Reading…" : "Summarise across sessions"}
             </button>
           </div>
           {summary ? (
-            <div className="rounded-xl border border-border bg-surface px-5 py-4">
-              <p className="george-prose text-sm whitespace-pre-wrap text-foreground/90">{summary}</p>
+            <div className="panel px-5 py-4">
+              <p className="george-prose text-sm whitespace-pre-wrap">{summary}</p>
             </div>
           ) : (
             <p className="text-xs text-muted">
@@ -254,14 +254,14 @@ function SessionLogForm({
   }
 
   return (
-    <div className="border-t border-border bg-surface-2/40 px-5 py-4 space-y-4">
+    <div className="border-t border-line bg-bg-3/40 px-5 py-4 space-y-4">
       {/* Existing logs */}
       {existingLogs.length > 0 && (
         <div className="space-y-2">
-          <div className="text-[10px] uppercase tracking-wider text-muted">Logged</div>
+          <div className="hd">Logged</div>
           {existingLogs.map(l => (
-            <div key={l.id} className="rounded-md bg-background border border-border px-3 py-2">
-              <div className="text-[10px] text-muted mb-1">{new Date(l.created_at).toLocaleString()}</div>
+            <div key={l.id} className="rounded-lg bg-bg-0/60 border border-line px-3 py-2">
+              <div className="text-[10px] text-text-4 mb-1" style={{ fontFamily: "var(--font-mono-deck)" }}>{new Date(l.created_at).toLocaleString()}</div>
               {l.log && <p className="text-sm whitespace-pre-wrap mb-1.5">{l.log}</p>}
               {l.data && Object.keys(l.data).length > 0 && (
                 <div className="text-[11px] text-muted">
@@ -277,19 +277,19 @@ function SessionLogForm({
 
       {/* New log form */}
       <div>
-        <div className="text-[10px] uppercase tracking-wider text-muted mb-1.5">How it felt — notes</div>
+        <div className="hd mb-1.5">How it felt — notes</div>
         <textarea
           value={notes}
           onChange={e => setNotes(e.target.value)}
           placeholder="Gut OK on the bike. Felt the caffeine kick in around 40 min — pacing felt more sustainable in the back third of the run. Sleep that night was solid 7h."
           rows={3}
-          className="w-full px-3 py-2 text-sm rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-foreground/15"
+          className="field-dark w-full px-3 py-2 text-sm"
           disabled={saving}
         />
       </div>
 
       <div>
-        <div className="text-[10px] uppercase tracking-wider text-muted mb-1.5">Quick variables (optional)</div>
+        <div className="hd mb-1.5">Quick variables (optional)</div>
         <div className="grid grid-cols-2 gap-2">
           {logVariables.slice(0, 10).map(v => (
             <label key={v} className="flex items-center gap-2">
@@ -297,7 +297,7 @@ function SessionLogForm({
               <input
                 value={values[v] ?? ""}
                 onChange={e => setValues(prev => ({ ...prev, [v]: e.target.value }))}
-                className="flex-1 min-w-0 px-2 py-1 text-[12px] rounded border border-border bg-background focus:outline-none focus:ring-1 focus:ring-foreground/15"
+                className="field-dark flex-1 min-w-0 px-2 py-1 text-[12px]"
                 disabled={saving}
               />
             </label>

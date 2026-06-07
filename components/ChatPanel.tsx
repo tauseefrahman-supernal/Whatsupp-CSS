@@ -5,6 +5,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { MessageBubble, type ChatMessage } from "./MessageBubble";
 import { ComparePanel, type CompareEntry } from "./ComparePanel";
 import { VoiceMode } from "./VoiceMode";
+import { ContextRail } from "./ContextRail";
+import { useAthleteId } from "@/lib/useAthleteId";
 
 interface AthleteSummary {
   id: string;
@@ -18,7 +20,8 @@ interface AthleteSummary {
 export function ChatPanel() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const athleteId = searchParams.get("a");
+  const athleteId = useAthleteId();
+  const sessionId = searchParams.get("s"); // a specific conversation from History
   const prefill = searchParams.get("prefill");
   const seedSlug = searchParams.get("seed");
 
@@ -143,18 +146,22 @@ export function ChatPanel() {
     });
   }, [findPrecedingUserQuestion]);
 
-  // Wise Crowd CTA → deep-link to /wotc with the user question pre-filled.
+  // Wise Crowd CTA → deep-link to /wotc with the user question pre-filled and
+  // the crowd auto-convened, so the escalation lands mid-deliberation.
   const openWiseCrowd = useCallback((assistantId: string) => {
     const question = findPrecedingUserQuestion(assistantId);
     if (!question) return;
     const params = new URLSearchParams();
     if (athleteId) params.set("a", athleteId);
     params.set("q", question);
+    params.set("auto", "1");
     router.push(`/wotc?${params.toString()}`);
   }, [router, athleteId, findPrecedingUserQuestion]);
 
-  // Load athlete + history whenever athleteId changes.
-  const loadAthlete = useCallback(async (id: string) => {
+  // Load athlete + history whenever athleteId (or the targeted session) changes.
+  // With ?s=<sessionId> (deep link from History) the full stored conversation is
+  // loaded; otherwise the athlete's most recent session.
+  const loadAthlete = useCallback(async (id: string, sid?: string | null) => {
     setError(null);
     setMessages([]);
     setAthlete(null);
@@ -166,13 +173,24 @@ export function ChatPanel() {
       }
       const data = await res.json();
       setAthlete(data.athlete);
-      const recent = (data.recentMessages ?? []) as Array<{
+
+      type StoredMessage = {
         id: string;
         role: "user" | "assistant" | "system";
         content: string;
         meta_json?: string | null;
         created_at: number;
-      }>;
+      };
+      let recent = (data.recentMessages ?? []) as StoredMessage[];
+
+      if (sid) {
+        const sres = await fetch(`/api/sessions/${sid}`, { cache: "no-store" });
+        if (sres.ok) {
+          const sj = await sres.json();
+          if (sj.session?.athlete_id === id) recent = (sj.messages ?? []) as StoredMessage[];
+        }
+      }
+
       setMessages(
         recent
           .filter(m => m.role === "user" || m.role === "assistant")
@@ -190,8 +208,8 @@ export function ChatPanel() {
   }, []);
 
   useEffect(() => {
-    if (athleteId) loadAthlete(athleteId);
-  }, [athleteId, loadAthlete]);
+    if (athleteId) loadAthlete(athleteId, sessionId);
+  }, [athleteId, sessionId, loadAthlete]);
 
   async function startNewConversation() {
     if (!athleteId || newSessionLoading) return;
@@ -208,7 +226,13 @@ export function ChatPanel() {
         setError(`Could not start a new conversation: ${err || res.statusText}`);
         return;
       }
-      await loadAthlete(athleteId);
+      // Drop any deep-linked session — the fresh conversation is now current.
+      if (sessionId) {
+        const sp = new URLSearchParams(searchParams.toString());
+        sp.delete("s");
+        router.replace(`/george?${sp.toString()}`);
+      }
+      await loadAthlete(athleteId, null);
     } finally {
       setNewSessionLoading(false);
     }
@@ -245,7 +269,12 @@ export function ChatPanel() {
       const res = await fetch("/api/george/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ athleteId, message: text, channel: "text" }),
+        body: JSON.stringify({
+          athleteId,
+          message: text,
+          channel: "text",
+          ...(sessionId ? { sessionId } : {}),
+        }),
       });
 
       if (!res.ok || !res.body) {
@@ -272,6 +301,9 @@ export function ChatPanel() {
                 : m,
             ),
           );
+          // The server applies profile_updates / persists protocol_cards when the
+          // meta arrives — nudge the context rail to refetch profile + active trial.
+          window.dispatchEvent(new CustomEvent("whatsupp:context-refresh"));
         } else if (event === "done") {
           setMessages(prev =>
             prev.map(m =>
@@ -302,143 +334,153 @@ export function ChatPanel() {
   }
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Header — WA-teal strip with George avatar + athlete name */}
-      <header className="wa-rail-header px-5 py-3 border-b border-black/10">
-        <div className="flex items-center justify-between gap-4 max-w-3xl mx-auto">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-white/15 text-white text-[13px] font-semibold flex items-center justify-center ring-1 ring-white/20">
-              G
-            </div>
-            <div>
-              <h1 className="text-[15px] font-semibold leading-tight">
-                George
-              </h1>
-              <p className="text-[11px] text-white/70 leading-tight">
-                AI Supplement Counsel · with {athlete?.name ?? "…"}
-                {athlete?.sport ? ` · ${firstWord(athlete.sport)}` : ""}
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            {compareEntries.length > 0 && (
-              <button
-                onClick={() => {
-                  setCompareFocusId(compareEntries[compareEntries.length - 1]?.id ?? null);
-                  setCompareOpen(true);
-                }}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-white bg-white/10 hover:bg-white/20 border border-white/15 px-2.5 py-1.5 rounded-full transition-colors"
-                title="Re-open the generic-AI comparison log"
+    <div className="flex h-full min-h-0">
+      <div className="flex flex-col h-full flex-1 min-w-0">
+        {/* Header — slim dark toolbar with George identity + chat controls */}
+        <header className="wa-rail-header px-6 py-3 shrink-0">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div
+                className="w-9 h-9 rounded-[10px] text-bg-0 text-[15px] font-bold flex items-center justify-center"
+                style={{ background: "linear-gradient(135deg, var(--lime), var(--lime-deep))", fontFamily: "var(--font-display)" }}
               >
-                <span>Compare log</span>
-                <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-white/20 text-[10px] font-semibold">
-                  {compareEntries.length}
-                </span>
-              </button>
-            )}
-            <button
-              onClick={() => setVoiceOpen(true)}
-              disabled={!athleteId || voiceOpen}
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-white bg-white/10 hover:bg-white/20 border border-white/15 disabled:opacity-40 disabled:cursor-not-allowed px-2.5 py-1.5 rounded-full transition-colors"
-              title="Talk to George out loud"
-            >
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#DE478E] animate-pulse" />
-              <span>Voice</span>
-            </button>
-            <button
-              onClick={startNewConversation}
-              disabled={sending || newSessionLoading || !athleteId}
-              className="text-xs text-white/80 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors px-2"
-              title="Start a new conversation. George will summarise this one and remember the topic."
-            >
-              {newSessionLoading ? "Starting…" : "+ New chat"}
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Messages — WA chat surface */}
-      <div ref={scrollRef} className="chat-surface flex-1 overflow-y-auto px-6 py-6">
-        <div className="max-w-3xl mx-auto space-y-3.5">
-          {messages.length === 0 && (
-            <FirstMessage athlete={athlete} />
-          )}
-          {messages.map(m => (
-            <MessageBubble
-              key={m.id}
-              message={m}
-              onCompare={m.role === "assistant" ? () => startCompare(m.id) : undefined}
-              onWiseCrowd={m.role === "assistant" ? () => openWiseCrowd(m.id) : undefined}
-            />
-          ))}
-          {error && (
-            <div className="text-sm text-confidence-low bg-confidence-low/5 border border-confidence-low/20 rounded-md px-4 py-3">
-              {error}
+                G
+              </div>
+              <div>
+                <h1 className="text-[15px] font-semibold leading-tight" style={{ fontFamily: "var(--font-display)" }}>
+                  George
+                </h1>
+                <p className="hd !text-[9px] tracking-[0.16em] leading-tight mt-0.5">
+                  AI Sports Dietitian · with {athlete?.name ?? "…"}
+                  {athlete?.sport ? ` · ${firstWord(athlete.sport)}` : ""}
+                </p>
+              </div>
             </div>
-          )}
-        </div>
-      </div>
-
-      {/* Composer */}
-      <div className="border-t border-border bg-surface-2 px-5 py-3">
-        <div className="max-w-3xl mx-auto">
-          <div className="flex gap-2 items-end">
-            <textarea
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={
-                athlete?.sport
-                  ? `Message George about ${firstWord(athlete.sport)} nutrition…`
-                  : "Tell George about yourself and your sporting life…"
-              }
-              rows={1}
-              className="flex-1 resize-none px-4 py-2.5 rounded-full border border-border bg-white text-[14.5px] leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand/40"
-              disabled={sending}
-            />
-            <button
-              onClick={send}
-              disabled={sending || !input.trim()}
-              className="w-11 h-11 rounded-full btn-send flex items-center justify-center shadow-sm"
-              aria-label="Send"
-            >
-              {sending ? (
-                <span className="text-sm">…</span>
-              ) : (
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden>
-                  <path d="M2.01 21l20.99-9L2.01 3 2 10l15 2-15 2z" />
-                </svg>
+            <div className="flex items-center gap-2">
+              {compareEntries.length > 0 && (
+                <button
+                  onClick={() => {
+                    setCompareFocusId(compareEntries[compareEntries.length - 1]?.id ?? null);
+                    setCompareOpen(true);
+                  }}
+                  className="btn-ghost inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full"
+                  title="Re-open the generic-AI comparison log"
+                >
+                  <span>Compare log</span>
+                  <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-lime text-bg-0 text-[10px] font-semibold">
+                    {compareEntries.length}
+                  </span>
+                </button>
               )}
-            </button>
+              <button
+                onClick={() => setVoiceOpen(true)}
+                disabled={!athleteId || voiceOpen}
+                className="btn-ghost inline-flex items-center gap-1.5 text-xs font-medium disabled:opacity-40 disabled:cursor-not-allowed px-3 py-1.5 rounded-full"
+                title="Talk to George out loud"
+              >
+                <span className="live-dot !w-1.5 !h-1.5" />
+                <span>Voice</span>
+              </button>
+              <button
+                onClick={startNewConversation}
+                disabled={sending || newSessionLoading || !athleteId}
+                className="text-xs text-muted hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed transition-colors px-2"
+                title="Start a new conversation. George will summarise this one and remember the topic."
+              >
+                {newSessionLoading ? "Starting…" : "+ New chat"}
+              </button>
+            </div>
           </div>
-          <div className="text-[10.5px] text-muted mt-1.5 px-2">
-            George is calibrated to Dr Louise Burke. Answers grounded on the WhatSupp Vault — not generic LLMs.
+        </header>
+
+        {/* Messages — deck-dark chat surface */}
+        <div ref={scrollRef} className="chat-surface flex-1 overflow-y-auto px-7 py-7">
+          <div className="max-w-3xl mx-auto space-y-5">
+            {messages.length === 0 && (
+              <FirstMessage athlete={athlete} />
+            )}
+            {messages.map(m => (
+              <MessageBubble
+                key={m.id}
+                message={m}
+                athleteName={athlete?.name}
+                onCompare={m.role === "assistant" ? () => startCompare(m.id) : undefined}
+                onWiseCrowd={m.role === "assistant" ? () => openWiseCrowd(m.id) : undefined}
+              />
+            ))}
+            {error && (
+              <div className="text-sm text-confidence-low bg-confidence-low/5 border border-confidence-low/20 rounded-md px-4 py-3">
+                {error}
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Composer */}
+        <div className="px-7 pb-5 pt-3 shrink-0">
+          <div className="max-w-3xl mx-auto">
+            <div className="composer pl-[18px] pr-2 py-2">
+              <textarea
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={
+                  athlete?.sport
+                    ? `Ask George about ${firstWord(athlete.sport)} nutrition — no edge case too hard…`
+                    : "Ask George anything — no edge case too hard…"
+                }
+                rows={1}
+                className="flex-1 resize-none bg-transparent border-none outline-none text-[13.5px] leading-relaxed text-foreground placeholder:text-text-4"
+                disabled={sending}
+              />
+              <button
+                onClick={send}
+                disabled={sending || !input.trim()}
+                className="w-9 h-9 rounded-[10px] btn-send flex items-center justify-center shrink-0"
+                aria-label="Send"
+              >
+                {sending ? (
+                  <span className="text-sm">…</span>
+                ) : (
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="M22 2L11 13" />
+                    <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+                  </svg>
+                )}
+              </button>
+            </div>
+            <div className="hd !text-[9px] tracking-[0.12em] text-center mt-2">
+              Powered by the scientists who write the research — not just the papers they publish
+            </div>
+          </div>
+        </div>
+
+        {/* Compare panel — entries persist across opens/closes for the demo log */}
+        {compareOpen && (
+          <ComparePanel
+            entries={compareEntries}
+            focusEntryId={compareFocusId}
+            onClose={() => setCompareOpen(false)}
+            onClear={() => { setCompareEntries([]); setCompareFocusId(null); }}
+          />
+        )}
+
+        {/* Voice mode overlay */}
+        {voiceOpen && athleteId && athlete && (
+          <VoiceMode
+            athleteId={athleteId}
+            athleteName={athlete.name}
+            onClose={() => {
+              setVoiceOpen(false);
+              // Reload athlete so voice-mode persisted transcripts appear in chat history.
+              if (athleteId) loadAthlete(athleteId, sessionId);
+            }}
+          />
+        )}
       </div>
 
-      {/* Compare panel — entries persist across opens/closes for the demo log */}
-      {compareOpen && (
-        <ComparePanel
-          entries={compareEntries}
-          focusEntryId={compareFocusId}
-          onClose={() => setCompareOpen(false)}
-          onClear={() => { setCompareEntries([]); setCompareFocusId(null); }}
-        />
-      )}
-
-      {/* Voice mode overlay */}
-      {voiceOpen && athleteId && athlete && (
-        <VoiceMode
-          athleteId={athleteId}
-          athleteName={athlete.name}
-          onClose={() => {
-            setVoiceOpen(false);
-            // Reload athlete so voice-mode persisted transcripts appear in chat history.
-            if (athleteId) loadAthlete(athleteId);
-          }}
-        />
-      )}
+      {/* Context rail — athlete profile, active trial, connected apps */}
+      <ContextRail athleteId={athleteId} />
     </div>
   );
 }
@@ -448,7 +490,7 @@ function FirstMessage({ athlete }: { athlete: AthleteSummary | null }) {
   const fresh = !athlete.sport && !athlete.context;
   return (
     <div className="flex justify-center">
-      <div className="text-[11.5px] text-muted bg-white/70 backdrop-blur rounded-md px-3 py-1.5 shadow-sm border border-black/5 max-w-md text-center leading-snug">
+      <div className="text-[11.5px] text-muted bg-bg-2 rounded-full px-4 py-1.5 border border-line max-w-md text-center leading-snug">
         {fresh ? (
           <>End-to-end private. Messages stay between you and George — when the Wise Crowd is consulted, only the scenario is shared, never your name.</>
         ) : (

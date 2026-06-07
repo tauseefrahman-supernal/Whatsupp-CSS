@@ -1,7 +1,17 @@
 import type { NextRequest } from "next/server";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { createAthlete, updateAthleteProfile, listAthletes, type AthleteProfile } from "@/lib/db";
+import { createAthlete, getAthlete, updateAthleteProfile, listAthletes, type AthleteProfile } from "@/lib/db";
+
+/** Scenario → the cast profile that records it. The demo runs on exactly three
+ *  profiles (Mia · Matt · Percy), so scenario playback reuses them instead of
+ *  spawning "<name> (demo · scenario …)" clones. */
+const CAST_BY_SLUG: Record<string, string> = {
+  "aflw-mia-dialogue": "mia-aflw",
+  "aflw-mia-structured": "mia-aflw",
+  "ironman-kona-self-test": "kona-tom",
+  "race-walk-postponed": "percy-racewalk",
+};
 
 interface Scenario {
   slug: string;
@@ -43,16 +53,15 @@ export async function POST(
     return Response.json({ error: `Unknown scenario: ${slug}` }, { status: 404 });
   }
 
-  // The canonical "demo athlete" name is "<athlete.name> (demo)" so we don't
-  // collide with a real athlete the user has created. We look up by exact name.
-  const canonicalName = `${scenario.athlete.name} (demo · scenario ${scenario.slug})`;
-
-  const existing = listAthletes().find(a => a.name === canonicalName);
-  let athlete: AthleteProfile;
-  if (existing) {
-    athlete = existing as AthleteProfile;
-  } else {
-    athlete = createAthlete(canonicalName);
+  // Prefer the seeded cast profile for this scenario (Mia / Matt / Percy).
+  // Fall back to the old clone-by-name behaviour only if the seed is missing.
+  let athlete: AthleteProfile | null = CAST_BY_SLUG[scenario.slug]
+    ? getAthlete(CAST_BY_SLUG[scenario.slug])
+    : null;
+  if (!athlete) {
+    const canonicalName = `${scenario.athlete.name} (demo · scenario ${scenario.slug})`;
+    const existing = listAthletes().find(a => a.name === canonicalName);
+    athlete = existing ? (existing as AthleteProfile) : createAthlete(canonicalName);
   }
 
   // Patch profile with the scenario's archetype.

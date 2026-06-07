@@ -1,20 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
+import { Poppins, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
+import { Topbar } from "@/components/Topbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
-  title: "Whatsupp",
+  title: "Whatsupp? — George, by Proven",
   description: "An AI-employee–driven sports-nutrition platform. George, calibrated to Louise Burke.",
 };
 
@@ -26,12 +30,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className={`${poppins.variable} ${plexMono.variable} antialiased`}
     >
       <body className="h-screen overflow-hidden">
-        <div className="flex h-full">
-          <Sidebar />
-          <main className="flex-1 flex flex-col overflow-hidden bg-background">
+        <div className="relative z-[1] flex h-full">
+          {/* useSearchParams inside Sidebar needs a Suspense boundary; the
+              fallback keeps the rail's width so nothing shifts. */}
+          <Suspense fallback={<aside className="w-[248px] shrink-0 border-r border-border bg-bg-1" />}>
+            <Sidebar />
+          </Suspense>
+          <main className="flex-1 flex flex-col overflow-hidden bg-background min-w-0">
+            <Topbar />
             {children}
           </main>
         </div>

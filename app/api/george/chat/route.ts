@@ -2,11 +2,13 @@ import type { NextRequest } from "next/server";
 import { z } from "zod";
 import {
   getAthlete,
+  getSession,
   getOrCreateSession,
   getPriorSession,
   listMessages,
   appendMessage,
   createProtocol,
+  updateAthleteProfile,
   type GeneratedProtocol,
 } from "@/lib/db";
 import { streamGeorge } from "@/lib/claude";
@@ -15,6 +17,9 @@ const Body = z.object({
   athleteId: z.string().min(1),
   message: z.string().min(1),
   channel: z.enum(["text", "voice"]).default("text"),
+  // Continue a specific conversation (re-opened from History). Defaults to the
+  // athlete's most recent session.
+  sessionId: z.string().min(1).optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -34,7 +39,11 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: `Unknown athlete: ${body.athleteId}` }, { status: 404 });
   }
 
-  const session = getOrCreateSession(athlete.id);
+  let session = body.sessionId ? getSession(body.sessionId) : null;
+  if (session && session.athlete_id !== athlete.id) {
+    return Response.json({ error: "Session does not belong to this athlete" }, { status: 400 });
+  }
+  if (!session) session = getOrCreateSession(athlete.id);
   const history = listMessages(session.id);
   const prior = getPriorSession(athlete.id, session.id);
   const lastSummary = prior?.summary ?? null;
@@ -87,6 +96,17 @@ export async function POST(request: NextRequest) {
                 console.error("Failed to persist protocol_card:", e);
               }
             }
+            // Apply profile_updates so the athlete profile (context rail) builds
+            // as George learns facts conversationally.
+            const profileUpdates = (event.meta as { profile_updates?: Record<string, unknown> }).profile_updates;
+            if (profileUpdates && typeof profileUpdates === "object" && Object.keys(profileUpdates).length > 0) {
+              try {
+                applyProfileUpdates(athlete.id, profileUpdates);
+              } catch (e) {
+                console.error("Failed to apply profile_updates:", e);
+              }
+            }
+
             assistantMeta = event.meta;
             controller.enqueue(encoder.encode(sse("meta", event.meta)));
           } else if (event.type === "error" && event.message) {
@@ -121,4 +141,47 @@ export async function POST(request: NextRequest) {
 
 function sse(event: string, data: Record<string, unknown>): string {
   return `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+}
+
+/**
+ * Route George's learned facts into the athlete record: well-known keys map to
+ * the typed columns (sport, age, …); everything else lands in the profile JSON
+ * that the context rail renders as learned facts.
+ */
+function applyProfileUpdates(athleteId: string, updates: Record<string, unknown>) {
+  const patch: {
+    sex?: string;
+    age?: number;
+    weight_kg?: number;
+    sport?: string;
+    level?: string;
+    context?: string;
+    profile: Record<string, unknown>;
+  } = { profile: {} };
+
+  for (const [k, v] of Object.entries(updates)) {
+    if (v == null || v === "") continue;
+    const key = k.toLowerCase().trim();
+    if (key === "sex" || key === "gender") {
+      patch.sex = String(v);
+    } else if (key === "age") {
+      const n = Number(v);
+      if (Number.isFinite(n) && n > 0) patch.age = n;
+      else patch.profile[k] = v;
+    } else if (key === "weight_kg" || key === "weight") {
+      const n = Number(String(v).replace(/[^0-9.]/g, ""));
+      if (Number.isFinite(n) && n > 0) patch.weight_kg = n;
+      else patch.profile[k] = v;
+    } else if (key === "sport") {
+      patch.sport = String(v);
+    } else if (key === "level") {
+      patch.level = String(v);
+    } else if (key === "context") {
+      patch.context = String(v);
+    } else {
+      patch.profile[k] = v;
+    }
+  }
+
+  updateAthleteProfile(athleteId, patch);
 }

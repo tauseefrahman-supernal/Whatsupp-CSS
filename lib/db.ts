@@ -88,7 +88,10 @@ function migrate(db: Database.Database) {
 
 function seed(db: Database.Database) {
   const existing = db.prepare("SELECT COUNT(*) as n FROM athletes WHERE seeded = 1").get() as { n: number };
-  if (existing.n > 0) return;
+  if (existing.n > 0) {
+    migrateSeeds(db);
+    return;
+  }
 
   const now = Date.now();
   const insert = db.prepare(`
@@ -104,7 +107,7 @@ function seed(db: Database.Database) {
     null,
     "AFLW (Australian rules football, women's)",
     "Professional, with a demanding day job",
-    "Currently in finals run. Anxious before night semi-final. Building toward Grand Final.",
+    "Currently in finals run. Anxious before night semi-final. Building toward Grand Final. Records demo scenarios 1 and 2 as one continuous flow.",
     JSON.stringify({
       caffeine_history: "5 No-Doz pre-match like male players (~500 mg, ~6–7 mg/kg)",
       sleep_sensitivity: "Cannot have coffee after 4pm without lying awake",
@@ -112,6 +115,7 @@ function seed(db: Database.Database) {
       work_constraint: "Demanding day job, can't be wrecked for 3–4 days post-match",
       next_event: "Semi-final tonight; targeting Grand Final",
       typical_caffeine_use: "Coffee in mornings only, sensitive to afternoon caffeine",
+      demo_scenario_slug: "aflw-mia-dialogue",
     }),
     now,
     now,
@@ -119,13 +123,13 @@ function seed(db: Database.Database) {
 
   insert.run(
     "kona-tom",
-    "Tom",
+    "Matt",
     "M",
     40,
     75,
     "Triathlon — 70.3 and full Ironman",
     "Competitive amateur, 4 years racing, 16–20 hr/week training",
-    "Targeting Kona ~9 hours flat. Wants detail and is open to N-of-1 testing in brick workouts.",
+    "Targeting Kona ~9 hours flat. Wants detail and is open to N-of-1 testing in brick workouts. Records demo scenario 3.",
     JSON.stringify({
       training_volume_hours_per_week: "16–20",
       target_event: "Kona Ironman",
@@ -134,10 +138,84 @@ function seed(db: Database.Database) {
       weight_kg: 75,
       curiosity: "Wants distributed caffeine across race, suspects 6–8 mg/kg total",
       data_sources_available: ["Garmin", "Strava", "TrainingPeaks"],
+      demo_scenario_slug: "ironman-kona-self-test",
     }),
     now,
     now,
   );
+
+  insert.run(
+    "percy-racewalk",
+    "Percy",
+    null,
+    null,
+    null,
+    "Race walk, 35 km, World Championships",
+    "Elite, podium-contention",
+    "World Championships 35 km race walker. Records demo scenario 4 (race postponed at the start line by an electrical storm).",
+    JSON.stringify({
+      bicarb_protocol: "20 g (~300 mg/kg) in capsules with 1600 ml fluid, pre-race",
+      caffeine_protocol: "200 mg gum in the call room + 200 mg planned at the 20 km mark",
+      demo_scenario_slug: "race-walk-postponed",
+    }),
+    now,
+    now,
+  );
+
+  migrateSeeds(db);
+}
+
+/**
+ * Idempotent fix-ups for databases seeded before the demo-recording cast was
+ * locked: Mia records scenarios 1+2 as one flow, Matt (was "Tom") records
+ * scenario 3, Percy records scenario 4.
+ */
+function migrateSeeds(db: Database.Database) {
+  const now = Date.now();
+
+  // Enforce the cast names + scenario slugs on the seeded roster.
+  const cast: Array<{ id: string; name: string; slug: string }> = [
+    { id: "mia-aflw", name: "Mia", slug: "aflw-mia-dialogue" },
+    { id: "kona-tom", name: "Matt", slug: "ironman-kona-self-test" },
+    { id: "percy-racewalk", name: "Percy", slug: "race-walk-postponed" },
+  ];
+  for (const member of cast) {
+    const row = db.prepare("SELECT id, name, profile_json FROM athletes WHERE id = ?").get(member.id) as
+      | { id: string; name: string; profile_json: string | null }
+      | undefined;
+    if (!row) continue;
+    let profile: Record<string, unknown> = {};
+    try { profile = JSON.parse(row.profile_json ?? "{}"); } catch { /* keep empty */ }
+    if (row.name === member.name && profile.demo_scenario_slug === member.slug) continue;
+    profile.demo_scenario_slug = member.slug;
+    db.prepare("UPDATE athletes SET name = ?, profile_json = ?, updated_at = ? WHERE id = ?")
+      .run(member.name, JSON.stringify(profile), now, member.id);
+  }
+
+  // Ensure Percy (scenario 4) exists.
+  const percy = db.prepare("SELECT COUNT(*) as n FROM athletes WHERE id = 'percy-racewalk'").get() as { n: number };
+  if (percy.n === 0) {
+    db.prepare(`
+      INSERT INTO athletes (id, name, sex, age, weight_kg, sport, level, context, profile_json, seeded, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
+    `).run(
+      "percy-racewalk",
+      "Percy",
+      null,
+      null,
+      null,
+      "Race walk, 35 km, World Championships",
+      "Elite, podium-contention",
+      "World Championships 35 km race walker. Records demo scenario 4 (race postponed at the start line by an electrical storm).",
+      JSON.stringify({
+        bicarb_protocol: "20 g (~300 mg/kg) in capsules with 1600 ml fluid, pre-race",
+        caffeine_protocol: "200 mg gum in the call room + 200 mg planned at the 20 km mark",
+        demo_scenario_slug: "race-walk-postponed",
+      }),
+      now,
+      now,
+    );
+  }
 }
 
 // ---- Type-safe row interfaces ----
@@ -314,6 +392,16 @@ export function listMessages(sessionId: string): MessageRow[] {
 export function updateSessionSummary(sessionId: string, topic: string, summary: string) {
   getDb().prepare("UPDATE sessions SET topic = ?, summary = ?, updated_at = ? WHERE id = ?")
     .run(topic, summary, Date.now(), sessionId);
+}
+
+export function getSession(sessionId: string): SessionRow | null {
+  const row = getDb().prepare("SELECT * FROM sessions WHERE id = ?").get(sessionId) as SessionRow | undefined;
+  return row ?? null;
+}
+
+/** Rename a conversation without touching its summary or recency ordering. */
+export function renameSession(sessionId: string, topic: string) {
+  getDb().prepare("UPDATE sessions SET topic = ? WHERE id = ?").run(topic, sessionId);
 }
 
 // ---- Protocol operations ----

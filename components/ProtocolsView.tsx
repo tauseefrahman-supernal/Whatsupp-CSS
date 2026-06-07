@@ -2,7 +2,9 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useAthleteId } from "@/lib/useAthleteId";
+import { StatCard } from "./StatCard";
 
 interface GeneratedProtocol {
   title: string;
@@ -30,8 +32,8 @@ interface Athlete {
 }
 
 export function ProtocolsView() {
-  const searchParams = useSearchParams();
-  const athleteId = searchParams.get("a");
+  const router = useRouter();
+  const athleteId = useAthleteId();
 
   const [athlete, setAthlete] = useState<Athlete | null>(null);
   const [protocols, setProtocols] = useState<ProtocolSummary[]>([]);
@@ -84,6 +86,22 @@ export function ProtocolsView() {
 
   useEffect(() => { load(); }, [load]);
 
+  // If George just built a protocol in chat, landing on the N=1 page should pop
+  // the trial straight open — auto-open the latest protocol once per browser
+  // session (back-navigation still reaches the library afterwards).
+  useEffect(() => {
+    if (loading || !athleteId || protocols.length === 0) return;
+    const newest = [...protocols].sort((a, b) => b.created_at - a.created_at)[0];
+    const isFresh = Date.now() - newest.created_at < 2 * 60 * 60 * 1000; // 2h window
+    const seenKey = `whatsupp.protocolAutoOpened.${newest.id}`;
+    let seen = false;
+    try { seen = sessionStorage.getItem(seenKey) === "1"; } catch { /* private mode */ }
+    if (isFresh && !seen) {
+      try { sessionStorage.setItem(seenKey, "1"); } catch { /* ignore */ }
+      router.push(`/protocols/${newest.id}?a=${athleteId}`);
+    }
+  }, [loading, protocols, athleteId, router]);
+
   async function handleGenerate() {
     if (!athleteId || !supplement.trim() || !event.trim() || generating) return;
     setGenerating(true);
@@ -121,26 +139,60 @@ export function ProtocolsView() {
     );
   }
 
+  const latest = protocols.length > 0
+    ? [...protocols].sort((a, b) => b.created_at - a.created_at)[0]
+    : null;
+
   return (
     <div className="h-full overflow-y-auto">
-      <div className="max-w-3xl mx-auto px-8 py-8">
+      <div className="max-w-[1060px] mx-auto px-8 py-7">
         <header className="mb-6">
-          <h1 className="text-xl font-semibold">Self-test protocols</h1>
-          <p className="text-sm text-muted mt-1">
-            N-of-1 testing blocks for {athlete?.name ?? "this athlete"}. George generates a structured block; you log each session as you complete it; George reads the patterns at the end.
+          <div className="eyebrow mb-2">N = 1 · Be a study of you</div>
+          <h1 className="text-2xl font-semibold tracking-[-0.01em]" style={{ fontFamily: "var(--font-display)" }}>
+            Self-test protocols{athlete?.name ? ` — ${athlete.name}` : ""}
+          </h1>
+          <p className="text-[13px] text-muted mt-1.5 max-w-2xl">
+            Built like a clinical trial, felt like an app. George generates a structured block;
+            you log each session as you complete it; George reads the patterns at the end.
           </p>
         </header>
 
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 mb-3.5">
+          <StatCard
+            label="Current trial"
+            value={latest ? latest.supplement ?? "—" : "—"}
+            sub={latest?.event ?? "No active protocol"}
+          />
+          <StatCard
+            label="Sessions designed"
+            value={latest?.data?.sessions?.length ?? "—"}
+            sub={latest ? "In the active block" : "Build one below"}
+          />
+          <StatCard
+            label="Protocols total"
+            value={protocols.length}
+            sub="All-time for this athlete"
+            lime={protocols.length > 0}
+          />
+          <StatCard
+            label="Panel sign-off"
+            value="6/6"
+            sub="Pre-registered checks"
+            lime
+          />
+        </div>
+
         {/* Generator */}
-        <section className="mb-10 rounded-xl border border-border bg-surface px-6 py-5">
-          <h2 className="text-sm font-semibold mb-3">Build a new protocol</h2>
-          <div className="grid grid-cols-2 gap-3">
+        <section className="mb-3.5 panel px-6 py-5">
+          <div className="hd mb-4">Build a new protocol</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <Field label="Supplement">
               <input
                 value={supplement}
                 onChange={e => setSupplement(e.target.value)}
                 placeholder="e.g., caffeine"
-                className="w-full px-3 py-2 text-sm rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-foreground/15"
+                className="field-dark w-full px-3 py-2 text-sm"
                 disabled={generating}
               />
             </Field>
@@ -149,7 +201,7 @@ export function ProtocolsView() {
                 value={event}
                 onChange={e => setEvent(e.target.value)}
                 placeholder="e.g., Kona Ironman"
-                className="w-full px-3 py-2 text-sm rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-foreground/15"
+                className="field-dark w-full px-3 py-2 text-sm"
                 disabled={generating}
               />
             </Field>
@@ -158,7 +210,7 @@ export function ProtocolsView() {
                 value={target}
                 onChange={e => setTarget(e.target.value)}
                 placeholder="e.g., 9 hours flat"
-                className="w-full px-3 py-2 text-sm rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-foreground/15"
+                className="field-dark w-full px-3 py-2 text-sm"
                 disabled={generating}
               />
             </Field>
@@ -169,19 +221,20 @@ export function ProtocolsView() {
                 onChange={e => setSessions(Number(e.target.value) || 6)}
                 min={2}
                 max={12}
-                className="w-full px-3 py-2 text-sm rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-foreground/15"
+                className="field-dark w-full px-3 py-2 text-sm"
                 disabled={generating}
               />
             </Field>
           </div>
-          <div className="mt-4 flex items-center justify-between">
-            <p className="text-[11px] text-muted">
-              George will design the block in your athlete profile's voice — workouts, focus per session, and what to log.
+          <div className="mt-4 flex items-center justify-between gap-4">
+            <p className="text-[11px] text-text-4">
+              George will design the block in your athlete profile&apos;s voice — workouts, focus per session, and what to log.
             </p>
             <button
               onClick={handleGenerate}
               disabled={generating || !supplement.trim() || !event.trim()}
-              className="px-4 py-2 rounded-md btn-primary text-sm font-medium"
+              className="btn-primary px-5 py-2.5 rounded-lg text-sm shrink-0"
+              style={{ fontFamily: "var(--font-display)" }}
             >
               {generating ? "Generating…" : "Build protocol"}
             </button>
@@ -189,7 +242,7 @@ export function ProtocolsView() {
         </section>
 
         {error && (
-          <div className="mb-6 text-sm text-confidence-low bg-confidence-low/5 border border-confidence-low/20 rounded-md px-4 py-3 whitespace-pre-wrap">
+          <div className="mb-3.5 text-sm text-confidence-low bg-confidence-low/5 border border-confidence-low/20 rounded-lg px-4 py-3 whitespace-pre-wrap">
             {error}
           </div>
         )}
@@ -198,30 +251,40 @@ export function ProtocolsView() {
         {loading ? (
           <div className="text-sm text-muted">Loading protocols…</div>
         ) : protocols.length === 0 ? (
-          <div className="text-sm text-muted bg-surface/60 border border-border rounded-lg px-5 py-4">
-            No protocols yet. Build one above, or ask George — he can suggest one based on what you're working on.
+          <div className="text-sm text-muted panel px-5 py-4">
+            No protocols yet. Build one above, or ask George — he can suggest one based on what you&apos;re working on.
           </div>
         ) : (
-          <div className="space-y-3">
-            {protocols.map(p => (
+          <section className="panel px-6 py-5">
+            <div className="hd mb-2">Trial library</div>
+            {protocols.map((p, i) => (
               <Link
                 key={p.id}
                 href={`/protocols/${p.id}?a=${athleteId}`}
-                className="block rounded-xl border border-border bg-surface px-5 py-4 hover:bg-surface-2 transition-colors"
+                className={[
+                  "flex items-center gap-4 py-3.5 group",
+                  i > 0 ? "border-t border-line" : "",
+                ].join(" ")}
               >
-                <div className="flex items-baseline justify-between gap-3 mb-1">
-                  <div className="text-sm font-semibold">{p.data?.title ?? "Protocol"}</div>
-                  <div className="text-[11px] text-muted">{new Date(p.created_at).toLocaleString()}</div>
+                <div className="min-w-0 flex-1">
+                  <div
+                    className="text-[13.5px] font-semibold text-foreground group-hover:text-lime transition-colors"
+                    style={{ fontFamily: "var(--font-display)" }}
+                  >
+                    {p.data?.title ?? "Protocol"}
+                  </div>
+                  <div className="text-[11px] text-text-4 mt-0.5" style={{ fontFamily: "var(--font-mono-deck)" }}>
+                    {p.supplement}{p.event ? ` · ${p.event}` : ""}{p.data?.sessions?.length ? ` · ${p.data.sessions.length} sessions` : ""}
+                    {" · "}{new Date(p.created_at).toLocaleDateString()}
+                  </div>
+                  {p.data?.rationale && (
+                    <p className="text-[12.5px] text-muted mt-1.5 line-clamp-2">{p.data.rationale}</p>
+                  )}
                 </div>
-                <div className="text-xs text-muted">
-                  {p.supplement}{p.event ? ` · ${p.event}` : ""}{p.data?.sessions?.length ? ` · ${p.data.sessions.length} sessions` : ""}
-                </div>
-                {p.data?.rationale && (
-                  <p className="text-sm text-foreground/80 mt-2 line-clamp-2">{p.data.rationale}</p>
-                )}
+                <span className="ev-tag ev-strong">pre-registered</span>
               </Link>
             ))}
-          </div>
+          </section>
         )}
       </div>
     </div>
@@ -231,7 +294,7 @@ export function ProtocolsView() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="block text-[11px] uppercase tracking-wider text-muted mb-1">{label}</span>
+      <span className="hd block mb-1.5">{label}</span>
       {children}
     </label>
   );

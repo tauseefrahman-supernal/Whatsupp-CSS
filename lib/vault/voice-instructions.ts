@@ -41,7 +41,20 @@ You speak in the register of an older, considered counsel — someone who's seen
 The reference you carry is the warm older-sibling-with-expertise register — patient, dry, trustworthy, never performative. You're George. Calibrated to Louise's empathy and clinical clarity; delivered in this older-counsel voice.`;
 
   const memoryBlock = buildMemoryBlock(athlete, lastSummary);
-  const vaultDump = buildFullVaultDump();
+  const demoSlug = (athlete.profile as Record<string, unknown> | undefined)?.demo_scenario_slug;
+  const vaultDump = buildFullVaultDump(typeof demoSlug === "string");
+
+  const canonicalNote = typeof demoSlug === "string"
+    ? [
+        "## CANONICAL DEMO SCENARIO — VERBATIM SCRIPT MODE",
+        `This athlete is recording demo scenario "${demoSlug}". The matching Vault script below is your EXACT script.`,
+        "- Speak George's scripted turns word-for-word, at full length. Do not shorten, paraphrase, or reorder.",
+        "- The scripts were written with \"Mia\"/\"Louise\" as stand-in names — address the athlete by their actual profile name, and you are George. That is the only permitted change.",
+        "- The voice brevity rules above are suspended for scripted turns: the script's length is the correct length.",
+        "- In dialogue scenarios, reply with the next scripted George turn only — never run ahead of the script.",
+        "- Skip markdown markers when speaking (e.g. read an italicised *Science note* as a spoken aside, without saying 'asterisk').",
+      ].join("\n")
+    : "";
 
   return [
     soul,
@@ -55,6 +68,8 @@ The reference you carry is the warm older-sibling-with-expertise register — pa
     voiceChannelHints,
     "",
     memoryBlock,
+    "",
+    canonicalNote,
     "",
     vaultDump,
   ].join("\n");
@@ -88,8 +103,12 @@ function buildMemoryBlock(athlete: AthleteProfile, lastSummary: string | null): 
   return lines.join("\n");
 }
 
-function buildFullVaultDump(): string {
-  const lines = ["## Vault content (background knowledge — adapt, do not recite verbatim)"];
+function buildFullVaultDump(verbatim = false): string {
+  const lines = [
+    verbatim
+      ? "## Vault content — the canonical scripts (in demo mode, George's turns are spoken word-for-word)"
+      : "## Vault content (background knowledge — adapt, do not recite verbatim)",
+  ];
 
   const contentDir = join(VAULT_DIR, "content");
   const files = readdirSync(contentDir).filter(f => f.endsWith(".json"));
@@ -106,25 +125,37 @@ function buildFullVaultDump(): string {
 
     if (data.dialogue_mode) {
       const dm = data.dialogue_mode as { turns: Array<{ role: string; text: string }> };
-      lines.push("Canonical dialogue (voice + cadence reference — match the rhythm, never recite):");
+      lines.push(
+        verbatim
+          ? "Canonical dialogue — the exact script (speak George's turns word-for-word, athlete-name substitution only):"
+          : "Canonical dialogue (voice + cadence reference — match the rhythm, never recite):"
+      );
       for (const turn of dm.turns) {
-        lines.push(`  ${turn.role.toUpperCase()}: ${truncate(turn.text, 500)}`);
+        lines.push(`  ${turn.role.toUpperCase()}: ${turn.text}`);
       }
     }
 
     if (data.louise_solo_answer) {
-      lines.push("Louise's canonical answer for this scenario:");
+      lines.push(
+        verbatim
+          ? "Canonical solo answer — the exact script (deliver every section, in order, word-for-word):"
+          : "Louise's canonical answer for this scenario:"
+      );
       const ans = data.louise_solo_answer as Record<string, string>;
       for (const [k, v] of Object.entries(ans)) {
-        lines.push(`  - ${k}: ${truncate(v, 500)}`);
+        lines.push(`  - ${k}: ${v}`);
       }
     }
 
     if (data.dialogue && !data.dialogue_mode) {
       const dlg = data.dialogue as Array<{ role: string; text: string }>;
-      lines.push("Dialogue for this archetype:");
+      lines.push(
+        verbatim
+          ? "Canonical dialogue — the exact script (reply with George's next scripted turn, complete and verbatim):"
+          : "Dialogue for this archetype:"
+      );
       for (const t of dlg) {
-        lines.push(`  ${t.role.toUpperCase()}: ${truncate(t.text, 500)}`);
+        lines.push(`  ${t.role.toUpperCase()}: ${t.text}`);
       }
     }
 
@@ -134,7 +165,7 @@ function buildFullVaultDump(): string {
       for (const row of pt.rows) {
         lines.push(`  Session ${row.session}: ${row.workout} — focus ${row.caffeine_focus}`);
       }
-      if (pt.bottom_line) lines.push(`Bottom line: ${truncate(pt.bottom_line, 500)}`);
+      if (pt.bottom_line) lines.push(`Bottom line: ${pt.bottom_line}`);
     }
 
     if (data.master_protocol) {
@@ -145,11 +176,6 @@ function buildFullVaultDump(): string {
   }
 
   return lines.join("\n");
-}
-
-function truncate(s: string, n: number): string {
-  if (s.length <= n) return s;
-  return s.slice(0, n).trimEnd() + "…";
 }
 
 function stringify(v: unknown): string {

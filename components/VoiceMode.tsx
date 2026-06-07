@@ -263,7 +263,7 @@ export function VoiceMode({ athleteId, athleteName, onClose, onTurnComplete, onb
   return (
     <>
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/40 z-40" onClick={handleEnd} aria-hidden />
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40" onClick={handleEnd} aria-hidden />
 
       {/* Overlay */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-6 pointer-events-none">
@@ -273,7 +273,7 @@ export function VoiceMode({ athleteId, athleteName, onClose, onTurnComplete, onb
             <div className="flex items-center gap-3">
               <MicVisualizer speaking={speaking} state={state} />
               <div>
-                <div className="text-sm font-semibold">Voice with George</div>
+                <div className="text-sm font-semibold" style={{ fontFamily: "var(--font-display)" }}>Voice with George</div>
                 <div className="text-xs text-muted">
                   {state === "connecting" && "Connecting…"}
                   {state === "connected" && (speaking === "user" ? `${athleteName} speaking` : speaking === "george" ? "George speaking" : "Listening")}
@@ -284,7 +284,7 @@ export function VoiceMode({ athleteId, athleteName, onClose, onTurnComplete, onb
             </div>
             <button
               onClick={handleEnd}
-              className="px-3 py-1.5 rounded-md text-xs font-medium border border-border bg-surface hover:bg-surface-2 transition-colors"
+              className="btn-ghost px-3.5 py-1.5 rounded-lg text-xs font-medium"
             >
               End call
             </button>
@@ -324,8 +324,11 @@ export function VoiceMode({ athleteId, athleteName, onClose, onTurnComplete, onb
 function TranscriptLine({ role, text, live }: { role: "user" | "george"; text: string; live: boolean }) {
   return (
     <div>
-      <div className="text-[10px] uppercase tracking-wider text-muted mb-0.5">
-        {role === "user" ? "You" : "George"} {live && <span className="text-muted/60">· live</span>}
+      <div
+        className={["text-[9.5px] uppercase tracking-[0.16em] mb-0.5", role === "george" ? "text-lime" : "text-cyan"].join(" ")}
+        style={{ fontFamily: "var(--font-mono-deck)" }}
+      >
+        {role === "user" ? "You" : "George"} {live && <span className="text-muted">· live</span>}
       </div>
       <div className={["text-sm leading-relaxed whitespace-pre-wrap", role === "george" ? "text-foreground" : "text-foreground/80"].join(" ")}>
         {text}
@@ -339,13 +342,13 @@ function MicVisualizer({ speaking, state }: { speaking: "user" | "george" | null
   const color =
     state === "error" ? "bg-confidence-low" :
     !active ? "bg-muted/40" :
-    speaking === "user" ? "bg-confidence-high" :
-    speaking === "george" ? "bg-foreground" :
+    speaking === "user" ? "bg-cyan" :
+    speaking === "george" ? "bg-lime" :
     "bg-muted/60";
   return (
     <div className="relative w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center">
       <div className={["w-3 h-3 rounded-full", color, speaking ? "animate-pulse" : ""].join(" ")} />
-      {speaking && <div className={["absolute inset-0 rounded-full border-2", speaking === "user" ? "border-confidence-high/40" : "border-foreground/30", "animate-ping"].join(" ")} />}
+      {speaking && <div className={["absolute inset-0 rounded-full border-2", speaking === "user" ? "border-cyan/40" : "border-lime/40", "animate-ping"].join(" ")} />}
     </div>
   );
 }

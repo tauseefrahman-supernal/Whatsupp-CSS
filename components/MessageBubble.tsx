@@ -24,19 +24,23 @@ interface ProtocolCardPayload {
 
 interface MessageBubbleProps {
   message: ChatMessage;
+  athleteName?: string;
   onCompare?: () => void;
   onWiseCrowd?: () => void;
 }
 
-export function MessageBubble({ message, onCompare, onWiseCrowd }: MessageBubbleProps) {
+export function MessageBubble({ message, athleteName, onCompare, onWiseCrowd }: MessageBubbleProps) {
   if (message.role === "user") {
     return (
-      <div className="flex justify-end pr-3">
-        <div className="bubble-out max-w-[78%] px-3 py-2 text-[14.5px] leading-relaxed [overflow-wrap:anywhere] [word-break:break-word] whitespace-pre-wrap">
+      <div className="flex justify-end rise-in">
+        <div className="bubble-out max-w-[78%] px-[17px] py-3 text-[13.5px] leading-relaxed [overflow-wrap:anywhere] [word-break:break-word] whitespace-pre-wrap">
+          <div
+            className="text-[9.5px] uppercase tracking-[0.16em] text-cyan mb-1.5"
+            style={{ fontFamily: "var(--font-mono-deck)" }}
+          >
+            {athleteName ?? "You"}
+          </div>
           {message.content}
-          <span className="bubble-meta float-right ml-2 mt-1 select-none">
-            <Ticks />
-          </span>
         </div>
       </div>
     );
@@ -49,15 +53,20 @@ export function MessageBubble({ message, onCompare, onWiseCrowd }: MessageBubble
   const protocolCard = (meta?.protocol_card as ProtocolCardPayload | undefined) ?? undefined;
 
   return (
-    <div className="group flex flex-col gap-1.5 pl-3">
-      <div className="flex items-start gap-2 min-w-0">
+    <div className="group flex flex-col gap-1.5 rise-in">
+      <div className="flex items-start gap-3 min-w-0">
         <div className="shrink-0 mt-0.5">
           <GeorgeAvatar />
         </div>
-        <div className="flex flex-col gap-1 max-w-[82%] min-w-0 flex-1">
-          <div className="bubble-in px-3 py-2 text-[14.5px] leading-relaxed [overflow-wrap:anywhere] [word-break:break-word] george-md min-w-0">
-            <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <span className="text-[12px] font-semibold text-george">George</span>
+        <div className="flex flex-col gap-1.5 max-w-[82%] min-w-0 flex-1">
+          <div className="bubble-in px-[17px] py-3.5 text-[13.5px] leading-relaxed [overflow-wrap:anywhere] [word-break:break-word] george-md min-w-0">
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <span
+                className="text-[9.5px] uppercase tracking-[0.16em] text-lime"
+                style={{ fontFamily: "var(--font-mono-deck)" }}
+              >
+                George · AI Sports Dietitian
+              </span>
               {confidence && <ConfidencePill level={confidence} />}
             </div>
             <ReactMarkdown
@@ -79,20 +88,19 @@ export function MessageBubble({ message, onCompare, onWiseCrowd }: MessageBubble
                 <button
                   onClick={onWiseCrowd}
                   disabled={!onWiseCrowd}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-brand text-brand-foreground hover:bg-brand-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+                  className="action-chip"
                 >
-                  <span>Organise a Wise Crowd</span>
-                  <span>→</span>
+                  Ask the Wise Crowd ↗
                 </button>
               )}
               {onCompare && !message.streaming && (
                 <button
                   onClick={onCompare}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium text-muted hover:text-foreground hover:bg-surface-2 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                  className="px-3 py-[7px] rounded-full text-[11.5px] font-medium text-muted border border-transparent hover:text-text-2 hover:border-line-strong transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                   title="See how generic AI would answer the same question"
+                  style={{ fontFamily: "var(--font-display)" }}
                 >
-                  <span>Compare with ChatGPT &amp; Claude</span>
-                  <span>↗</span>
+                  Compare with ChatGPT &amp; Claude ↗
                 </button>
               )}
             </div>
@@ -103,8 +111,8 @@ export function MessageBubble({ message, onCompare, onWiseCrowd }: MessageBubble
   );
 }
 
-/** Light-touch markdown renderer — preserves WhatsApp chat aesthetic, no headings as
- *  block-level rules, lists styled inline, tables get a horizontal scroll container.
+/** Markdown renderer tuned for the dark deck theme — no headings as block-level
+ *  rules, lists styled inline, tables get a horizontal scroll container.
  *  Critical: every block sets min-w-0 and overflow-wrap so long content reflows. */
 const MD_COMPONENTS = {
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
@@ -120,39 +128,39 @@ const MD_COMPONENTS = {
     <li className="[overflow-wrap:anywhere] [word-break:break-word]" {...props} />
   ),
   strong: (props: React.HTMLAttributes<HTMLElement>) => (
-    <strong className="font-semibold" {...props} />
+    <strong className="font-semibold text-foreground" {...props} />
   ),
   em: (props: React.HTMLAttributes<HTMLElement>) => (
-    <em className="italic text-foreground/85" {...props} />
+    <em className="italic text-muted" {...props} />
   ),
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <p className="font-semibold mb-1 [overflow-wrap:anywhere]" {...props} />
+    <p className="font-semibold text-foreground mb-1 [overflow-wrap:anywhere]" {...props} />
   ),
   h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <p className="font-semibold mb-1 [overflow-wrap:anywhere]" {...props} />
+    <p className="font-semibold text-foreground mb-1 [overflow-wrap:anywhere]" {...props} />
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <p className="font-semibold mb-1 [overflow-wrap:anywhere]" {...props} />
+    <p className="font-semibold text-foreground mb-1 [overflow-wrap:anywhere]" {...props} />
   ),
   table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
-    <div className="my-2 max-w-full overflow-x-auto rounded-md border border-border/60 bg-surface-2/40">
+    <div className="my-2 max-w-full overflow-x-auto rounded-lg border border-line bg-bg-3/40">
       <table className="text-[13px] border-collapse" {...props} />
     </div>
   ),
   th: (props: React.ThHTMLAttributes<HTMLTableCellElement>) => (
-    <th className="text-left font-semibold px-2.5 py-1.5 bg-surface-2/70 border-b border-border/60 [overflow-wrap:anywhere]" {...props} />
+    <th className="text-left font-semibold text-foreground px-2.5 py-1.5 bg-bg-3/70 border-b border-line [overflow-wrap:anywhere]" {...props} />
   ),
   td: (props: React.TdHTMLAttributes<HTMLTableCellElement>) => (
-    <td className="px-2.5 py-1.5 border-b border-border/40 align-top [overflow-wrap:anywhere]" {...props} />
+    <td className="px-2.5 py-1.5 border-b border-line align-top [overflow-wrap:anywhere]" {...props} />
   ),
   code: (props: React.HTMLAttributes<HTMLElement>) => (
-    <code className="px-1 py-0.5 rounded bg-surface-2 text-[13px] [overflow-wrap:anywhere]" {...props} />
+    <code className="px-1 py-0.5 rounded bg-bg-3 text-[12.5px] [overflow-wrap:anywhere]" {...props} />
   ),
   hr: () => (
-    <hr className="my-2 border-border/60" />
+    <hr className="my-2 border-line" />
   ),
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a className="text-brand hover:underline [overflow-wrap:anywhere]" {...props} />
+    <a className="text-cyan hover:underline [overflow-wrap:anywhere]" {...props} />
   ),
 };
 
@@ -162,37 +170,42 @@ function ProtocolCard({ payload }: { payload: ProtocolCardPayload }) {
   const sessions = payload.sessions ?? [];
   const logVars = payload.log_variables ?? [];
   return (
-    <div className="mt-1 rounded-lg border border-brand-soft-border bg-brand-soft/40 shadow-sm overflow-hidden">
-      <div className="px-4 py-2.5 border-b border-brand-soft-border bg-white/60">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex w-5 h-5 rounded-full bg-brand text-white items-center justify-center text-[11px] font-semibold">P</span>
-          <span className="text-[12px] uppercase tracking-wider text-brand-hover font-semibold">Protocol · N-of-1 self-test</span>
+    <div className="mt-1 panel overflow-hidden">
+      <div className="px-4 py-3 border-b border-line bg-bg-3/40">
+        <div className="hd flex items-center gap-2">
+          <span className="inline-flex w-4 h-4 rounded bg-lime text-bg-0 items-center justify-center text-[9px] font-bold not-italic">N</span>
+          Protocol · N-of-1 self-test
         </div>
         {payload.title && (
-          <h3 className="text-[14.5px] font-semibold text-foreground mt-1.5 leading-snug">{payload.title}</h3>
+          <h3
+            className="text-[14.5px] font-semibold text-foreground mt-2 leading-snug"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            {payload.title}
+          </h3>
         )}
         {payload.rationale && (
           <p className="text-[12.5px] text-muted mt-1 leading-snug">{payload.rationale}</p>
         )}
       </div>
       {sessions.length > 0 && (
-        <div className="max-w-full overflow-x-auto bg-white/50">
+        <div className="max-w-full overflow-x-auto">
           <table className="text-[12.5px] w-full border-collapse">
             <thead>
-              <tr className="bg-surface-2/60 text-muted">
-                <th className="text-left font-semibold px-3 py-1.5 border-b border-border/60">Session</th>
-                <th className="text-left font-semibold px-3 py-1.5 border-b border-border/60">Workout</th>
-                <th className="text-left font-semibold px-3 py-1.5 border-b border-border/60">Focus</th>
-                <th className="text-left font-semibold px-3 py-1.5 border-b border-border/60">Question</th>
+              <tr className="bg-bg-3/60 text-muted">
+                <th className="text-left font-semibold px-3 py-1.5 border-b border-line">Session</th>
+                <th className="text-left font-semibold px-3 py-1.5 border-b border-line">Workout</th>
+                <th className="text-left font-semibold px-3 py-1.5 border-b border-line">Focus</th>
+                <th className="text-left font-semibold px-3 py-1.5 border-b border-line">Question</th>
               </tr>
             </thead>
             <tbody>
               {sessions.map((s) => (
-                <tr key={s.session} className="align-top">
-                  <td className="px-3 py-1.5 border-b border-border/40 font-semibold text-foreground">{s.session}</td>
-                  <td className="px-3 py-1.5 border-b border-border/40 [overflow-wrap:anywhere]">{s.workout}</td>
-                  <td className="px-3 py-1.5 border-b border-border/40 [overflow-wrap:anywhere]">{s.focus}</td>
-                  <td className="px-3 py-1.5 border-b border-border/40 text-muted [overflow-wrap:anywhere]">{s.question}</td>
+                <tr key={s.session} className="align-top text-text-2">
+                  <td className="px-3 py-1.5 border-b border-line font-semibold text-lime" style={{ fontFamily: "var(--font-mono-deck)" }}>{s.session}</td>
+                  <td className="px-3 py-1.5 border-b border-line [overflow-wrap:anywhere]">{s.workout}</td>
+                  <td className="px-3 py-1.5 border-b border-line [overflow-wrap:anywhere]">{s.focus}</td>
+                  <td className="px-3 py-1.5 border-b border-line text-muted [overflow-wrap:anywhere]">{s.question}</td>
                 </tr>
               ))}
             </tbody>
@@ -200,25 +213,27 @@ function ProtocolCard({ payload }: { payload: ProtocolCardPayload }) {
         </div>
       )}
       {logVars.length > 0 && (
-        <div className="px-4 py-2.5 border-t border-border/60 bg-white/40">
-          <div className="text-[11px] uppercase tracking-wider text-muted font-medium mb-1">Log each session</div>
+        <div className="px-4 py-2.5 border-t border-line">
+          <div className="hd mb-1.5">Log each session</div>
           <div className="flex flex-wrap gap-1">
             {logVars.map((v) => (
-              <span key={v} className="text-[11.5px] px-1.5 py-0.5 rounded border border-border/60 bg-surface-2/60 [overflow-wrap:anywhere]">{v}</span>
+              <span key={v} className="text-[11px] px-2 py-0.5 rounded-full border border-line bg-bg-3 text-text-2 [overflow-wrap:anywhere]">{v}</span>
             ))}
           </div>
         </div>
       )}
       {payload.bottom_line && (
-        <div className="px-4 py-2.5 border-t border-border/60 bg-white/30 text-[12.5px] text-foreground/85 italic leading-snug">
-          {payload.bottom_line}
+        <div className="mx-4 my-3 answer-block">
+          <div className="k">Bottom line</div>
+          <div className="text-[12.5px] text-foreground leading-snug">{payload.bottom_line}</div>
         </div>
       )}
       {payload.cta_url && (
-        <div className="px-4 py-2.5 border-t border-border/60 bg-brand-soft/60">
+        <div className="px-4 py-2.5 border-t border-line bg-lime-glow/50">
           <Link
             href={payload.cta_url}
-            className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-brand-hover hover:text-brand"
+            className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-lime hover:brightness-110"
+            style={{ fontFamily: "var(--font-display)" }}
           >
             <span>{payload.cta_label ?? "Open in Protocols workspace"}</span>
             <span>→</span>
@@ -232,9 +247,13 @@ function ProtocolCard({ payload }: { payload: ProtocolCardPayload }) {
 function GeorgeAvatar() {
   return (
     <div
-      className="w-8 h-8 rounded-full bg-brand text-white text-[12px] font-semibold flex items-center justify-center shadow-sm"
+      className="w-[34px] h-[34px] rounded-[10px] text-bg-0 text-[15px] font-bold flex items-center justify-center"
+      style={{
+        background: "linear-gradient(135deg, var(--lime), var(--lime-deep))",
+        fontFamily: "var(--font-display)",
+      }}
       aria-label="George"
-      title="George — AI Supplement Counsel"
+      title="George — AI Sports Dietitian"
     >
       G
     </div>
@@ -243,34 +262,18 @@ function GeorgeAvatar() {
 
 function ConfidencePill({ level }: { level: string }) {
   const norm = level.toLowerCase();
-  const color =
-    norm === "high"     ? "bg-confidence-high/10 text-confidence-high border-confidence-high/30" :
-    norm === "moderate" ? "bg-confidence-moderate/10 text-confidence-moderate border-confidence-moderate/30" :
-    norm === "low"      ? "bg-confidence-low/10 text-confidence-low border-confidence-low/30" :
-                          "bg-surface-2 text-muted border-border";
+  const cls =
+    norm === "high"     ? "conf-high" :
+    norm === "moderate" ? "conf-mod" :
+    norm === "low"      ? "conf-low" :
+                          "";
   return (
-    <span className={["text-[9.5px] uppercase tracking-wider px-1.5 py-0.5 rounded border font-medium", color].join(" ")}>
+    <span className={["conf-badge ml-auto", cls].join(" ")}>
       {norm} confidence
     </span>
   );
 }
 
 function BlinkingCursor() {
-  return <span className="inline-block w-[2px] h-[1em] -mb-[2px] ml-0.5 bg-foreground/60 animate-pulse" aria-hidden />;
-}
-
-function Ticks() {
-  return (
-    <svg
-      viewBox="0 0 16 11"
-      width="14"
-      height="10"
-      fill="none"
-      aria-hidden
-      className="inline-block align-middle opacity-70"
-    >
-      <path d="M11.071.65l-4.6 5.46c-.27.32-.78.32-1.05 0L3.07 3.41" stroke="#53bdeb" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <path d="M15.071.65l-4.6 5.46c-.27.32-.78.32-1.05 0L7.07 3.41" stroke="#53bdeb" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-    </svg>
-  );
+  return <span className="inline-block w-[2px] h-[1em] -mb-[2px] ml-0.5 bg-lime animate-pulse" aria-hidden />;
 }

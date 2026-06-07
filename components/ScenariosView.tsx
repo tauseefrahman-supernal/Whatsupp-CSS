@@ -89,7 +89,8 @@ export function ScenariosView() {
     <div className="flex-1 overflow-y-auto">
       <div className="max-w-4xl mx-auto px-8 py-10">
         <header className="mb-8">
-          <h1 className="text-2xl font-semibold text-foreground tracking-tight">Demo Scenarios</h1>
+          <div className="eyebrow mb-2">Demo · 4 canonical films</div>
+          <h1 className="text-2xl font-semibold text-foreground tracking-[-0.01em]" style={{ fontFamily: "var(--font-display)" }}>Demo Scenarios</h1>
           <p className="mt-1.5 text-sm text-muted leading-relaxed max-w-2xl">
             The four canonical scenarios that anchor the WhatSupp investor films. Each one
             seeds a demo athlete with the right archetype and pre-fills the canonical opening
@@ -102,12 +103,15 @@ export function ScenariosView() {
           {manifest.scenarios.map(s => (
             <div key={s.slug} className="card overflow-hidden">
               <div className="flex items-start gap-5 p-5">
-                <div className="shrink-0 w-12 h-12 rounded-full bg-brand-soft text-brand flex items-center justify-center text-lg font-semibold border border-brand-soft-border">
+                <div
+                  className="shrink-0 w-12 h-12 rounded-[14px] text-bg-0 flex items-center justify-center text-lg font-bold"
+                  style={{ background: "linear-gradient(135deg, var(--lime), var(--lime-deep))", fontFamily: "var(--font-display)" }}
+                >
                   {s.number}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-baseline gap-3 flex-wrap">
-                    <h2 className="text-[15px] font-semibold text-foreground">{s.title}</h2>
+                    <h2 className="text-[15px] font-semibold text-foreground" style={{ fontFamily: "var(--font-display)" }}>{s.title}</h2>
                     <ChannelPill primary={s.primary_channel} secondary={s.secondary_channel} />
                   </div>
                   <p className="text-[12.5px] text-muted mt-0.5">{s.tagline}</p>
@@ -115,10 +119,7 @@ export function ScenariosView() {
 
                   <div className="mt-4 flex flex-wrap gap-1.5">
                     {s.demonstrates.slice(0, 6).map(d => (
-                      <span
-                        key={d}
-                        className="text-[10.5px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-surface-2 text-muted border border-border"
-                      >
+                      <span key={d} className="src-chip">
                         {d}
                       </span>
                     ))}
@@ -128,7 +129,7 @@ export function ScenariosView() {
                     <summary className="text-[12px] text-muted cursor-pointer hover:text-foreground select-none">
                       Opening question (verbatim) →
                     </summary>
-                    <blockquote className="mt-2 text-[13px] text-foreground bg-surface-2/60 border-l-2 border-brand-soft-border pl-3 py-2 italic leading-relaxed">
+                    <blockquote className="mt-2 text-[13px] text-text-2 answer-block italic leading-relaxed">
                       {s.opening_question}
                     </blockquote>
                   </details>
@@ -162,7 +163,7 @@ export function ScenariosView() {
         </div>
 
         <div className="mt-10 card-soft p-5">
-          <h3 className="text-[13px] font-semibold uppercase tracking-wider text-muted">Production notes</h3>
+          <h3 className="hd">Production notes</h3>
           <ul className="mt-2 text-[13px] text-foreground space-y-1.5">
             {Object.entries(manifest.production_notes).map(([k, v]) => (
               <li key={k} className="flex gap-2">
@@ -186,7 +187,7 @@ export function ScenariosView() {
 function ChannelPill({ primary, secondary }: { primary: string; secondary: string | null }) {
   const label = secondary ? `${primary} + ${secondary}` : primary;
   return (
-    <span className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded border bg-brand-soft/60 text-brand-hover border-brand-soft-border font-medium">
+    <span className="check-pill ok">
       {label}
     </span>
   );

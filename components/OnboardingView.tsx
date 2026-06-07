@@ -47,28 +47,33 @@ export function OnboardingView() {
         <div className="card overflow-hidden">
           <div className="wa-rail-header px-6 py-5">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full bg-white/15 ring-1 ring-white/20 text-white text-base font-semibold flex items-center justify-center">G</div>
+              <div
+                className="w-11 h-11 rounded-[12px] text-bg-0 text-lg font-bold flex items-center justify-center"
+                style={{ background: "linear-gradient(135deg, var(--lime), var(--lime-deep))", fontFamily: "var(--font-display)" }}
+              >
+                G
+              </div>
               <div>
-                <div className="text-[16px] font-semibold leading-tight">Meet George</div>
-                <div className="text-[12px] text-white/70 leading-tight">Calibrated to Dr Louise Burke · backed by the Wise Crowd</div>
+                <div className="text-[16px] font-semibold leading-tight" style={{ fontFamily: "var(--font-display)" }}>Meet George</div>
+                <div className="hd !text-[9px] tracking-[0.16em] leading-tight mt-1">Calibrated to Dr Louise Burke · backed by the Wise Crowd</div>
               </div>
             </div>
           </div>
 
           <div className="px-6 py-6 bg-surface">
-            <h1 className="text-xl font-semibold text-foreground tracking-tight">
+            <h1 className="text-xl font-semibold text-foreground tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
               A friendlier kind of intake.
             </h1>
-            <p className="mt-2 text-[14.5px] text-foreground leading-relaxed">
+            <p className="mt-2 text-[14px] text-text-2 leading-relaxed">
               No forms. No checkboxes. George opens the conversation — voice or text — and
               gets to know you the same way a good practitioner would: by asking, listening,
               and remembering. Your sport, your training, the supplements you use, the way
               caffeine actually feels on you, the night you can't sleep. Bit by bit.
             </p>
 
-            <div className="mt-5 card-soft p-4 bg-brand-soft/40 border-brand-soft-border">
-              <div className="text-[12px] uppercase tracking-wider text-brand-hover font-semibold">What George will ask about</div>
-              <ul className="mt-2 text-[13.5px] text-foreground grid grid-cols-2 gap-x-4 gap-y-1.5">
+            <div className="mt-5 rounded-xl p-4 bg-lime-glow border border-brand-soft-border">
+              <div className="eyebrow !text-[10px]">What George will ask about</div>
+              <ul className="mt-2 text-[13px] text-text-2 grid grid-cols-2 gap-x-4 gap-y-1.5">
                 <li>· Sport &amp; level</li>
                 <li>· What you&apos;re training for</li>
                 <li>· Supplements you currently use</li>
@@ -81,12 +86,12 @@ export function OnboardingView() {
             </div>
 
             <div className="mt-6">
-              <label className="text-[12px] uppercase tracking-wider text-muted font-medium">Your name</label>
+              <label className="hd">Your name</label>
               <input
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="What should George call you?"
-                className="mt-1.5 w-full px-4 py-2.5 rounded-lg border border-border bg-white text-[14.5px] focus:outline-none focus:ring-2 focus:ring-brand/40"
+                className="field-dark mt-1.5 w-full px-4 py-2.5 text-[14px]"
                 onKeyDown={e => { if (e.key === "Enter") createAthlete(true); }}
               />
             </div>
@@ -109,7 +114,7 @@ export function OnboardingView() {
               <button
                 onClick={() => createAthlete(false)}
                 disabled={!name.trim() || creating}
-                className="flex-1 px-5 py-3 rounded-full text-sm font-semibold border border-border text-foreground hover:bg-surface-2 inline-flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="btn-ghost flex-1 px-5 py-3 rounded-full text-sm font-semibold inline-flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChatIcon />
                 <span>Chat in text instead</span>

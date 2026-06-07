@@ -49,7 +49,7 @@ export function ComparePanel({ entries, focusEntryId, onClose, onClear }: Props)
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-black/20 z-40 animate-in fade-in"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 animate-in fade-in"
         aria-hidden
       />
 
@@ -58,7 +58,7 @@ export function ComparePanel({ entries, focusEntryId, onClose, onClear }: Props)
         {/* Header */}
         <header className="px-6 py-4 border-b border-border flex items-start justify-between gap-3">
           <div>
-            <h2 className="text-sm font-semibold">How generic AI would answer</h2>
+            <h2 className="text-sm font-semibold" style={{ fontFamily: "var(--font-display)" }}>How generic AI would answer</h2>
             <p className="text-xs text-muted mt-0.5">
               Same question. No Vault. No system prompt. No memory.
               {entries.length > 0 && (
@@ -105,7 +105,7 @@ export function ComparePanel({ entries, focusEntryId, onClose, onClear }: Props)
                   {/* Question */}
                   <div className="mb-3">
                     <div className="flex items-baseline justify-between mb-1">
-                      <div className="text-[10px] uppercase tracking-wider text-muted">Question</div>
+                      <div className="hd">Question</div>
                       <div className="text-[10px] text-muted font-mono">{formatTime(entry.askedAt)}</div>
                     </div>
                     <div className="text-[13px] text-foreground/90 leading-relaxed bg-surface-2/50 rounded-md px-3 py-2 border border-border/50">

@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { getPrompts, buildVaultContext } from "@/lib/vault/retrieve";
+import { getPrompts, buildVaultContext, findCanonicalScenario } from "@/lib/vault/retrieve";
 import type { AthleteProfile, MessageRow } from "@/lib/db";
 
 const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-opus-4-7";
@@ -37,13 +37,29 @@ interface GeorgeRunOptions {
  */
 export async function* streamGeorge(opts: GeorgeRunOptions): AsyncGenerator<StreamEvent> {
   const prompts = getPrompts();
-  const vaultCtx = buildVaultContext(opts.userMessage, opts.athlete);
   const memoryBlock = buildMemoryBlock(opts.athlete, opts.lastSummary);
 
   const hasAssistantInHistory = opts.history.some(m => m.role === "assistant");
   const isReturning = hasAssistantInHistory || !!opts.lastSummary;
   const isBlankSlate = !opts.athlete.sport && !opts.athlete.context && !isReturning;
   const isFreshSessionForReturningAthlete = !hasAssistantInHistory && !!opts.lastSummary;
+  // Canonical demo question wins over every session-state heuristic — the
+  // scripted answer must come immediately, even on a fresh session. Canonical
+  // mode is sticky: once any user message in this session matched a scenario's
+  // canonical question, mid-dialogue turns (which are short) stay on script.
+  // Matching is question-based only (athlete passed as null): a slug-tagged
+  // demo athlete saying "Hello George" should still get a warm greeting, not
+  // be forced into the script.
+  const canonicalAsked = findCanonicalScenario(opts.userMessage, null);
+  const canonicalInHistory = canonicalAsked
+    ? null
+    : opts.history
+        .filter(m => m.role === "user")
+        .map(m => findCanonicalScenario(m.content, null))
+        .find(Boolean) ?? null;
+  const canonicalScenario = canonicalAsked ?? canonicalInHistory;
+
+  const vaultCtx = buildVaultContext(opts.userMessage, opts.athlete, canonicalScenario);
 
   // System prompt — 4 cached blocks (static across requests) + 1 dynamic block.
   const system: Anthropic.Messages.TextBlockParam[] = [
@@ -58,13 +74,17 @@ export async function* streamGeorge(opts: GeorgeRunOptions): AsyncGenerator<Stre
         memoryBlock,
         vaultCtx,
         `## Mode hint\nThe athlete ${
-          isBlankSlate
-            ? "has no profile yet — treat this as **blank slate** mode and gather context conversationally."
-            : isFreshSessionForReturningAthlete
-              ? "is returning after a break. This is a fresh conversation. Open with a short, warm welcome-back (1-2 sentences) that references the prior topic from the memory summary above. Ask one open question about how things went or what they want to work on now. Do not dive into a recap."
-              : isReturning
-                ? "is mid-conversation. Stay in the flow — do not re-greet, do not summarise back."
-                : "is new but has some profile data. Read their opening message to decide between **posed-question** and **blank-slate** mode."
+          canonicalAsked
+            ? `has just posed the canonical question for Demo Scenario ${canonicalAsked.number}. Skip every greeting, welcome-back, and clarifier — reply with the scripted answer per the VERBATIM SCRIPT MODE block above, immediately.`
+            : canonicalInHistory
+              ? `is mid-script in Demo Scenario ${canonicalInHistory.number}. If this message matches an athlete turn in the canonical dialogue, reply with George's next scripted turn verbatim. If it's off-script (a greeting, an aside), respond naturally and briefly, then let the script resume.`
+              : isBlankSlate
+              ? "has no profile yet — treat this as **blank slate** mode and gather context conversationally."
+              : isFreshSessionForReturningAthlete
+                ? "is returning after a break. This is a fresh conversation. Open with a short, warm welcome-back (1-2 sentences) that references the prior topic from the memory summary above. Ask one open question about how things went or what they want to work on now. Do not dive into a recap."
+                : isReturning
+                  ? "is mid-conversation. Stay in the flow — do not re-greet, do not summarise back."
+                  : "is new but has some profile data. Read their opening message to decide between **posed-question** and **blank-slate** mode."
         }`,
         `## Closing instruction\nAt the end of your reply, on a new line, emit a single JSON object wrapped in <meta>...</meta> tags with these keys:\n` +
         `  - confidence_overall (high|moderate|low)\n` +
@@ -93,34 +113,50 @@ export async function* streamGeorge(opts: GeorgeRunOptions): AsyncGenerator<Stre
     });
 
     let buffer = "";
+    let emitted = 0;          // chars of buffer already yielded as text
     let metaFound = false;
     let metaText = "";
 
+    const OPEN_TAG = "<meta>";
+
     for await (const event of stream) {
       if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
-        const chunk = event.delta.text;
-        buffer += chunk;
+        buffer += event.delta.text;
 
-        // Look for the meta tag once we see it
-        const metaStart = buffer.indexOf("<meta>");
+        if (metaFound) {
+          metaText = buffer.slice(buffer.indexOf(OPEN_TAG));
+          continue;
+        }
+
+        const metaStart = buffer.indexOf(OPEN_TAG);
         if (metaStart >= 0) {
-          if (!metaFound) {
-            // Emit everything up to <meta> as text, then stop streaming text
-            const before = buffer.slice(0, metaStart);
-            const lastFlushed = buffer.length - chunk.length;
-            if (metaStart > lastFlushed) {
-              const remainder = before.slice(lastFlushed);
-              if (remainder) yield { type: "text", text: remainder };
-            }
-            metaFound = true;
-            metaText = buffer.slice(metaStart);
-          } else {
-            metaText = buffer.slice(metaStart);
+          // Emit everything up to <meta> as text, then stop streaming text.
+          if (metaStart > emitted) {
+            yield { type: "text", text: buffer.slice(emitted, metaStart) };
+            emitted = metaStart;
           }
+          metaFound = true;
+          metaText = buffer.slice(metaStart);
         } else {
-          yield { type: "text", text: chunk };
+          // Hold back any buffer suffix that could be the start of a split
+          // "<meta>" tag (e.g. a chunk ending in "<me"), so partial tags never
+          // leak into the visible message.
+          let holdback = 0;
+          for (let k = Math.min(OPEN_TAG.length - 1, buffer.length - emitted); k > 0; k--) {
+            if (buffer.endsWith(OPEN_TAG.slice(0, k))) { holdback = k; break; }
+          }
+          const end = buffer.length - holdback;
+          if (end > emitted) {
+            yield { type: "text", text: buffer.slice(emitted, end) };
+            emitted = end;
+          }
         }
       }
+    }
+
+    // Flush any held-back tail that turned out not to be a meta tag.
+    if (!metaFound && emitted < buffer.length) {
+      yield { type: "text", text: buffer.slice(emitted) };
     }
 
     // Parse meta if present

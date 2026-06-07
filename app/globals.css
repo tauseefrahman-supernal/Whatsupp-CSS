@@ -1,36 +1,69 @@
 @import "tailwindcss";
 
-:root {
-  /* Neutrals — warm cream that plays with the lavender brand */
-  --background: #f7f3ee;       /* warm cream chat backdrop */
-  --foreground: #1a1525;       /* deep ink — slightly purple-tinted */
-  --muted: #6b6478;            /* secondary text — muted plum */
-  --border: #ece6f0;           /* divider — soft lavender-grey */
-  --surface: #ffffff;
-  --surface-2: #f4eff7;        /* app surface — faintest lavender */
-  --accent: #1a1525;
-  --accent-foreground: #ffffff;
-  --george: #4a2470;           /* George avatar/eyebrow — deep aubergine */
+/* ============================================================
+   WHATSUPP? · deck-aligned dark theme
+   Palette extracted from "Whatsupp by George.pptx"
+   (see mockup-redesign.html — the approved design spec)
+   ============================================================ */
 
-  /* Brand — from the CSS pitch deck (theme1.xml). Pinkish-purple anchor
-     with a pink CTA accent and a deeper plum for header bands. */
-  --brand: #BC72F0;            /* CSS pitch-deck primary — pinkish lavender */
-  --brand-hover: #9D4DE0;      /* darker lavender — hover state */
-  --brand-foreground: #ffffff;
-  --brand-soft: #F5E9FF;       /* very light lavender — pills + soft fills */
-  --brand-soft-border: #E0C5F5;
-  --brand-accent: #DE478E;     /* pink CTA accent (deck colour) — send button etc. */
-  --brand-deep: #4F3478;       /* deep plum — for header bands */
+:root {
+  /* ---- Deck raw palette ---- */
+  --bg-0: #0A0D12;          /* deepest — app backdrop          */
+  --bg-1: #10151D;          /* rails / shell                   */
+  --bg-2: #161D27;          /* card surface                    */
+  --bg-3: #1E2733;          /* elevated surface                */
+  --bg-4: #2A3441;          /* hover / strong border           */
+
+  --text-1: #F4F7FB;        /* primary                         */
+  --text-2: #C8D1DD;        /* secondary                       */
+  --text-3: #8B96A6;        /* muted                           */
+  --text-4: #5C6675;        /* faint                           */
+
+  --lime: #B6F569;          /* signature — George / CTAs       */
+  --lime-deep: #92D050;
+  --cyan: #67E8F9;          /* secondary accent — data/links   */
+  --amber: #FCD34D;         /* caution / moderate confidence   */
+  --pink: #F472A6;          /* contrast datum (placebo arm)    */
+
+  --line: rgba(244, 247, 251, 0.07);
+  --line-strong: rgba(244, 247, 251, 0.13);
+  --lime-glow: rgba(182, 245, 105, 0.13);
+
+  /* ---- Legacy token names, remapped onto the deck palette ----
+     Components keep using bg-surface / text-muted / bg-brand etc. */
+  --background: var(--bg-0);
+  --foreground: var(--text-1);
+  --muted: var(--text-3);
+  --border: var(--line);
+  --surface: var(--bg-2);
+  --surface-2: var(--bg-3);
+  --accent: var(--lime);
+  --accent-foreground: #0A0D12;
+  --george: var(--lime);           /* George eyebrow — lime     */
+
+  /* Brand flips lavender → lime. Ink on lime is dark. */
+  --brand: var(--lime);
+  --brand-hover: var(--lime-deep);
+  --brand-foreground: #0A0D12;
+  --brand-soft: var(--lime-glow);
+  --brand-soft-border: rgba(182, 245, 105, 0.25);
+  --brand-accent: var(--lime);
+  --brand-deep: var(--bg-1);
 
   /* Chat surfaces */
-  --chat-bg: #f0e9f5;          /* lavender-warm chat backdrop (replaces WA cream) */
-  --bubble-out: #F3E1FB;       /* outgoing (athlete) bubble — soft lavender */
-  --bubble-in: #ffffff;        /* incoming (George) bubble */
-  --bubble-shadow: 0 1px 0.5px rgba(26, 21, 37, 0.13);
+  --chat-bg: var(--bg-0);
+  --bubble-out: var(--bg-3);       /* athlete bubble — elevated */
+  --bubble-in: var(--bg-2);        /* George bubble — card      */
+  --bubble-shadow: none;
 
-  --confidence-high: #16a34a;
-  --confidence-moderate: #ca8a04;
-  --confidence-low: #ea580c;
+  --confidence-high: var(--lime);
+  --confidence-moderate: var(--amber);
+  --confidence-low: #F87171;       /* readable red on dark      */
+
+  /* Fonts — Poppins display, Helvetica Neue body, Plex Mono data */
+  --font-display: var(--font-poppins), "Helvetica Neue", sans-serif;
+  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono-deck: var(--font-plex-mono), ui-monospace, monospace;
 }
 
 @theme inline {
@@ -55,8 +88,29 @@
   --color-confidence-high: var(--confidence-high);
   --color-confidence-moderate: var(--confidence-moderate);
   --color-confidence-low: var(--confidence-low);
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Deck tokens exposed to utilities (bg-bg-1, text-lime, border-line…) */
+  --color-bg-0: var(--bg-0);
+  --color-bg-1: var(--bg-1);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-bg-4: var(--bg-4);
+  --color-text-1: var(--text-1);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-text-4: var(--text-4);
+  --color-lime: var(--lime);
+  --color-lime-deep: var(--lime-deep);
+  --color-cyan: var(--cyan);
+  --color-amber: var(--amber);
+  --color-pink: var(--pink);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-lime-glow: var(--lime-glow);
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono-deck);
 }
 
 html, body {
@@ -64,56 +118,66 @@ html, body {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+  background: var(--bg-0);
+  color: var(--text-1);
+  font-family: var(--font-body);
+  font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Atmospheric backdrop — faint lime aurora, like the deck title slides */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(182, 245, 105, 0.06), transparent 60%),
+    radial-gradient(700px 500px at -10% 110%, rgba(103, 232, 249, 0.04), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
 ::selection {
-  background: rgba(188, 114, 240, 0.25);
-  color: var(--foreground);
+  background: rgba(182, 245, 105, 0.25);
+  color: var(--text-1);
 }
 
 /* Scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(0,0,0,0.15) transparent;
+  scrollbar-color: var(--bg-4) transparent;
 }
 *::-webkit-scrollbar { width: 8px; height: 8px; }
-*::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 4px; }
-*::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.22); }
+*::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 4px; }
+*::-webkit-scrollbar-thumb:hover { background: var(--text-4); }
 
-/* Chat surface — lavender backdrop with a soft repeating doodle motif. */
+/* Chat surface — flat deck-dark backdrop */
 .chat-surface {
-  background-color: var(--chat-bg);
-  background-image:
-    radial-gradient(rgba(79, 52, 120, 0.05) 1px, transparent 1px),
-    radial-gradient(rgba(79, 52, 120, 0.035) 1px, transparent 1px);
-  background-size: 22px 22px, 38px 38px;
-  background-position: 0 0, 11px 19px;
+  background-color: var(--bg-0);
 }
 
-/* Sidebar + chat header band — CSS-deck plum, with a soft pink-to-purple gradient
-   that nods to the deck's accent pairing. */
+/* Rail / chat header band — flat deck shell with hairline rule */
 .wa-rail-header {
-  background: linear-gradient(135deg, var(--brand-deep) 0%, var(--brand-hover) 60%, var(--brand) 100%);
-  color: var(--brand-foreground);
+  background: var(--bg-1);
+  border-bottom: 1px solid var(--line);
+  color: var(--text-1);
 }
 
 /* Prose defaults for George messages (legacy class — still used by some surfaces) */
 .george-prose {
   line-height: 1.55;
+  color: var(--text-2);
 }
 .george-prose p { margin-bottom: 0.7em; }
 .george-prose p:last-child { margin-bottom: 0; }
-.george-prose strong { font-weight: 600; }
-.george-prose em { color: var(--muted); font-style: italic; }
+.george-prose strong { font-weight: 600; color: var(--text-1); }
+.george-prose em { color: var(--text-3); font-style: italic; }
 
 /* Markdown-rendered chat bubble — handles long words, lists, tables cleanly. */
 .george-md {
-  line-height: 1.5;
+  line-height: 1.6;
+  color: var(--text-2);
 }
 .george-md > :first-child { margin-top: 0; }
 .george-md > :last-child { margin-bottom: 0; }
@@ -121,91 +185,77 @@ body {
 .george-md ul, .george-md ol { margin: 0.1em 0 0.55em; }
 .george-md li { margin: 0.1em 0; }
 .george-md li > p { margin: 0; }
-.george-md strong { font-weight: 600; }
-.george-md em { color: var(--muted); }
+.george-md strong { font-weight: 600; color: var(--text-1); }
+.george-md em { color: var(--text-3); }
+.george-md a { color: var(--cyan); }
+.george-md code {
+  background: var(--bg-3);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  font-family: var(--font-mono-deck);
+  font-size: 0.86em;
+}
 
-/* WA bubble — outgoing (athlete). Tail on bottom-right. */
+/* Bubbles — rounded deck cards (mockup style, no WhatsApp tails) */
 .bubble-out {
   background: var(--bubble-out);
-  color: var(--foreground);
-  border-radius: 7.5px;
-  box-shadow: var(--bubble-shadow);
+  border: 1px solid var(--line);
+  color: var(--text-1);
+  border-radius: 14px;
+  border-bottom-right-radius: 4px;
   position: relative;
 }
-.bubble-out::after {
-  content: "";
-  position: absolute;
-  right: -7px;
-  bottom: 0;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 0 12px 8px;
-  border-color: transparent transparent var(--bubble-out) transparent;
-}
-
-/* WA bubble — incoming (George). Tail on bottom-left. */
 .bubble-in {
   background: var(--bubble-in);
-  color: var(--foreground);
-  border-radius: 7.5px;
-  box-shadow: var(--bubble-shadow);
+  border: 1px solid var(--line);
+  color: var(--text-2);
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
   position: relative;
-}
-.bubble-in::after {
-  content: "";
-  position: absolute;
-  left: -7px;
-  bottom: 0;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 8px 12px 0;
-  border-color: transparent var(--bubble-in) transparent transparent;
 }
 
 /* Card surfaces */
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
   border-radius: 12px;
-  box-shadow: 0 1px 0 rgba(11, 20, 26, 0.02), 0 2px 4px rgba(11, 20, 26, 0.02);
 }
 .card-soft {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
   border-radius: 12px;
 }
 
-/* Brand button — WA-bright-green CTA */
+/* Brand button — lime CTA, dark ink */
 .btn-primary {
-  background: var(--brand);
-  color: var(--brand-foreground);
-  transition: background 120ms ease, transform 60ms ease;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  background: var(--lime);
+  color: #0A0D12;
+  font-weight: 600;
+  transition: filter 120ms ease, transform 60ms ease;
 }
-.btn-primary:hover:not(:disabled) {
-  background: var(--brand-hover);
-}
-.btn-primary:active:not(:disabled) {
-  transform: translateY(1px);
-}
-.btn-primary:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
+.btn-primary:hover:not(:disabled) { filter: brightness(1.08); }
+.btn-primary:active:not(:disabled) { transform: translateY(1px); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .btn-send {
-  background: var(--brand-accent);
-  color: #ffffff;
+  background: var(--lime);
+  color: #0A0D12;
+  transition: filter 120ms ease;
 }
-.btn-send:hover:not(:disabled) { background: #C2367A; }
+.btn-send:hover:not(:disabled) { filter: brightness(1.08); }
 .btn-send:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* Active sidebar pill */
-.nav-active-bar {
-  position: relative;
+/* Ghost button — hairline outline */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-2);
+  border: 1px solid var(--line-strong);
+  transition: background 120ms ease;
 }
+.btn-ghost:hover:not(:disabled) { background: rgba(244, 247, 251, 0.05); }
+
+/* Active sidebar pill */
+.nav-active-bar { position: relative; }
 .nav-active-bar::before {
   content: "";
   position: absolute;
@@ -214,11 +264,362 @@ body {
   bottom: 6px;
   width: 3px;
   border-radius: 3px;
-  background: var(--brand-accent);
+  background: var(--lime);
 }
 
-/* WA-style header eyebrow under bubbles */
+/* WA-style metadata under bubbles */
 .bubble-meta {
   font-size: 10.5px;
-  color: var(--muted);
+  color: var(--text-4);
 }
+
+/* ============================================================
+   Deck component classes (ported from mockup-redesign.html)
+   ============================================================ */
+
+/* Mono eyebrow label — section headers, page eyebrows */
+.eyebrow {
+  font-family: var(--font-mono-deck);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--lime);
+}
+
+/* Mono panel header */
+.hd {
+  font-family: var(--font-mono-deck);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+
+/* Panel — generic dark card */
+.panel {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+/* Confidence badges */
+.conf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono-deck);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 99px;
+}
+.conf-high { background: var(--lime-glow); color: var(--lime); border: 1px solid rgba(182, 245, 105, 0.25); }
+.conf-mod  { background: rgba(252, 211, 77, 0.1); color: var(--amber); border: 1px solid rgba(252, 211, 77, 0.25); }
+.conf-low  { background: rgba(248, 113, 113, 0.1); color: var(--confidence-low); border: 1px solid rgba(248, 113, 113, 0.25); }
+
+/* Action chip — lime outline pill (CTAs under George replies) */
+.action-chip {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--lime);
+  background: transparent;
+  border: 1px solid rgba(182, 245, 105, 0.3);
+  border-radius: 99px;
+  padding: 7px 15px;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+.action-chip:hover:not(:disabled) { background: var(--lime-glow); }
+.action-chip:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Source chip — cyan-dot mono pill */
+.src-chip {
+  font-family: var(--font-mono-deck);
+  font-size: 9.5px;
+  color: var(--text-3);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Answer block — lime-rule callout inside George replies */
+.answer-block {
+  border-left: 2px solid var(--lime);
+  background: rgba(182, 245, 105, 0.05);
+  border-radius: 0 9px 9px 0;
+  padding: 11px 14px;
+}
+.answer-block .k {
+  font-family: var(--font-mono-deck);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 5px;
+}
+
+/* Stat card */
+.stat-card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.stat-card .k {
+  font-family: var(--font-mono-deck);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-4);
+  margin-bottom: 10px;
+}
+.stat-card .v {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.stat-card .v small { font-size: 13px; color: var(--text-4); font-weight: 400; }
+.stat-card .v.lime { color: var(--lime); }
+.stat-card .s { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+
+/* Verdict banner — lime gradient consensus card */
+.verdict-card {
+  background: linear-gradient(135deg, rgba(182, 245, 105, 0.10), rgba(182, 245, 105, 0.03) 55%, transparent);
+  border: 1px solid rgba(182, 245, 105, 0.28);
+  border-radius: 14px;
+  padding: 20px 24px;
+}
+.verdict-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono-deck);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #0A0D12;
+  background: var(--lime);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-weight: 600;
+}
+
+/* Context-rail cards */
+.ctx-card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 15px 16px;
+}
+.kv {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+.kv .k { color: var(--text-4); }
+.kv .v { color: var(--text-2); font-weight: 500; text-align: right; }
+.kv .v.hl { color: var(--lime); font-family: var(--font-mono-deck); font-size: 11.5px; }
+
+/* Trial mini-card progress */
+.bar-track {
+  height: 5px;
+  background: var(--bg-3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--lime-deep), var(--lime));
+  transition: width 400ms ease;
+}
+
+/* Connected-app rows */
+.app-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-top: 1px solid var(--line);
+}
+.app-row:first-of-type { border-top: none; }
+.sync-tag {
+  font-family: var(--font-mono-deck);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  color: var(--lime);
+  text-transform: uppercase;
+}
+.sync-tag.off { color: var(--text-4); }
+
+/* Expert reply thread */
+.expert-reply { display: flex; gap: 12px; }
+.x-avatar {
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: #0A0D12;
+}
+.cred {
+  font-family: var(--font-mono-deck);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lime);
+  border: 1px solid rgba(182, 245, 105, 0.3);
+  padding: 2px 7px;
+  border-radius: 99px;
+}
+
+/* Typing dots */
+.typing { display: inline-flex; gap: 4px; align-items: center; }
+.typing i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-3);
+  animation: blink 1.3s infinite;
+}
+.typing i:nth-child(2) { animation-delay: 0.18s; }
+.typing i:nth-child(3) { animation-delay: 0.36s; }
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.25; }
+  40% { opacity: 1; }
+}
+
+/* Panel roster member status */
+.m-status {
+  margin-left: auto;
+  font-family: var(--font-mono-deck);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.m-on { color: var(--lime); }
+.m-idle { color: var(--text-4); }
+
+/* Live pill + dot */
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono-deck);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: 5px 12px;
+}
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+  animation: pulse 2.2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* Logo dot — lime rounded square with "?" */
+.logo-dot {
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--lime) 0%, var(--lime-deep) 100%);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: #0A0D12;
+  box-shadow: 0 0 24px rgba(182, 245, 105, 0.25);
+}
+
+/* Evidence tags */
+.ev-tag {
+  font-family: var(--font-mono-deck);
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+.ev-strong { background: var(--lime-glow); color: var(--lime); }
+.ev-mod { background: rgba(252, 211, 77, 0.12); color: var(--amber); }
+.ev-emerg { background: rgba(103, 232, 249, 0.1); color: var(--cyan); }
+
+/* Check rows + pills (integrity-check style lists) */
+.check-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+.check-row:first-of-type { border-top: none; }
+.check-pill {
+  font-family: var(--font-mono-deck);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+.check-pill.ok { background: var(--lime-glow); color: var(--lime); }
+.check-pill.info { background: rgba(103, 232, 249, 0.1); color: var(--cyan); }
+
+/* Composer — deck-style input card */
+.composer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.composer:focus-within {
+  border-color: rgba(182, 245, 105, 0.4);
+  box-shadow: 0 0 0 3px rgba(182, 245, 105, 0.08);
+}
+
+/* Dark form fields */
+.field-dark {
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text-1);
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.field-dark::placeholder { color: var(--text-4); }
+.field-dark:focus {
+  border-color: rgba(182, 245, 105, 0.4);
+  box-shadow: 0 0 0 3px rgba(182, 245, 105, 0.08);
+}
+
+/* Staggered entrance for chat messages / revealed replies */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.rise-in { animation: rise 500ms cubic-bezier(0.2, 0.7, 0.3, 1) both; }

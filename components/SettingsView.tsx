@@ -57,15 +57,16 @@ export function SettingsView() {
     <div className="h-full overflow-y-auto">
       <div className="max-w-3xl mx-auto px-8 py-8">
         <header className="mb-8">
-          <h1 className="text-xl font-semibold">Settings</h1>
-          <p className="text-sm text-muted mt-1">Voice persona, API status, Vault contents.</p>
+          <div className="eyebrow mb-2">Voice · vault · status</div>
+          <h1 className="text-2xl font-semibold tracking-[-0.01em]" style={{ fontFamily: "var(--font-display)" }}>Settings</h1>
+          <p className="text-[13px] text-muted mt-1.5">Voice persona, API status, Vault contents.</p>
         </header>
 
         {/* Voice persona */}
         <section className="mb-8">
           <div className="flex items-baseline justify-between mb-3">
-            <h2 className="text-sm font-semibold">Voice persona</h2>
-            {saved && <span className="text-[11px] text-brand font-medium">Saved</span>}
+            <h2 className="hd">Voice persona</h2>
+            {saved && <span className="check-pill ok">saved ✓</span>}
           </div>
           <p className="text-xs text-muted mb-3">
             Pick George's voice. Applies on the next voice session — close and reopen voice if you're already in a call.
@@ -78,14 +79,14 @@ export function SettingsView() {
                 className={[
                   "text-left rounded-xl border px-4 py-3 transition-colors",
                   voice === o.id
-                    ? "border-brand bg-brand-soft text-foreground"
+                    ? "border-brand-soft-border bg-lime-glow text-foreground"
                     : "border-border bg-surface text-foreground hover:bg-surface-2",
                 ].join(" ")}
               >
                 <div className="flex items-baseline justify-between gap-2 mb-0.5">
                   <span className="text-sm font-semibold">{o.label}</span>
                   {voice === o.id && (
-                    <span className="text-[10px] uppercase tracking-wider text-brand font-medium">Selected</span>
+                    <span className="text-[10px] uppercase tracking-wider text-lime font-medium" style={{ fontFamily: "var(--font-mono-deck)" }}>Selected</span>
                   )}
                 </div>
                 <span className="text-[11px] text-muted">{o.desc}</span>
@@ -96,7 +97,7 @@ export function SettingsView() {
 
         {/* API status */}
         <section className="mb-8">
-          <h2 className="text-sm font-semibold mb-3">Status</h2>
+          <h2 className="hd mb-3">Status</h2>
           {loading ? (
             <div className="text-sm text-muted">Checking…</div>
           ) : status ? (
@@ -115,7 +116,7 @@ export function SettingsView() {
 
         {/* Vault */}
         <section className="mb-8">
-          <h2 className="text-sm font-semibold mb-3">The Vault</h2>
+          <h2 className="hd mb-3">The Vault</h2>
           {status ? (
             <div className="card divide-y divide-border">
               <Row label="Scenarios" value={`${status.vault.scenarios} grounding scenarios loaded`} />
@@ -128,7 +129,7 @@ export function SettingsView() {
 
         {/* About */}
         <section>
-          <h2 className="text-sm font-semibold mb-3">About</h2>
+          <h2 className="hd mb-3">About</h2>
           <div className="card px-5 py-4 text-sm text-foreground/80 leading-relaxed">
             Whatsupp is an AI-employee–driven sports-nutrition platform. George is calibrated on Dr Louise Burke&apos;s expertise and the Wise Crowd panel — and grounds every answer on a curated Vault, not generic AI training data. The architecture is the product.
           </div>
@@ -141,7 +142,7 @@ export function SettingsView() {
 function StatusRow({ label, ok, value }: { label: string; ok: boolean; value: string }) {
   return (
     <div className="grid grid-cols-[160px_1fr] gap-4 px-5 py-3 items-center">
-      <div className="text-[11px] uppercase tracking-wider text-muted">{label}</div>
+      <div className="hd">{label}</div>
       <div className="flex items-center gap-2 text-sm">
         <span className={[
           "inline-block w-2 h-2 rounded-full",
@@ -156,7 +157,7 @@ function StatusRow({ label, ok, value }: { label: string; ok: boolean; value: st
 function Row({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
     <div className="grid grid-cols-[160px_1fr] gap-4 px-5 py-3 items-center">
-      <div className="text-[11px] uppercase tracking-wider text-muted">{label}</div>
+      <div className="hd">{label}</div>
       <div className={["text-sm text-foreground/90", mono ? "font-mono text-[12px]" : ""].join(" ")}>{value}</div>
     </div>
   );

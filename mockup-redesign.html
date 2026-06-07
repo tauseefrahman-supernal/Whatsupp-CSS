@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WHATSUPP? — Redesign Mockup · deck-aligned theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   WHATSUPP? · deck-aligned theme
+   Palette extracted from "Whatsupp by George.pptx"
+   ============================================================ */
+:root {
+  /* Deck backgrounds */
+  --bg-0: #0A0D12;          /* deepest — app backdrop          */
+  --bg-1: #10151D;          /* rail / shell                    */
+  --bg-2: #161D27;          /* card surface                    */
+  --bg-3: #1E2733;          /* elevated surface                */
+  --bg-4: #2A3441;          /* hover / borders strong          */
+
+  /* Deck text */
+  --text-1: #F4F7FB;        /* primary                         */
+  --text-2: #C8D1DD;        /* secondary                       */
+  --text-3: #8B96A6;        /* muted                           */
+  --text-4: #5C6675;        /* faint                           */
+
+  /* Deck accents */
+  --lime: #B6F569;          /* signature — George / verdicts   */
+  --lime-deep: #92D050;
+  --cyan: #67E8F9;          /* secondary accent — data/links   */
+  --amber: #FCD34D;         /* caution / moderate confidence   */
+  --pink: #F472A6;          /* placebo arm / contrast datum    */
+
+  --line: rgba(244, 247, 251, 0.07);
+  --line-strong: rgba(244, 247, 251, 0.13);
+  --lime-glow: rgba(182, 245, 105, 0.13);
+
+  --font-display: "Poppins", "Helvetica Neue", sans-serif;
+  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+body {
+  background: var(--bg-0);
+  color: var(--text-1);
+  font-family: var(--font-body);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* atmospheric backdrop — faint lime aurora top-right, like deck title slides */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(182,245,105,0.06), transparent 60%),
+    radial-gradient(700px 500px at -10% 110%, rgba(103,232,249,0.04), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+::selection { background: rgba(182,245,105,0.25); }
+* { scrollbar-width: thin; scrollbar-color: var(--bg-4) transparent; }
+*::-webkit-scrollbar { width: 8px; }
+*::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 4px; }
+
+.app { display: flex; height: 100vh; position: relative; z-index: 1; }
+
+/* ============ SIDEBAR ============ */
+.rail {
+  width: 248px; flex-shrink: 0;
+  background: var(--bg-1);
+  border-right: 1px solid var(--line);
+  display: flex; flex-direction: column;
+}
+
+.wordmark { padding: 22px 20px 18px; border-bottom: 1px solid var(--line); }
+.wordmark-row { display: flex; align-items: center; gap: 10px; }
+.logo-dot {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--lime) 0%, var(--lime-deep) 100%);
+  display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 19px; color: #0A0D12;
+  box-shadow: 0 0 24px rgba(182,245,105,0.25);
+}
+.wordmark h1 {
+  font-family: var(--font-display); font-size: 17px; font-weight: 700;
+  letter-spacing: 0.04em; color: var(--text-1);
+}
+.wordmark h1 span { color: var(--lime); }
+.wordmark .sub {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--text-4); margin-top: 2px;
+}
+
+.nav { flex: 1; overflow-y: auto; padding: 14px 12px; }
+.nav-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-4); padding: 0 10px 8px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 9px 10px; margin-bottom: 2px; border-radius: 8px;
+  cursor: pointer; border: 1px solid transparent;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+.nav-item:hover { background: rgba(244,247,251,0.04); }
+.nav-item.active {
+  background: var(--lime-glow);
+  border-color: rgba(182,245,105,0.22);
+}
+.nav-item .ico {
+  width: 17px; height: 17px; flex-shrink: 0; stroke: var(--text-3); fill: none;
+  stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+}
+.nav-item.active .ico { stroke: var(--lime); }
+.nav-item .t { font-size: 13px; font-weight: 500; color: var(--text-2); }
+.nav-item.active .t { color: var(--text-1); }
+.nav-item .d { font-size: 10.5px; color: var(--text-4); margin-top: 1px; }
+.nav-gap { height: 18px; }
+
+.athlete-card {
+  margin: 12px; padding: 11px 12px;
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px;
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  transition: border-color 120ms ease;
+}
+.athlete-card:hover { border-color: var(--line-strong); }
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #67E8F9, #2563EB);
+  display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 600; font-size: 12px; color: #0A0D12;
+}
+.athlete-card .n { font-size: 12.5px; font-weight: 500; }
+.athlete-card .r { font-size: 10.5px; color: var(--text-4); font-family: var(--font-mono); }
+.athlete-card .chev { margin-left: auto; color: var(--text-4); font-size: 14px; }
+
+/* ============ MAIN COLUMN ============ */
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+.topbar {
+  height: 58px; flex-shrink: 0;
+  border-bottom: 1px solid var(--line);
+  background: rgba(16,21,29,0.6); backdrop-filter: blur(10px);
+  display: flex; align-items: center; padding: 0 24px; gap: 14px;
+}
+.topbar .crumb { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-4); }
+.topbar .crumb b { color: var(--lime); font-weight: 500; }
+.live-pill {
+  margin-left: auto; display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
+  color: var(--text-3); text-transform: uppercase;
+  border: 1px solid var(--line); border-radius: 99px; padding: 5px 12px;
+}
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 8px var(--lime); animation: pulse 2.2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+.btn {
+  font-family: var(--font-display); font-size: 12px; font-weight: 600;
+  padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer;
+  background: var(--lime); color: #0A0D12;
+  transition: filter 120ms ease, transform 60ms ease;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:active { transform: translateY(1px); }
+.btn-ghost {
+  background: transparent; color: var(--text-2);
+  border: 1px solid var(--line-strong);
+}
+.btn-ghost:hover { background: rgba(244,247,251,0.05); }
+
+.view { flex: 1; overflow-y: auto; display: none; }
+.view.on { display: flex; }
+
+/* ============ VIEW 1 · GEORGE CHAT ============ */
+#view-george { flex-direction: row; }
+.chat-col { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.chat-scroll { flex: 1; overflow-y: auto; padding: 28px 36px 16px; }
+.chat-inner { max-width: 760px; margin: 0 auto; }
+
+.day-divider {
+  text-align: center; margin: 4px 0 22px;
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-4);
+  display: flex; align-items: center; gap: 14px;
+}
+.day-divider::before, .day-divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+.msg { display: flex; gap: 12px; margin-bottom: 22px; animation: rise 500ms cubic-bezier(0.2,0.7,0.3,1) both; }
+.msg:nth-child(2) { animation-delay: 80ms; }
+.msg:nth-child(3) { animation-delay: 160ms; }
+.msg:nth-child(4) { animation-delay: 240ms; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.msg.me { flex-direction: row-reverse; }
+.g-avatar {
+  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--lime), var(--lime-deep));
+  display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 15px; color: #0A0D12;
+}
+.bubble {
+  max-width: 78%; padding: 14px 17px; border-radius: 14px;
+  line-height: 1.6; font-size: 13.5px; color: var(--text-2);
+}
+.msg.me .bubble {
+  background: var(--bg-3); border: 1px solid var(--line);
+  border-bottom-right-radius: 4px; color: var(--text-1);
+}
+.msg.george .bubble {
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-bottom-left-radius: 4px;
+}
+.bubble .meta {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 9px;
+}
+.bubble .who {
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--lime);
+}
+.bubble .when { font-family: var(--font-mono); font-size: 9.5px; color: var(--text-4); }
+.bubble p { margin-bottom: 9px; }
+.bubble p:last-child { margin-bottom: 0; }
+.bubble strong { color: var(--text-1); font-weight: 600; }
+
+.conf-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 99px;
+  margin-left: auto;
+}
+.conf-high { background: var(--lime-glow); color: var(--lime); border: 1px solid rgba(182,245,105,0.25); }
+.conf-mod  { background: rgba(252,211,77,0.1); color: var(--amber); border: 1px solid rgba(252,211,77,0.25); }
+
+.answer-block {
+  margin: 11px 0; border-left: 2px solid var(--lime);
+  background: rgba(182,245,105,0.05); border-radius: 0 9px 9px 0;
+  padding: 11px 14px;
+}
+.answer-block .k {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--lime); margin-bottom: 5px;
+}
+.answer-block .v { font-size: 13px; color: var(--text-1); line-height: 1.55; }
+
+.dose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 11px 0; }
+.dose-cell {
+  background: var(--bg-3); border: 1px solid var(--line); border-radius: 9px;
+  padding: 10px 12px;
+}
+.dose-cell .k { font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-4); margin-bottom: 4px; }
+.dose-cell .v { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--text-1); }
+.dose-cell .v em { font-style: normal; color: var(--lime); }
+.dose-cell .s { font-size: 10.5px; color: var(--text-3); margin-top: 2px; }
+
+.src-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
+.src-chip {
+  font-family: var(--font-mono); font-size: 9.5px; color: var(--text-3);
+  border: 1px solid var(--line); border-radius: 99px; padding: 4px 10px;
+  display: inline-flex; align-items: center; gap: 5px; cursor: pointer;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+.src-chip:hover { color: var(--cyan); border-color: rgba(103,232,249,0.3); }
+.src-chip .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--cyan); }
+
+.action-row { display: flex; gap: 8px; margin: 4px 0 26px 46px; flex-wrap: wrap; }
+.action-chip {
+  font-family: var(--font-display); font-size: 12px; font-weight: 500;
+  color: var(--lime); background: transparent;
+  border: 1px solid rgba(182,245,105,0.3); border-radius: 99px;
+  padding: 7px 15px; cursor: pointer;
+  transition: background 120ms ease;
+}
+.action-chip:hover { background: var(--lime-glow); }
+
+.composer-wrap { padding: 14px 36px 22px; }
+.composer {
+  max-width: 760px; margin: 0 auto;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-2); border: 1px solid var(--line-strong);
+  border-radius: 14px; padding: 8px 8px 8px 18px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.composer:focus-within { border-color: rgba(182,245,105,0.4); box-shadow: 0 0 0 3px rgba(182,245,105,0.08); }
+.composer input {
+  flex: 1; background: none; border: none; outline: none;
+  color: var(--text-1); font-family: var(--font-body); font-size: 13.5px;
+}
+.composer input::placeholder { color: var(--text-4); }
+.mic-btn {
+  width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line);
+  background: transparent; cursor: pointer; display: grid; place-items: center;
+}
+.mic-btn svg { width: 16px; height: 16px; stroke: var(--text-3); fill: none; stroke-width: 1.7; }
+.mic-btn:hover svg { stroke: var(--lime); }
+.send-btn {
+  width: 36px; height: 36px; border-radius: 10px; border: none;
+  background: var(--lime); cursor: pointer; display: grid; place-items: center;
+}
+.send-btn svg { width: 15px; height: 15px; stroke: #0A0D12; fill: none; stroke-width: 2.2; }
+.composer-note {
+  max-width: 760px; margin: 8px auto 0; text-align: center;
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-4);
+}
+
+/* context rail (right) */
+.ctx {
+  width: 296px; flex-shrink: 0; border-left: 1px solid var(--line);
+  background: var(--bg-1); overflow-y: auto; padding: 20px 18px;
+}
+.ctx-card {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px;
+  padding: 15px 16px; margin-bottom: 14px;
+}
+.ctx-card .hd {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-4); margin-bottom: 12px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.profile-top { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; }
+.profile-top .avatar { width: 40px; height: 40px; font-size: 14px; }
+.profile-top .nm { font-family: var(--font-display); font-size: 14px; font-weight: 600; }
+.profile-top .tg { font-size: 11px; color: var(--text-3); }
+.kv { display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid var(--line); font-size: 12px; }
+.kv .k { color: var(--text-4); }
+.kv .v { color: var(--text-2); font-weight: 500; }
+.kv .v.hl { color: var(--lime); font-family: var(--font-mono); font-size: 11.5px; }
+
+.trial-mini .bar-track {
+  height: 5px; background: var(--bg-3); border-radius: 3px; margin: 10px 0 7px; overflow: hidden;
+}
+.trial-mini .bar-fill {
+  height: 100%; width: 43%; border-radius: 3px;
+  background: linear-gradient(90deg, var(--lime-deep), var(--lime));
+}
+.trial-mini .row { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; color: var(--text-3); }
+.trial-mini .row b { color: var(--lime); font-weight: 500; }
+.trial-mini .ttl { font-size: 13px; font-weight: 600; color: var(--text-1); font-family: var(--font-display); }
+.trial-mini .sb { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+
+.app-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); }
+.app-row:first-of-type { border-top: none; }
+.app-ico {
+  width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+  display: grid; place-items: center; font-family: var(--font-display);
+  font-size: 11px; font-weight: 700; color: #0A0D12;
+}
+.app-row .an { font-size: 12px; font-weight: 500; color: var(--text-2); flex: 1; }
+.sync-tag { font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.1em; color: var(--lime); text-transform: uppercase; }
+.sync-tag.off { color: var(--text-4); }
+
+/* ============ VIEW 2 · PROTOCOLS ============ */
+#view-protocols { flex-direction: column; padding: 26px 32px; }
+.page-head { max-width: 1060px; width: 100%; margin: 0 auto 22px; }
+.page-head .eyebrow {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--lime); margin-bottom: 8px;
+}
+.page-head h2 { font-family: var(--font-display); font-size: 24px; font-weight: 600; letter-spacing: -0.01em; }
+.page-head .sub { color: var(--text-3); font-size: 13px; margin-top: 5px; }
+
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; max-width: 1060px; width: 100%; margin: 0 auto 14px; }
+.stat-card {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px 18px;
+}
+.stat-card .k { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-4); margin-bottom: 10px; }
+.stat-card .v { font-family: var(--font-display); font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
+.stat-card .v small { font-size: 13px; color: var(--text-4); font-weight: 400; }
+.stat-card .v.lime { color: var(--lime); }
+.stat-card .s { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+
+.proto-grid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 14px; max-width: 1060px; width: 100%; margin: 0 auto; }
+
+.verdict-card {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(182,245,105,0.10), rgba(182,245,105,0.03) 55%, transparent);
+  border: 1px solid rgba(182,245,105,0.28); border-radius: 14px;
+  padding: 20px 24px;
+}
+.verdict-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: #0A0D12; background: var(--lime);
+  border-radius: 99px; padding: 4px 12px; font-weight: 600; margin-bottom: 12px;
+}
+.verdict-card h3 { font-family: var(--font-display); font-size: 18px; font-weight: 600; line-height: 1.45; max-width: 740px; }
+.verdict-card h3 em { font-style: normal; color: var(--lime); }
+.verdict-card .fine { font-size: 12px; color: var(--text-3); margin-top: 8px; max-width: 700px; line-height: 1.6; }
+
+.panel {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px;
+  padding: 18px 20px;
+}
+.panel .hd {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-4); margin-bottom: 16px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.legend { display: flex; gap: 14px; font-size: 10px; color: var(--text-3); font-family: var(--font-mono); text-transform: none; letter-spacing: 0; }
+.legend i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px; }
+
+.chart { display: flex; align-items: flex-end; gap: 18px; height: 150px; padding: 0 6px; }
+.bar-g { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+.bar-g .bar { width: 100%; max-width: 38px; border-radius: 5px 5px 2px 2px; position: relative; animation: grow 700ms cubic-bezier(0.2,0.7,0.3,1) both; }
+@keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.bar-g .bar { transform-origin: bottom; }
+.bar-g:nth-child(1) .bar { animation-delay: 50ms; } .bar-g:nth-child(2) .bar { animation-delay: 120ms; }
+.bar-g:nth-child(3) .bar { animation-delay: 190ms; } .bar-g:nth-child(4) .bar { animation-delay: 260ms; }
+.bar-g:nth-child(5) .bar { animation-delay: 330ms; } .bar-g:nth-child(6) .bar { animation-delay: 400ms; }
+.bar.bicarb { background: linear-gradient(180deg, var(--lime), var(--lime-deep)); box-shadow: 0 0 18px rgba(182,245,105,0.15); }
+.bar.placebo { background: var(--pink); opacity: 0.75; }
+.bar .tip {
+  position: absolute; top: -19px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-mono); font-size: 9px; color: var(--text-3); white-space: nowrap;
+}
+.bar-g .lbl { font-family: var(--font-mono); font-size: 9px; color: var(--text-4); }
+
+.check-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--text-2); }
+.check-row:first-of-type { border-top: none; padding-top: 2px; }
+.check-pill {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 3px 10px; border-radius: 99px;
+}
+.ok { background: var(--lime-glow); color: var(--lime); }
+.info { background: rgba(103,232,249,0.1); color: var(--cyan); }
+
+.proto-row { display: flex; align-items: center; gap: 13px; padding: 11px 0; border-top: 1px solid var(--line); }
+.proto-row:first-of-type { border-top: none; padding-top: 0; }
+.proto-row .pn { font-size: 13px; font-weight: 500; color: var(--text-1); flex: 1; }
+.proto-row .pd { font-size: 11px; color: var(--text-4); margin-top: 1px; }
+.ev-tag {
+  font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 99px; flex-shrink: 0;
+}
+.ev-strong { background: var(--lime-glow); color: var(--lime); }
+.ev-mod { background: rgba(252,211,77,0.12); color: var(--amber); }
+.ev-emerg { background: rgba(103,232,249,0.1); color: var(--cyan); }
+
+/* ============ VIEW 3 · WISE CROWD ============ */
+#view-wotc { flex-direction: column; padding: 26px 32px; }
+.wotc-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 14px; max-width: 1060px; width: 100%; margin: 0 auto; }
+.q-card {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px;
+}
+.q-card .q { font-family: var(--font-display); font-size: 16px; font-weight: 600; line-height: 1.5; }
+.q-meta { display: flex; gap: 16px; margin-top: 12px; font-family: var(--font-mono); font-size: 10px; color: var(--text-4); }
+.q-meta b { color: var(--cyan); font-weight: 500; }
+
+.expert-reply { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 16px; display: flex; gap: 12px; }
+.x-avatar {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  display: grid; place-items: center; font-family: var(--font-display);
+  font-size: 12px; font-weight: 600; color: #0A0D12;
+}
+.expert-reply .xn { font-size: 13px; font-weight: 600; color: var(--text-1); display: flex; align-items: center; gap: 8px; }
+.cred {
+  font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--lime); border: 1px solid rgba(182,245,105,0.3);
+  padding: 2px 7px; border-radius: 99px;
+}
+.expert-reply .xt { font-size: 11px; color: var(--text-4); margin: 1px 0 8px; }
+.expert-reply .xb { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+.pending { display: flex; gap: 12px; border-top: 1px solid var(--line); margin-top: 16px; padding-top: 16px; opacity: 0.65; }
+.typing { display: inline-flex; gap: 4px; align-items: center; padding-top: 6px; }
+.typing i { width: 5px; height: 5px; border-radius: 50%; background: var(--text-3); animation: blink 1.3s infinite; }
+.typing i:nth-child(2) { animation-delay: 0.18s; } .typing i:nth-child(3) { animation-delay: 0.36s; }
+@keyframes blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+
+.panel-member { display: flex; align-items: center; gap: 11px; padding: 9px 0; border-top: 1px solid var(--line); }
+.panel-member:first-of-type { border-top: none; padding-top: 0; }
+.panel-member .mn { font-size: 12.5px; font-weight: 500; color: var(--text-1); }
+.panel-member .mt { font-size: 10.5px; color: var(--text-4); }
+.m-status { margin-left: auto; font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.1em; text-transform: uppercase; }
+.m-on { color: var(--lime); } .m-idle { color: var(--text-4); }
+
+.compare-strip {
+  max-width: 1060px; width: 100%; margin: 14px auto 0;
+  background: var(--bg-2); border: 1px dashed var(--line-strong); border-radius: 12px;
+  padding: 14px 20px; display: flex; align-items: center; gap: 14px;
+  font-size: 12.5px; color: var(--text-3);
+}
+.compare-strip b { color: var(--text-1); }
+.compare-strip .x-mark { font-family: var(--font-mono); color: var(--pink); font-size: 11px; }
+
+/* footer note */
+.mock-note {
+  position: fixed; bottom: 14px; right: 16px; z-index: 50;
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--text-4);
+  background: rgba(16,21,29,0.85); border: 1px solid var(--line);
+  border-radius: 99px; padding: 6px 14px; backdrop-filter: blur(8px);
+}
+.mock-note b { color: var(--lime); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ════════ SIDEBAR ════════ -->
+  <aside class="rail">
+    <div class="wordmark">
+      <div class="wordmark-row">
+        <div class="logo-dot">?</div>
+        <div>
+          <h1>WHATSUPP<span>?</span></h1>
+          <div class="sub">George · by Proven</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-label">Athlete</div>
+      <div class="nav-item active" data-view="george">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <div><div class="t">George</div><div class="d">Expert AI conversation</div></div>
+      </div>
+      <div class="nav-item" data-view="protocols">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+        <div><div class="t">N-of-1 Trials</div><div class="d">Be a study of you</div></div>
+      </div>
+      <div class="nav-item" data-view="wotc">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <div><div class="t">Wise Crowd</div><div class="d">Expert escalation</div></div>
+      </div>
+      <div class="nav-gap"></div>
+      <div class="nav-label">Context</div>
+      <div class="nav-item">
+        <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg>
+        <div><div class="t">Profile</div><div class="d">Athlete context</div></div>
+      </div>
+      <div class="nav-item">
+        <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <div><div class="t">History</div><div class="d">Conversations</div></div>
+      </div>
+      <div class="nav-item">
+        <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <div><div class="t">Settings</div><div class="d">Voice · vault · status</div></div>
+      </div>
+    </nav>
+
+    <div class="athlete-card">
+      <div class="avatar">P</div>
+      <div>
+        <div class="n">Persy Kovács</div>
+        <div class="r">racewalk · 20 km</div>
+      </div>
+      <div class="chev">⌄</div>
+    </div>
+  </aside>
+
+  <!-- ════════ MAIN ════════ -->
+  <div class="main">
+    <div class="topbar">
+      <div class="crumb" id="crumb">Athlete / <b>George</b></div>
+      <div class="live-pill"><span class="live-dot"></span> Expert network live</div>
+      <button class="btn btn-ghost">Export to coach</button>
+    </div>
+
+    <!-- ── VIEW · GEORGE CHAT ── -->
+    <section class="view on" id="view-george">
+      <div class="chat-col">
+        <div class="chat-scroll">
+          <div class="chat-inner">
+            <div class="day-divider">Budapest · World Athletics Championships · 03:12</div>
+
+            <div class="msg me">
+              <div class="bubble">
+                <div class="meta"><span class="who" style="color:var(--cyan)">Persy</span><span class="when">03:12</span></div>
+                <p>I'm on the starting line of the 20&nbsp;km road race. An electrical storm just hit and they've <strong>postponed the event for 2 hours</strong>.</p>
+                <p>I've already eaten my pre-race carbs, hyperhydrated with sodium, and taken my practised doses of caffeine and bicarbonate. <strong>Now what do I do?</strong></p>
+              </div>
+            </div>
+
+            <div class="msg george">
+              <div class="g-avatar">G</div>
+              <div class="bubble">
+                <div class="meta">
+                  <span class="who">George · AI Sports Dietitian</span><span class="when">03:12</span>
+                  <span class="conf-badge conf-high"><i class="live-dot" style="width:5px;height:5px"></i> High confidence</span>
+                </div>
+                <p>Stay calm, Persy — this is recoverable. Based on <strong>your practised protocol</strong> and a 2-hour delay, here's the plan:</p>
+
+                <div class="answer-block">
+                  <div class="k">Bottom line</div>
+                  <div class="v">Your caffeine will need a <strong>partial top-up at −45 min</strong>; your bicarbonate is still within its effective window — <strong>do not re-dose</strong>, the GI risk outweighs the benefit.</div>
+                </div>
+
+                <div class="dose-grid">
+                  <div class="dose-cell">
+                    <div class="k">Caffeine</div>
+                    <div class="v"><em>+1.5 mg/kg</em> at −45 min</div>
+                    <div class="s">~5 h half-life · plasma still elevated from first dose</div>
+                  </div>
+                  <div class="dose-cell">
+                    <div class="k">Bicarbonate</div>
+                    <div class="v">Hold — no top-up</div>
+                    <div class="s">Buffering peak holds 2–4 h · re-dose risks gut distress</div>
+                  </div>
+                  <div class="dose-cell">
+                    <div class="k">Carbohydrate</div>
+                    <div class="v"><em>30–40 g</em> low-fibre, now</div>
+                    <div class="s">Sip, don't gulp — top up liver glycogen</div>
+                  </div>
+                  <div class="dose-cell">
+                    <div class="k">Fluids + sodium</div>
+                    <div class="v">300–400 ml/h</div>
+                    <div class="s">Maintain, don't re-load — you're already hyperhydrated</div>
+                  </div>
+                </div>
+
+                <p>This is tailored to your <strong>62 kg frame, your trialled tolerance from training logs, and tonight's 24°C / 87% humidity</strong> — not a population average.</p>
+
+                <div class="src-row">
+                  <span class="src-chip"><span class="dot"></span> Burke &amp; Maughan, heat-delay protocols</span>
+                  <span class="src-chip"><span class="dot"></span> Your N-of-1 caffeine trial · Mar 2026</span>
+                  <span class="src-chip"><span class="dot"></span> Science panel consensus</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button class="action-chip">Why no bicarb top-up?</button>
+              <button class="action-chip">Ask the Wise Crowd ↗</button>
+              <button class="action-chip">Log this for my dietitian</button>
+            </div>
+
+            <div class="msg me">
+              <div class="bubble">
+                <div class="meta"><span class="who" style="color:var(--cyan)">Persy</span><span class="when">03:14</span></div>
+                <p>ChatGPT just told me to "consult a professional." 🙃</p>
+              </div>
+            </div>
+
+            <div class="msg george">
+              <div class="g-avatar">G</div>
+              <div class="bubble">
+                <div class="meta"><span class="who">George · AI Sports Dietitian</span><span class="when">03:14</span></div>
+                <p>You just did. <strong>Go get that medal.</strong> I'll check in at −60 min to confirm the caffeine timing against the revised gun time.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="composer-wrap">
+          <div class="composer">
+            <input type="text" placeholder="Ask George anything — no edge case too hard…">
+            <button class="mic-btn" title="Voice mode"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><path d="M12 18v4"/></svg></button>
+            <button class="send-btn" title="Send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+          </div>
+          <div class="composer-note">Powered by the scientists who write the research — not just the papers they publish</div>
+        </div>
+      </div>
+
+      <!-- context rail -->
+      <aside class="ctx">
+        <div class="ctx-card">
+          <div class="hd">Athlete profile</div>
+          <div class="profile-top">
+            <div class="avatar">P</div>
+            <div>
+              <div class="nm">Persy Kovács</div>
+              <div class="tg">28 · F · Elite racewalker</div>
+            </div>
+          </div>
+          <div class="kv"><span class="k">Event</span><span class="v">20 km road</span></div>
+          <div class="kv"><span class="k">Conditions</span><span class="v">24°C · 87% RH</span></div>
+          <div class="kv"><span class="k">Caffeine tolerance</span><span class="v hl">trialled ✓</span></div>
+          <div class="kv"><span class="k">Bicarb GI history</span><span class="v hl">sensitive</span></div>
+        </div>
+
+        <div class="ctx-card trial-mini">
+          <div class="hd">Active trial <span class="check-pill ok">Day 18 / 42</span></div>
+          <div class="ttl">Sodium bicarbonate × 2 km TT</div>
+          <div class="sb">Double-blind crossover · 3 bicarb / 3 placebo</div>
+          <div class="bar-track"><div class="bar-fill"></div></div>
+          <div class="row"><span>Session 3 of 6</span><b>interim −2.8 s</b></div>
+        </div>
+
+        <div class="ctx-card">
+          <div class="hd">Connected apps</div>
+          <div class="app-row"><div class="app-ico" style="background:#67E8F9">G</div><div class="an">Garmin Connect</div><span class="sync-tag">live</span></div>
+          <div class="app-row"><div class="app-ico" style="background:#FCA5A5">S</div><div class="an">Strava Premium</div><span class="sync-tag">live</span></div>
+          <div class="app-row"><div class="app-ico" style="background:#FCD34D">Z</div><div class="an">Zwift</div><span class="sync-tag">live</span></div>
+          <div class="app-row"><div class="app-ico" style="background:#C8D1DD">W</div><div class="an">Whoop</div><span class="sync-tag off">connect</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ── VIEW · PROTOCOLS / N-OF-1 ── -->
+    <section class="view" id="view-protocols">
+      <div class="page-head">
+        <div class="eyebrow">N = 1 · Be a study of you</div>
+        <h2>Sodium bicarbonate trial — Persy</h2>
+        <div class="sub">Built like a clinical trial. Felt like an app. Every protocol passes the science panel's six checks.</div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card"><div class="k">Current trial</div><div class="v" style="font-size:17px">Sodium bicarbonate</div><div class="s">2 km TT performance</div></div>
+        <div class="stat-card"><div class="k">Sessions complete</div><div class="v">3<small> / 6</small></div><div class="s">Double-blind crossover</div></div>
+        <div class="stat-card"><div class="k">Compliance</div><div class="v lime">100<small>%</small></div><div class="s">All capsules logged on time</div></div>
+        <div class="stat-card"><div class="k">Interim signal</div><div class="v lime">−2.8s</div><div class="s">vs placebo · widening</div></div>
+      </div>
+
+      <div class="proto-grid">
+        <div class="verdict-card">
+          <div class="verdict-tag">Verdict · Likely responder</div>
+          <h3>For you, sodium bicarbonate cuts ~4 seconds off a 2 km TT — about <em>1.4% faster</em>, with high confidence.</h3>
+          <div class="fine">Your individual response sits at the upper end of what the literature predicts. The effect held across all three bicarb sessions, and your blinding guess at unblinding was no better than chance — you weren't reacting to GI cues, you were reacting to physiology.</div>
+        </div>
+
+        <div class="panel">
+          <div class="hd">Session-by-session · 2 km TT
+            <span class="legend"><span><i style="background:var(--lime)"></i>bicarbonate</span><span><i style="background:var(--pink)"></i>placebo</span></span>
+          </div>
+          <div class="chart">
+            <div class="bar-g"><div class="bar bicarb" style="height:88%"><span class="tip">2:49.1</span></div><span class="lbl">S1</span></div>
+            <div class="bar-g"><div class="bar placebo" style="height:46%"><span class="tip">2:53.4</span></div><span class="lbl">S2</span></div>
+            <div class="bar-g"><div class="bar bicarb" style="height:93%"><span class="tip">2:48.2</span></div><span class="lbl">S3</span></div>
+            <div class="bar-g"><div class="bar placebo" style="height:41%"><span class="tip">2:53.9</span></div><span class="lbl">S4</span></div>
+            <div class="bar-g"><div class="bar placebo" style="height:44%"><span class="tip">2:53.6</span></div><span class="lbl">S5</span></div>
+            <div class="bar-g"><div class="bar bicarb" style="height:96%"><span class="tip">2:48.0</span></div><span class="lbl">S6</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="hd">Trial integrity checks</div>
+          <div class="check-row">Blinding intact (post-trial guess) <span class="check-pill ok">✓ chance-level</span></div>
+          <div class="check-row">Order effect (carryover) <span class="check-pill ok">✓ none</span></div>
+          <div class="check-row">Training load matched across arms <span class="check-pill ok">✓ within 4%</span></div>
+          <div class="check-row">95% credible interval <span class="check-pill info">−2.1 to −5.9 s</span></div>
+          <div class="check-row">P(responder) — Bayesian posterior <span class="check-pill ok">0.96</span></div>
+        </div>
+
+        <div class="panel" style="grid-column: 1 / -1">
+          <div class="hd">Trial library · what to test next</div>
+          <div class="proto-row"><div><div class="pn">Caffeine + FTP test</div><div class="pd">Pre-registered · 6 sessions · 7-day washout</div></div><span class="ev-tag ev-strong">strong evidence</span></div>
+          <div class="proto-row"><div><div class="pn">Beta-alanine + VO₂ intervals</div><div class="pd">Pre-registered · 8 weeks loading</div></div><span class="ev-tag ev-strong">strong evidence</span></div>
+          <div class="proto-row"><div><div class="pn">Beetroot + tempo endurance</div><div class="pd">Nitrate dose-response · 4 sessions</div></div><span class="ev-tag ev-mod">moderate</span></div>
+          <div class="proto-row"><div><div class="pn">Ketone esters + recovery</div><div class="pd">Panel review in progress</div></div><span class="ev-tag ev-emerg">emerging</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── VIEW · WISE CROWD ── -->
+    <section class="view" id="view-wotc">
+      <div class="page-head">
+        <div class="eyebrow">Engage the wise crowd</div>
+        <h2>Expert escalation — Persy's race aftermath</h2>
+        <div class="sub">George convenes the supplement experts for the really intriguing questions. Collective wisdom, properly assembled.</div>
+      </div>
+
+      <div class="wotc-grid">
+        <div class="q-card">
+          <div class="q">"The storm delay worked out — PB by 11 seconds. But my gut cramped at 16 km. Was that the bicarb from 5 hours earlier, the extra carbs, or race nerves? How do I prevent it in Tokyo?"</div>
+          <div class="q-meta"><span>Escalated by <b>George</b> · 09:41</span><span><b>3 experts</b> responding</span><span>consensus ETA <b>~4 h</b></span></div>
+
+          <div class="expert-reply">
+            <div class="x-avatar" style="background:linear-gradient(135deg,#B6F569,#92D050)">LB</div>
+            <div>
+              <div class="xn">Prof. Louise Burke AO <span class="cred">Chair · Science panel</span></div>
+              <div class="xt">~600 publications · 5 Olympic teams · former Head of Sports Nutrition, AIS</div>
+              <div class="xb">Timing points away from the bicarbonate — at T+5h your buffering load had largely cleared. The more likely culprit is the top-up carbohydrate concentration under race-pace gut ischaemia. I'd trial a 12% → 8% dilution in your next two long sessions before Tokyo.</div>
+            </div>
+          </div>
+
+          <div class="expert-reply">
+            <div class="x-avatar" style="background:linear-gradient(135deg,#67E8F9,#2563EB)">AJ</div>
+            <div>
+              <div class="xn">Prof. Asker Jeukendrup <span class="cred">Panel</span></div>
+              <div class="xt">Carbohydrate metabolism · ex-Gatorade Sports Science</div>
+              <div class="xb">Agree with Louise on dilution. Add gut training: 2×/week race-concentration fueling at threshold pace for the 6 weeks before Tokyo. Persy's history shows trainable tolerance.</div>
+            </div>
+          </div>
+
+          <div class="pending">
+            <div class="x-avatar" style="background:linear-gradient(135deg,#FCD34D,#F59E0B)">DM</div>
+            <div>
+              <div class="xn">Prof. David Martin</div>
+              <div class="xt">Applied physiology · drafting response</div>
+              <div class="typing"><i></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="panel" style="margin-bottom:14px">
+            <div class="hd">Science panel</div>
+            <div class="panel-member"><div class="x-avatar" style="width:30px;height:30px;font-size:10px;background:linear-gradient(135deg,#B6F569,#92D050)">LB</div><div><div class="mn">Prof. Louise Burke AO</div><div class="mt">Chair · most-cited in field</div></div><span class="m-status m-on">replied</span></div>
+            <div class="panel-member"><div class="x-avatar" style="width:30px;height:30px;font-size:10px;background:linear-gradient(135deg,#67E8F9,#2563EB)">AJ</div><div><div class="mn">Prof. Asker Jeukendrup</div><div class="mt">CHO metabolism</div></div><span class="m-status m-on">replied</span></div>
+            <div class="panel-member"><div class="x-avatar" style="width:30px;height:30px;font-size:10px;background:linear-gradient(135deg,#FCD34D,#F59E0B)">DM</div><div><div class="mn">Prof. David Martin</div><div class="mt">Applied physiology</div></div><span class="m-status m-on">typing…</span></div>
+            <div class="panel-member"><div class="x-avatar" style="width:30px;height:30px;font-size:10px;background:linear-gradient(135deg,#F472A6,#DB2777)">SP</div><div><div class="mn">Prof. Stuart Phillips</div><div class="mt">Protein · McMaster</div></div><span class="m-status m-idle">invited</span></div>
+            <div class="panel-member"><div class="x-avatar" style="width:30px;height:30px;font-size:10px;background:linear-gradient(135deg,#C8D1DD,#8B96A6)">JH</div><div><div class="mn">Prof. John Hawley</div><div class="mt">Exercise metabolism</div></div><span class="m-status m-idle">invited</span></div>
+          </div>
+
+          <div class="panel">
+            <div class="hd">How this works</div>
+            <div class="check-row" style="font-size:12px">George drafts the case brief <span class="check-pill ok">done</span></div>
+            <div class="check-row" style="font-size:12px">Experts respond asynchronously <span class="check-pill info">in flight</span></div>
+            <div class="check-row" style="font-size:12px">George synthesises consensus <span class="check-pill info">~4 h</span></div>
+            <div class="check-row" style="font-size:12px">Anonymised → trial library <span class="check-pill info">opt-in</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="compare-strip">
+        <span class="x-mark">✕ OTHER AI</span>
+        <span><b>Claude says he doesn't do Crowd.</b> ChatGPT averages the population. George convenes the people who wrote the research — and gets you a wise answer.</span>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="mock-note">Redesign mockup · theme from <b>investor deck</b> · not wired to data</div>
+
+<script>
+// minimal view switcher
+document.querySelectorAll('.nav-item[data-view]').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    item.classList.add('active');
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+    document.getElementById('view-' + item.dataset.view).classList.add('on');
+    const names = { george: 'George', protocols: 'N-of-1 Trials', wotc: 'Wise Crowd' };
+    document.getElementById('crumb').innerHTML = 'Athlete / <b>' + names[item.dataset.view] + '</b>';
+  });
+});
+</script>
+</body>
+</html>

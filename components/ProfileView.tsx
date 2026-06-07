@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useSearchParams } from "next/navigation";
+import { useAthleteId } from "@/lib/useAthleteId";
 
 interface Athlete {
   id: string;
@@ -16,8 +16,7 @@ interface Athlete {
 }
 
 export function ProfileView() {
-  const searchParams = useSearchParams();
-  const athleteId = searchParams.get("a");
+  const athleteId = useAthleteId();
   const [athlete, setAthlete] = useState<Athlete | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -53,15 +52,16 @@ export function ProfileView() {
     <div className="h-full overflow-y-auto">
       <div className="max-w-3xl mx-auto px-8 py-8">
         <header className="mb-6">
-          <h1 className="text-xl font-semibold">{athlete.name}</h1>
-          <p className="text-sm text-muted mt-1">
+          <div className="eyebrow mb-2">Athlete context</div>
+          <h1 className="text-2xl font-semibold tracking-[-0.01em]" style={{ fontFamily: "var(--font-display)" }}>{athlete.name}</h1>
+          <p className="text-[13px] text-muted mt-1.5">
             What George knows about this athlete. Profile facts are built conversationally — talk to George and they accumulate here.
           </p>
         </header>
 
         {/* Core facts */}
         <section className="mb-6">
-          <h2 className="text-[11px] uppercase tracking-wider text-muted mb-2">Core</h2>
+          <h2 className="hd mb-2">Core</h2>
           <div className="rounded-xl border border-border bg-surface divide-y divide-border">
             <Row label="Name" value={athlete.name} />
             <Row label="Sex" value={athlete.sex ?? "—"} />
@@ -75,7 +75,7 @@ export function ProfileView() {
         {/* Context */}
         {athlete.context && (
           <section className="mb-6">
-            <h2 className="text-[11px] uppercase tracking-wider text-muted mb-2">Context</h2>
+            <h2 className="hd mb-2">Context</h2>
             <div className="rounded-xl border border-border bg-surface px-5 py-4 text-sm leading-relaxed text-foreground/90">
               {athlete.context}
             </div>
@@ -84,7 +84,7 @@ export function ProfileView() {
 
         {/* Profile facts */}
         <section className="mb-6">
-          <h2 className="text-[11px] uppercase tracking-wider text-muted mb-2">Profile facts</h2>
+          <h2 className="hd mb-2">Profile facts</h2>
           {profileEntries.length === 0 ? (
             <div className="rounded-xl border border-border bg-surface px-5 py-4 text-sm text-muted">
               No profile facts yet. Start a conversation — George will gather context.
@@ -105,8 +105,8 @@ export function ProfileView() {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="grid grid-cols-[160px_1fr] gap-4 px-5 py-3">
-      <div className="text-[11px] uppercase tracking-wider text-muted self-center">{label}</div>
-      <div className="text-sm text-foreground/90 leading-relaxed">{value}</div>
+      <div className="hd self-center">{label}</div>
+      <div className="text-sm text-text-2 leading-relaxed">{value}</div>
     </div>
   );
 }

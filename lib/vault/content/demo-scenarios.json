@@ -26,7 +26,7 @@
         "age": 28,
         "sport": "AFLW (Australian rules football, women's)",
         "level": "Professional, with a demanding day job",
-        "context": "Semi-final, night game, big crowd, high anxiety, work day after, building toward Grand Final. Slow caffeine metaboliser (can't tolerate coffee after 4pm)."
+        "context": "Semi-final, night game, big crowd, high anxiety, work day after, building toward Grand Final. Slow caffeine metaboliser (can't tolerate coffee after 4pm). Recording note: scenarios 1 and 2 are captured together as one continuous Mia↔George flow — dialogue first, then the full-text answer in the same conversation."
       },
       "vault_entry_id": "aflw-mia-caffeine",
       "vault_path": "dialogue_mode",
@@ -54,7 +54,7 @@
         "age": 28,
         "sport": "AFLW (Australian rules football, women's)",
         "level": "Professional, with a demanding day job",
-        "context": "Same as scenario 1 — but Mia wants the full text answer this time, not a back-and-forth."
+        "context": "Same as scenario 1 — but Mia wants the full text answer this time, not a back-and-forth. Scenarios 1 and 2 are recorded together as one continuous Mia↔George flow in a single session."
       },
       "vault_entry_id": "aflw-mia-caffeine",
       "vault_path": "structured_mode",
@@ -65,7 +65,7 @@
       "number": 3,
       "slug": "ironman-kona-self-test",
       "title": "Ironman Kona — Caffeine + Self-Testing Loop",
-      "tagline": "Tom, 40, 75 kg, 9-hr Kona goal. Multi-turn.",
+      "tagline": "Matt, 40, 75 kg, 9-hr Kona goal. Multi-turn.",
       "summary": "George moves from general advice (6–8 mg/kg distributed) to a six-session brick-workout self-test plan, pulls in Garmin/Strava/TrainingPeaks, and frames the athlete as a case study of themselves.",
       "demonstrates": [
         "Multi-turn chat with deepening detail",
@@ -80,18 +80,18 @@
       "primary_channel": "text",
       "secondary_channel": "voice-intro",
       "athlete": {
-        "name": "Tom",
+        "name": "Matt",
         "sex": "M",
         "age": 40,
         "weight_kg": 75,
         "sport": "Triathlon — 70.3 and full Ironman",
         "level": "Competitive amateur, 4 years racing",
-        "context": "Training 16–20 hrs/week. Goal: Kona, ~9 hours flat. Likes detail."
+        "context": "Training 16–20 hrs/week. Goal: Kona, ~9 hours flat. Likes detail. ChatGPT and Claude run side-by-side during this recording to show the generic-AI difference."
       },
       "vault_entry_id": "ironman-kona-caffeine",
       "vault_path": "dialogue + protocol_table",
       "opening_question": "I'm a 40-year-old male triathlete competing in 70.3 and full-distance Ironman events. I weigh 165 pounds, about 75 kg, and I've been racing competitively for four years. I'm training 16 to 20 hours per week, and my goal for Kona is around nine hours flat. How should I integrate caffeine into my pre-race and during-race nutrition plan for a full-distance Ironman? Because the race is so long, I assume a single dose won't last the distance. And Kona will be hot. Does that change anything? I like detail, so give me lots to think about.",
-      "video_treatment": "Text-first, ~7 turns. Final beat: the protocol table renders inline, then a 'connected to Garmin' tile lights up to show the data path. Voice intro could be a 5-second 'Hey Tom, I've been waiting to dig into Kona with you.'"
+      "video_treatment": "Text-first, ~7 turns. Final beat: the protocol table renders inline, then a 'connected to Garmin' tile lights up to show the data path. Voice intro could be a 5-second 'Hey Matt, I've been waiting to dig into Kona with you.'"
     },
     {
       "number": 4,
@@ -110,12 +110,12 @@
       "primary_channel": "text",
       "secondary_channel": "voice-overlay",
       "athlete": {
-        "name": "Race walker",
+        "name": "Percy",
         "sex": null,
         "age": null,
         "sport": "Race walk, 35 km, World Championships",
         "level": "Elite, podium-contention",
-        "context": "On the starting line. Pre-race meal + 20 g bicarb + 200 mg caffeine gum already in. Electrical storm has just postponed the race by 2 hours. Has never encountered this before; nervous."
+        "context": "On the starting line. Pre-race meal + 20 g bicarb + 200 mg caffeine gum already in. Electrical storm has just postponed the race by 2 hours. Has never encountered this before; nervous. Recording note: Percy records this scenario; the Wise Crowd responds right after George's answer."
       },
       "vault_entry_id": "race-walk-postponed",
       "vault_path": "louise_solo_answer + wotc-race-walk-postponed",
