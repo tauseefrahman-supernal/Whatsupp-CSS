@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { getAthlete, updateAthleteProfile, listSessions, listMessages } from "@/lib/db";
+import { getAthlete, updateAthleteProfile, deleteAthlete, listSessions, listMessages } from "@/lib/db";
 
 export async function GET(_req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
@@ -37,4 +37,21 @@ export async function PATCH(request: NextRequest, ctx: { params: Promise<{ id: s
   const updated = updateAthleteProfile(id, body);
   if (!updated) return Response.json({ error: "Not found" }, { status: 404 });
   return Response.json({ athlete: updated });
+}
+
+/**
+ * DELETE /api/athletes/:id — remove a user-created profile and all of its
+ * conversations and protocols. The seeded demo cast (Mia, Matt, Percy) is
+ * protected and returns 403.
+ */
+export async function DELETE(_req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
+  const { id } = await ctx.params;
+  const athlete = getAthlete(id);
+  if (!athlete) return Response.json({ error: "Not found" }, { status: 404 });
+
+  const ok = deleteAthlete(id);
+  if (!ok) {
+    return Response.json({ error: "The demo cast profiles cannot be deleted." }, { status: 403 });
+  }
+  return Response.json({ deleted: id });
 }

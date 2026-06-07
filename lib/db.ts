@@ -287,6 +287,18 @@ export function createAthlete(name: string): AthleteProfile {
   return getAthlete(id)!;
 }
 
+/**
+ * Delete a non-seeded athlete and everything attached to them — sessions,
+ * messages, and protocols cascade. The seeded demo-cast profiles (Mia, Matt,
+ * Percy) are protected and cannot be deleted.
+ */
+export function deleteAthlete(id: string): boolean {
+  const row = getDb().prepare("SELECT seeded FROM athletes WHERE id = ?").get(id) as { seeded: number } | undefined;
+  if (!row || row.seeded === 1) return false;
+  getDb().prepare("DELETE FROM athletes WHERE id = ?").run(id);
+  return true;
+}
+
 export function updateAthleteProfile(id: string, patch: Partial<AthleteProfile>): AthleteProfile | null {
   const existing = getAthlete(id);
   if (!existing) return null;
