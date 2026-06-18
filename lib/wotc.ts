@@ -52,7 +52,7 @@ function buildExpertPersona(expert: Expert): string {
 }
 
 /**
- * Consult a single named expert (AI-Trent style).
+ * Consult a single anonymous panel member (AI-expert style).
  */
 export async function consultExpert(expertId: string, question: string): Promise<string> {
   const expert = findExpert(expertId);

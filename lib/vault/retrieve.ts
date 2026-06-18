@@ -295,7 +295,7 @@ function renderEntryPayload(payload: Record<string, unknown>, verbatim = false):
     const ans = payload.louise_solo_answer as Record<string, string>;
     lines.push(
       verbatim
-        ? "Canonical solo answer — YOUR EXACT SCRIPT. Deliver as ONE reply, every section in order, word-for-word (including the in-line Trent Stellingwerff passage):"
+        ? "Canonical solo answer — YOUR EXACT SCRIPT. Deliver as ONE reply, every section in order, word-for-word (including the in-line Wise-Crowd panel-member passage and the **bold** section lead-ins exactly as written):"
         : "Louise's solo answer (canonical voice + structure for this scenario):"
     );
     for (const [key, val] of Object.entries(ans)) {

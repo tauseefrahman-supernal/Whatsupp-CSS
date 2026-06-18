@@ -62,9 +62,13 @@ export function ProtocolsView() {
       if (athleteRes.ok) {
         const j = await athleteRes.json();
         setAthlete(j.athlete);
-        // Pre-populate sensible defaults for Kona Tom
+        // Pre-populate sensible defaults from the athlete's sport
         const sport = (j.athlete?.sport ?? "").toLowerCase();
-        if (sport.includes("triathlon") || sport.includes("ironman")) {
+        if (sport.includes("ultra") || sport.includes("trail")) {
+          setSupplement(curr => curr || "caffeine");
+          setEvent(curr => curr || "100 km mountain ultra");
+          setTarget(curr => curr || "sub-12 h");
+        } else if (sport.includes("triathlon") || sport.includes("ironman")) {
           setSupplement(curr => curr || "caffeine");
           setEvent(curr => curr || "Kona Ironman");
           setTarget(curr => curr || "~9 hours");

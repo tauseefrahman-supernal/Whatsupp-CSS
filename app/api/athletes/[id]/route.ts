@@ -41,7 +41,7 @@ export async function PATCH(request: NextRequest, ctx: { params: Promise<{ id: s
 
 /**
  * DELETE /api/athletes/:id — remove a user-created profile and all of its
- * conversations and protocols. The seeded demo cast (Mia, Matt, Percy) is
+ * conversations and protocols. The seeded demo cast (Mia, Coco, Max) is
  * protected and returns 403.
  */
 export async function DELETE(_req: NextRequest, ctx: { params: Promise<{ id: string }> }) {

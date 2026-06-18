@@ -64,63 +64,64 @@
     {
       "number": 3,
       "slug": "ironman-kona-self-test",
-      "title": "Ironman Kona — Caffeine + Self-Testing Loop",
-      "tagline": "Matt, 40, 75 kg, 9-hr Kona goal. Multi-turn.",
-      "summary": "George moves from general advice (6–8 mg/kg distributed) to a six-session brick-workout self-test plan, pulls in Garmin/Strava/TrainingPeaks, and frames the athlete as a case study of themselves.",
+      "title": "100 km Mountain Ultra — Caffeine + Self-Testing Loop",
+      "tagline": "Coco, 38, ~50 kg, sub-12-hr 100 km ultra. Multi-turn.",
+      "summary": "George moves from general advice (6–8 mg/kg distributed across a long, hot day) to a six-session long-run self-test plan, pulls in Garmin/Strava/TrainingPeaks, and frames the athlete as a case study of herself.",
       "demonstrates": [
         "Multi-turn chat with deepening detail",
         "Total dose before timing (architecture)",
-        "Three protocols A/B/C compared",
+        "Three caffeine models / protocols A/B/C compared",
         "Heat caveat — caffeine supports execution, doesn't override cooling",
         "Withdrawal warning",
-        "Six-session brick test with logged variables",
-        "Connected-platform integration (Garmin, Strava, TrainingPeaks, Zwift)",
+        "Six-session long-run test with logged variables",
+        "Connected-platform integration (Garmin, Strava, TrainingPeaks)",
         "N-of-1 ('case study of yourself') framing"
       ],
       "primary_channel": "text",
       "secondary_channel": "voice-intro",
       "athlete": {
-        "name": "Matt",
-        "sex": "M",
-        "age": 40,
-        "weight_kg": 75,
-        "sport": "Triathlon — 70.3 and full Ironman",
-        "level": "Competitive amateur, 4 years racing",
-        "context": "Training 16–20 hrs/week. Goal: Kona, ~9 hours flat. Likes detail. ChatGPT and Claude run side-by-side during this recording to show the generic-AI difference."
+        "name": "Coco",
+        "sex": "F",
+        "age": 38,
+        "weight_kg": 50,
+        "sport": "Trail / ultra running — 100 km mountain ultra",
+        "level": "Road-marathon background, first ultra",
+        "context": "First 100 km mountain ultra in 8 weeks. Hot, exposed midsummer race. Goal sub-12 h. Nervous about caffeine + heat + gut on a new distance. Plans 6 long runs of 9–10 hours. ChatGPT and Claude run side-by-side during this recording to show the generic-AI difference."
       },
       "vault_entry_id": "ironman-kona-caffeine",
       "vault_path": "dialogue + protocol_table",
-      "opening_question": "I'm a 40-year-old male triathlete competing in 70.3 and full-distance Ironman events. I weigh 165 pounds, about 75 kg, and I've been racing competitively for four years. I'm training 16 to 20 hours per week, and my goal for Kona is around nine hours flat. How should I integrate caffeine into my pre-race and during-race nutrition plan for a full-distance Ironman? Because the race is so long, I assume a single dose won't last the distance. And Kona will be hot. Does that change anything? I like detail, so give me lots to think about.",
-      "video_treatment": "Text-first, ~7 turns. Final beat: the protocol table renders inline, then a 'connected to Garmin' tile lights up to show the data path. Voice intro could be a 5-second 'Hey Matt, I've been waiting to dig into Kona with you.'"
+      "opening_question": "I'm Coco, 38, around 50 kg. I've done a few road marathons but I'm pivoting into ultras — I've got my first 100 km mountain ultra in 8 weeks. Midsummer race, so it'll be hot and exposed up high. I am hoping to finish in under 12 hours.",
+      "video_treatment": "Text-first, ~8 turns. Final beat: the protocol table renders inline, then a 'connected to Garmin' tile lights up to show the data path. Voice intro could be a 5-second 'Hey Coco, let's dig into your first 100.'"
     },
     {
       "number": 4,
       "slug": "race-walk-postponed",
       "title": "Race Walk — Postponed at the Start Line",
-      "tagline": "World Champs 35 km. Storm. Two-hour delay.",
-      "summary": "Athlete at the start line, already loaded with bicarb + caffeine, race postponed two hours by electrical storm. George opens with the reframe (threat → opportunity), walks fuelling/hydration, holds caffeine, then channels Trent Stellingwerff in-line for the bicarb piece — blood-bicarb depletes by tactics, not time. Sticks with the plan.",
+      "tagline": "World Champs 20 km. Storm. Two-hour delay.",
+      "summary": "Max at the start line, already loaded with bicarb + caffeine, race postponed two hours by electrical storm. George opens with the reframe (threat → opportunity), walks fuelling/hydration, holds caffeine, then channels an anonymised Wise-Crowd panel member in-line for the bicarb piece — blood-bicarb depletes by tactics, not time. Sticks with the plan. Section lead-ins land bold and colour-highlighted.",
       "demonstrates": [
         "Empathy under acute, high-stakes pressure",
         "Reframe (threat → opportunity) as the opening move",
         "Holding the plan is the recommendation — not 'do more'",
-        "In-line Wise Crowd: a named expert (Trent Stellingwerff) channelled for his domain",
+        "Bold, colour-highlighted section lead-ins (fuelling, caffeine, bicarb, closing)",
+        "In-line Wise Crowd: an anonymised panel member channelled for the bicarb domain",
         "Honest uncertainty about an emerging area (bicarb in endurance)",
         "Confidence-restoration close, no false certainty"
       ],
       "primary_channel": "text",
       "secondary_channel": "voice-overlay",
       "athlete": {
-        "name": "Percy",
+        "name": "Max",
         "sex": null,
         "age": null,
-        "sport": "Race walk, 35 km, World Championships",
+        "sport": "Race walk, 20 km, World Championships",
         "level": "Elite, podium-contention",
-        "context": "On the starting line. Pre-race meal + 20 g bicarb + 200 mg caffeine gum already in. Electrical storm has just postponed the race by 2 hours. Has never encountered this before; nervous. Recording note: Percy records this scenario; the Wise Crowd responds right after George's answer."
+        "context": "On the starting line. Pre-race meal + 20 g bicarb + 200 mg caffeine gum already in. Electrical storm has just postponed the race by 2 hours. Has never encountered this before; nervous. Recording note: Max records this scenario; the Wise Crowd responds right after George's answer."
       },
       "vault_entry_id": "race-walk-postponed",
       "vault_path": "louise_solo_answer + wotc-race-walk-postponed",
-      "opening_question": "I am on the starting line of the 35 km race walk at the World Championships. I had my usual pre-race meal (carbohydrate based, with a cup of coffee) two hours before the event, along with my sodium bicarbonate loading protocol. This is where I have 20 g of bicarb in capsules (~300 mg/kg) with 1600 ml of fluid to give me the benefits of a fluid load as well as extra buffering capacity for my race. Then I had a 200 mg dose of caffeine from gum while I was in the call room, waiting to move to the race start. However, an electrical storm has come through and the race has been postponed for 2 hours. What should I do? I'm feeling pretty nervous anyway because this is something I have never encountered before. Do I top up my caffeine and bicarb doses before I start? I usually take another 200 mg caffeine at the 20 km mark of the race but now I don't know if I will have too little or too much on board to execute my race depending on whether I take more now. I have extra supplements available. But how much should I use if I decide to top up?",
-      "video_treatment": "Text-first with calm voice overlay. The opening reframe lands first, then George 'taps the network' — an animated pill labelled 'Trent Stellingwerff — Wise Crowd' fades in as the bicarb section delivers. Confidence pill is moderate-high — honest about the emerging area. Close on 'You've got this!'"
+      "opening_question": "Hey George, it's Max. This is crazy. I am on the starting line of the 20 km race walk at the World Championships. I had my usual pre-race meal (carbohydrate based, with a cup of coffee) two hours before the event, along with my sodium bicarbonate loading protocol. This is where I have 20 g of bicarb in capsules (~300 mg/kg) with 1600 ml of fluid to give me the benefits of a fluid load as well as extra buffering capacity for my race. Then I had a 200 mg dose of caffeine from gum while I was in the call room, waiting to move to the race start. However, an electrical storm has come through and the race has been postponed for 2 hours. What should I do? I'm feeling pretty nervous anyway because this is something I have never encountered before. Do I top up my caffeine and bicarb doses before I start? I usually take another 200 mg caffeine at the 15 km mark of the race but now I don't know if I will have too little or too much on board to execute my race depending on whether I take more now. How much should I use if I decide to top up?",
+      "video_treatment": "Text-first with calm voice overlay. The opening reframe lands first, then George 'taps the network' — an animated pill labelled 'Wise Crowd panel member' fades in as the bicarb section delivers. Confidence pill is moderate-high — honest about the emerging area. Close on 'You've got this!'"
     }
   ],
   "production_notes": {

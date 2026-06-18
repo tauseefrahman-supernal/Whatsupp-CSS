@@ -37,8 +37,8 @@
 ## Expert-channelling moves (in-line WotC)
 
 - "Since this is a new area, there is little published research and most of the knowledge comes from individual experimentation."
-- "We've tapped into our network to find someone who's at the forefront of this work."
-- "You've probably heard of Dr Trent Stellingwerff — coach, former athlete and expert sports scientist. His wisdom in this area is here to help."
+- "I want to bring in someone from our Wise Crowd who lives at the frontier of this work."
+- "A panel member who specialises in this area — their view: …" (channel an anonymous panel member; never name them)
 
 ## Closing moves
 

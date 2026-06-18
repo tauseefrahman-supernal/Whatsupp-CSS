@@ -2,102 +2,106 @@
   "id": "ironman-kona-caffeine",
   "scenarios": [3],
   "athlete_archetype": {
-    "name": "Tom",
-    "age": 40,
-    "sex": "M",
-    "weight_kg": 75,
-    "weight_lb": 165,
-    "sport": "Triathlon — 70.3 and full Ironman",
-    "experience_years": 4,
-    "training_hours_per_week": "16-20",
-    "target": "Kona, ~9 hours flat"
+    "name": "Coco",
+    "age": 38,
+    "sex": "F",
+    "weight_kg": 50,
+    "sport": "Trail / ultra running — 100 km mountain ultra",
+    "experience": "Road-marathon background, first ultra",
+    "target": "First 100 km mountain ultra in 8 weeks, hot midsummer race, sub-12 h"
   },
-  "tags": ["caffeine", "Ironman", "endurance", "heat", "N-of-1", "self-test", "Kona", "triathlon"],
+  "tags": ["caffeine", "ultra", "trail", "endurance", "heat", "N-of-1", "self-test", "100km", "mountain"],
   "supplement_categories": ["caffeine"],
-  "question_summary": "Ironman athlete targeting 9-hr Kona wants to integrate caffeine across a long, hot, competitive race. Wants distributed strategy + self-test loop.",
+  "question_summary": "First-time 100 km mountain ultra runner (50 kg) wants a caffeine plan across a long, hot day where heat and gut tolerance are concerns. Wants distributed strategy + self-test loop across her long runs.",
   "dialogue": [
     {
       "role": "athlete",
-      "text": "I'm a 40-year-old male triathlete competing in 70.3 and full-distance Ironman events. I weigh 165 pounds, about 75 kg, and I've been racing competitively for four years. I'm training 16 to 20 hours per week, and my goal for Kona is around nine hours flat. How should I integrate caffeine into my pre-race and during-race nutrition plan for a full-distance Ironman? Because the race is so long, I assume a single dose won't last the distance. And Kona will be hot. Does that change anything? I like detail, so give me lots to think about."
+      "text": "I'm Coco, 38, around 50 kg. I've done a few road marathons but I'm pivoting into ultras — I've got my first 100 km mountain ultra in 8 weeks. Midsummer race, so it'll be hot and exposed up high. I am hoping to finish in under 12 hours."
     },
     {
       "role": "george",
-      "text": "Great question. You're not really asking 'does caffeine work?' — you're asking how to use caffeine across a long, hot, competitive race where pacing, fatigue, heat, gut tolerance, and race tactics all change over time.\n\nCaffeine is a well-supported performance supplement for endurance and ultra-endurance events. Its major benefit is that it can mask feelings of fatigue, helping you maintain race pace for longer or execute special pacing strategies with better control over perceived effort.\n\nA nine-hour Kona target puts you at the pointy end of the field. So caffeine should not be treated as a blunt pre-race hit. It should be part of the race plan.\n\nThe older protocol was a large single dose — often around 6 mg/kg — about an hour before the race. For you, that would be about 450 mg before the start.\n\nI would be careful with that approach for two reasons.\n\nFirst, it doesn't let you target caffeine to the moments where you most need it.\n\nSecond, caffeine's half-life is typically around 4–6 hours, though people vary. Your race will last longer than the optimal effect of one pre-race dose. So your instinct is right: a single dose probably won't cover the race well."
+      "text": "Nice — that's a real shift, not just a longer marathon. Different fuelling problem, different pacing, different relationship with heat. Eight weeks is enough time to actually build something rather than just hope.\n\nA few things will matter more here than they did at marathon distance — fuelling tolerance over long hours, sodium and fluid in the heat, caffeine strategy across a much longer window, and whether your gut can handle real food and not just gels. Plus heat acclimation, which is its own conversation.\n\nBefore I get ahead of myself though — what's the thing that's actually on your mind today? Is there a specific question that brought you in, or are you wanting to map the whole supplement picture for the build?"
     },
-    {"role": "athlete", "text": "So what total amount should I think about?"},
+    {
+      "role": "athlete",
+      "text": "I've used caffeine on long training runs but never with a plan. Honestly, I'm nervous about the combination — caffeine on top of heat on top of gut issues, on a distance I've never done."
+    },
     {
       "role": "george",
-      "text": "Start with total dose, then decide timing.\n\nWe now know caffeine can work at lower doses than previously believed. Around 3 mg/kg can be effective — for you, about 225 mg. Sometimes even less may be useful if taken around the onset of fatigue.\n\nFor a race of this duration, a total dose of roughly 6–8 mg/kg might be a starting range to explore. For you, that is about 450–600 mg total across the race.\n\nBut that should be distributed — not taken all at once."
+      "text": "That's a really sensible thing to be nervous about — caffeine, heat, and a new distance all stacked together is genuinely a lot of variables, and \"I've used it but never with a plan\" is exactly the spot where ultra runners get caught out.\n\nLet me reframe it a bit. You're not asking does caffeine work — it does, the evidence is strong. You're asking how to deploy it across a long, hot day where pacing, fatigue, and gut tolerance all shift over time. That's a different question, and it has a structured answer.\n\nThe starting frame for a race your length:\n\n**Total dose, not single dose.** For an 8+ hour effort, distributing 6–8 mg/kg across the race tends to work better than one big hit. For you at 50 kg, that's roughly 300–400 mg in total — spread out, not stacked.\n\n**Lower per-dose than you might think.** Around 3 mg/kg (≈ 150 mg for you) is already an effective dose. You don't need to feel wired to get the benefit.\n\n**Heat changes the job caffeine is doing.** It's not that caffeine dehydrates you — that concern is largely outdated. It's that caffeine can mask perceived effort, and in the heat that's a risk if it lets you push harder than your cooling can handle."
     },
-    {"role": "athlete", "text": "Do I need caffeine before the swim?"},
+    {
+      "role": "athlete",
+      "text": "That makes sense. But where do I start? All I have to work with is that on long runs I sometimes take a caffeinated gel around the 90-minute mark, maybe one more later. Never been deliberate about dose."
+    },
     {
       "role": "george",
-      "text": "Maybe, but not automatically.\n\nIf making the right swim group is critical, a pre-race caffeine dose could help support a sustained maximal effort. But if you get strong pre-race nerves or the Kona atmosphere gives you enough adrenaline, a large dose before the swim could make you feel too wired too early.\n\nA middle-ground option is fast-acting caffeine — gum or mouth-dissolving strips — in the minutes before the start. These can work quickly because some caffeine is absorbed through the lining of the mouth.\n\nAnother option is to skip pre-swim caffeine and begin at T1, the swim-bike transition."
+      "text": "Ok, here's a rough framework for a race of your length:\n\n**Early hours (0–3 h):** Probably no caffeine, or very little. You'll feel fine, the heat hasn't fully bitten yet, and you want to save the tool for when it matters.\n\n**Middle hours (3–7 h):** This is where caffeine earns its keep — perceived effort climbs, focus drifts, the day gets long. Small repeated doses (50 mg) every 60–90 minutes via gels, gum, or strips.\n\n**Final push (last 1–2 h):** A larger top-up (100 mg) if you're still moving and need to dig in.\n\nThat's a starting point, not a prescription. The real answer comes from testing it on yourself in conditions that look like race day — long efforts, heat, on-feet hours.\n\nYou know, this is where it'd be worth building you a proper self-test block over the next few weeks — 4–5 sessions where we vary the caffeine timing and dose, log how your gut, head and performance respond, and arrive at race day with a plan your body already knows. Want me to put one together?"
     },
-    {"role": "athlete", "text": "How would you structure the rest of the race?"},
+    {
+      "role": "athlete",
+      "text": "Yes — build it. I've got 8 weeks. Let's use my long runs, and I will do them in conditions that mimic the race. I plan to do 6 runs of 9–10 hours."
+    },
     {
       "role": "george",
-      "text": "There are two sensible models to test.\n\n**Option 1 — Strategic larger doses**\n- Pre-start: optional, 0–225 mg depending on swim priority and nerves\n- T1 / early bike: about 150–225 mg\n- T2 / start of run: about 150–225 mg\n- Final 10 km: 50–100 mg fast-acting caffeine if needed\n\nThis targets caffeine to major race phases.\n\n**Option 2 — Smaller repeated doses**\n- Minimal or no pre-start caffeine\n- Begin at T1 or early bike\n- Take smaller doses, often 50–100 mg, across the bike and run\n- Time top-ups before strategic sections, fatigue points, or moments when you may need to respond to competitors\n\nThis can be done with gels, chews, cola, tablets, gum, strips, or shots — but you need to count everything.\n\nCaffeinated sports foods may also contribute carbohydrate and fluid, which can be useful, but you don't want caffeine accidentally controlling your fuelling plan. Your race card should track carbohydrate, fluid, sodium, caffeine per dose, and cumulative caffeine."
+      "text": "There are three sensible models to test.\n\n**Option 1 — Strategic larger doses starting earlier**\n- Pre-start: 150 mg\n- Hour 3: 150 mg\n- Hour 6: 150 mg\n- Hour 9: 150 mg\n\n**Option 2 — Withholding doses until it matters**\n- Minimal or no pre-start caffeine\n- Hour 4: 150 mg\n- Hour 6: 150 mg\n- Hour 8: 100 mg\n- Hour 9: 100 mg\n\nThis targets caffeine to the major race phases.\n\n**Option 3 — Smaller repeated doses**\n- Minimal or no pre-start caffeine\n- Hours 1–8: 50 mg each hour\n- Hour 9: 50–100 mg\n\nThis can be done with gels, chews, cola, tablets, gum, strips, or shots — but you need to count everything.\n\nCaffeinated sports foods may also contribute carbohydrate and fluid, which can be useful, but you don't want caffeine accidentally controlling your fuelling plan. Your race card should track carbohydrate, fluid, sodium, caffeine per dose, and cumulative caffeine."
     },
-    {"role": "athlete", "text": "Does Kona heat change the plan?"},
     {
-      "role": "george",
-      "text": "Yes, but not mainly because caffeine is a diuretic. That concern is mostly outdated in this setting.\n\nYour fluid plan should be based on sweat rate, drinking tolerance, sodium strategy, and expected Kona conditions.\n\nThe bigger heat issue is this: if caffeine helps you work harder or sustain a higher workload for longer, you may also produce more body heat. That doesn't mean avoid caffeine. It means caffeine should support pacing and decision-making, not override your heat-management plan.\n\nIn Kona, caffeine is a tool. It is not permission to ignore the thermal cost of going harder."
+      "role": "athlete",
+      "text": "Should I stop caffeine for a few days before each session so it works better?"
     },
-    {"role": "athlete", "text": "Should I stop caffeine for a few days before the race so it works better?"},
     {
       "role": "george",
       "text": "Usually, no.\n\nCaffeine withdrawal can cause headaches, fatigue, irritability, and feeling flat. That is usually a bigger problem than any potential gain in sensitivity.\n\nUnless you have practiced withdrawal and know it helps you, keep your usual caffeine routine and make the race-day plan deliberate."
     },
-    {"role": "athlete", "text": "Any safety issues?"},
     {
-      "role": "george",
-      "text": "Yes. Caffeine itself is not banned, but contaminated supplements are a real issue. At your level, use batch-tested products from reputable third-party programmes.\n\nThat applies to caffeine gum, strips, tablets, gels, chews, shots, drinks — anything you use.\n\nAnd make sure the logistics work. The right product in the wrong bag at the wrong time is not a race plan."
+      "role": "athlete",
+      "text": "How will I know which strategy is right for me?"
     },
-    {"role": "athlete", "text": "How do I know which strategy is right for me?"},
     {
       "role": "george",
-      "text": "This is where we move from general advice to your own data.\n\nYou are a case study of yourself. Before Kona, we can use your brick workouts to test this properly.\n\nYou'll likely have several long bike-run sessions that mimic pieces of the race: long duration, race intensity, heat exposure where possible, and maybe sections where you deliberately push the pace.\n\nInstead of just 'trying caffeine,' we can build a 5–6 session self-testing block.\n\nWe would compare two or three protocols:\n\n**Protocol A — Earlier caffeine strategy** — A meaningful dose early in the bike, with a smaller top-up before the run.\n\n**Protocol B — Delayed caffeine strategy** — Little or no caffeine early, then caffeine later when fatigue starts to matter.\n\n**Protocol C — Smaller repeated doses** — Smaller doses every 60–90 minutes across the bike and run.\n\nFor each brick session, we would log: caffeine source / dose / timing, total caffeine, carbohydrate / fluid / sodium intake, temperature and heat stress, bike power and run pace, heart rate, perceived exertion, gut comfort, mental focus, sleep that night, next-day recovery.\n\nThen we compare the results with a sports-performance lens.\n\nThe goal is not a perfect laboratory study. The goal is to reduce guesswork.\n\nMaybe early caffeine helps your bike but costs you later. Maybe delayed caffeine gives you better late-race return. Maybe smaller repeated doses feel smoother and protect your gut. Maybe heat changes the answer.\n\nThat is the information generic advice cannot give you."
+      "text": "This is where we move from general advice to your own data.\n\n**Protocol A — Earlier caffeine strategy** — start from the beginning.\n\n**Protocol B — Delayed caffeine strategy** — little or no caffeine early, then caffeine later when fatigue starts to matter.\n\n**Protocol C — Smaller repeated doses** — smaller doses every 60–90 minutes across the whole run.\n\nFor each session, we will log: caffeine source / dose / timing, total caffeine, carbohydrate / fluid / sodium intake, temperature and heat stress, run pace, heart rate, perceived exertion, gut comfort, mental focus, sleep that night, next-day recovery.\n\nThen we compare the results with a sports-performance lens.\n\nThe goal is not a perfect laboratory study. The goal is to reduce guesswork.\n\nMaybe early caffeine helps your early hours but costs you later. Maybe delayed caffeine gives you better late-race return. Maybe smaller repeated doses feel smoother and protect your gut. Maybe heat changes the answer.\n\nThat is the information generic advice cannot give you."
     },
-    {"role": "athlete", "text": "So Whatsupp would help me build that testing plan?"},
     {
-      "role": "george",
-      "text": "Exactly.\n\nWould you like me to build a six-session caffeine testing plan using your upcoming brick workouts?"
+      "role": "athlete",
+      "text": "So Whatsupp will help me road test that plan?"
     },
-    {"role": "athlete", "text": "Yes."},
     {
       "role": "george",
-      "text": "Great. I'll set up a simple protocol:",
+      "text": "Exactly. I'll set up a simple protocol — six long runs across your race build, each testing a specific caffeine strategy under the conditions that matter. We'll test each version twice.",
       "attached_artifact": "protocol_table"
     },
-    {"role": "athlete", "text": "What's the bottom line?"},
+    {
+      "role": "athlete",
+      "text": "Yes. Let's go for it!"
+    },
     {
       "role": "george",
-      "text": "Caffeine is useful for your event, but I would not rely on one large pre-race dose.\n\nFor a nine-hour Kona Ironman, explore a distributed caffeine strategy. Use 6–8 mg/kg total as a starting frame, but personalise the dose and timing through training.\n\nDecide whether the swim deserves a pre-start dose. Consider starting at T1 if pre-race nerves are an issue. Use top-ups across the bike and run, and reserve fast-acting caffeine for strategic or fatigue-driven moments late in the race.\n\nIn the heat, use caffeine to support execution — not to override pacing or cooling.\n\nAnd before race day, test the strategy in brick sessions so your Kona plan knows you."
+      "text": "Perfect. I'll prompt you for feedback after each session and pull in your training data as we go. This will be great — I'm on board and organised."
     }
   ],
   "protocol_table": {
-    "title": "6-Session Caffeine Self-Test Block — Kona Build",
+    "title": "6-Session Caffeine Self-Test Block — 100 km Ultra Build",
     "rows": [
-      {"session": 1, "workout": "Long bike + short run", "caffeine_focus": "Earlier dose", "question": "Does early caffeine improve bike execution without overstimulation?"},
-      {"session": 2, "workout": "Long bike + short run", "caffeine_focus": "Delayed dose", "question": "Does waiting until fatigue improve usefulness?"},
-      {"session": 3, "workout": "Bike + longer run", "caffeine_focus": "Smaller repeated doses", "question": "Does micro-dosing feel smoother?"},
-      {"session": 4, "workout": "Race-specific brick", "caffeine_focus": "Repeat best candidate", "question": "Does the result repeat under harder conditions?"},
-      {"session": 5, "workout": "Hot-condition brick", "caffeine_focus": "Repeat best candidate", "question": "Does it still work under Kona-like heat stress?"},
-      {"session": 6, "workout": "Dress rehearsal", "caffeine_focus": "Final plan", "question": "Confirm dose, timing, product logistics, gut tolerance, and recovery cost."}
+      {"session": 1, "workout": "9–10 h long run", "caffeine_focus": "Earlier dose", "question": "Does early caffeine improve race pacing without overstimulation?"},
+      {"session": 2, "workout": "9–10 h long run", "caffeine_focus": "Delayed dose", "question": "Does waiting until fatigue improve usefulness?"},
+      {"session": 3, "workout": "9–10 h long run", "caffeine_focus": "Smaller repeated doses", "question": "Does micro-dosing feel smoother?"},
+      {"session": 4, "workout": "9–10 h long run", "caffeine_focus": "Earlier dose", "question": "Does the result repeat under potentially different conditions?"},
+      {"session": 5, "workout": "9–10 h long run", "caffeine_focus": "Delayed dose", "question": "Does the result repeat under potentially different conditions?"},
+      {"session": 6, "workout": "9–10 h long run", "caffeine_focus": "Smaller repeated doses", "question": "Is this the plan for a final dress rehearsal?"}
     ],
     "post_session_prompts": [
-      "After each session, I'll prompt you for feedback and pull in your available training data from Garmin, Strava, TrainingPeaks, Zwift, or another connected platform.",
-      "By the end, your Kona caffeine plan won't just be based on the literature. It will be informed by your own training."
+      "After each session, I'll prompt you for feedback and pull in your available training data from Garmin, Strava, TrainingPeaks, or another connected platform.",
+      "By the end, your 100 km caffeine plan won't just be based on the literature. It will be informed by your own training."
     ],
-    "bottom_line": "Caffeine is useful for your event, but I would not rely on one large pre-race dose. For a nine-hour Kona Ironman, explore a distributed caffeine strategy. Use 6–8 mg/kg total as a starting frame, but personalise the dose and timing through training. Decide whether the swim deserves a pre-start dose. Consider starting at T1 if pre-race nerves are an issue. Use top-ups across the bike and run, and reserve fast-acting caffeine for strategic or fatigue-driven moments late in the race. In the heat, use caffeine to support execution — not to override pacing or cooling. And before race day, test the strategy in brick sessions so your Kona plan knows you."
+    "bottom_line": "Caffeine is a powerful tool for a 100 km ultra, but don't rely on one big dose. Explore a distributed strategy — 6–8 mg/kg total (≈300–400 mg for you) spread across the day — and personalise the timing through training. Save caffeine for the middle and late hours where it earns its keep, keep each dose modest to protect your gut, and use caffeine to support pacing in the heat, not to override your cooling. Test it across these long runs so your race-day plan already knows you."
   },
   "log_variables": [
     "caffeine source, dose, and timing",
     "total caffeine",
     "carbohydrate, fluid, and sodium intake",
     "temperature and heat stress",
-    "bike power and run pace",
+    "run pace",
     "heart rate",
     "perceived exertion",
     "gut comfort",

@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { createAthlete, getAthlete, updateAthleteProfile, listAthletes, type AthleteProfile } from "@/lib/db";
 
 /** Scenario → the cast profile that records it. The demo runs on exactly three
- *  profiles (Mia · Matt · Percy), so scenario playback reuses them instead of
+ *  profiles (Mia · Coco · Max), so scenario playback reuses them instead of
  *  spawning "<name> (demo · scenario …)" clones. */
 const CAST_BY_SLUG: Record<string, string> = {
   "aflw-mia-dialogue": "mia-aflw",
@@ -53,7 +53,7 @@ export async function POST(
     return Response.json({ error: `Unknown scenario: ${slug}` }, { status: 404 });
   }
 
-  // Prefer the seeded cast profile for this scenario (Mia / Matt / Percy).
+  // Prefer the seeded cast profile for this scenario (Mia / Coco / Max).
   // Fall back to the old clone-by-name behaviour only if the seed is missing.
   let athlete: AthleteProfile | null = CAST_BY_SLUG[scenario.slug]
     ? getAthlete(CAST_BY_SLUG[scenario.slug])
