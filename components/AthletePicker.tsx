@@ -15,7 +15,7 @@ interface Athlete {
 const STORAGE_KEY = "whatsupp.athleteId";
 
 /** The demo cast — the only profiles the switcher offers.
- *  Mia → scenarios 1+2 (one flow) · Matt → scenario 3 · Percy → scenario 4. */
+ *  Mia → scenarios 1+2 (one flow) · Coco → scenario 3 · Max → scenario 4. */
 const CAST_IDS = ["mia-aflw", "kona-tom", "percy-racewalk"];
 
 export function AthletePicker() {

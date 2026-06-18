@@ -123,20 +123,22 @@ function seed(db: Database.Database) {
 
   insert.run(
     "kona-tom",
-    "Matt",
-    "M",
-    40,
-    75,
-    "Triathlon — 70.3 and full Ironman",
-    "Competitive amateur, 4 years racing, 16–20 hr/week training",
-    "Targeting Kona ~9 hours flat. Wants detail and is open to N-of-1 testing in brick workouts. Records demo scenario 3.",
+    "Coco",
+    "F",
+    38,
+    50,
+    "Trail / ultra running — 100 km mountain ultra",
+    "Road-marathon background, first ultra",
+    "First 100 km mountain ultra in 8 weeks; hot, exposed, midsummer race; sub-12 h goal. Plans 6 long runs of 9–10 hours. Open to N-of-1 caffeine testing. Records demo scenario 3.",
     JSON.stringify({
-      training_volume_hours_per_week: "16–20",
-      target_event: "Kona Ironman",
-      target_time: "~9:00 flat",
-      experience_years: 4,
-      weight_kg: 75,
-      curiosity: "Wants distributed caffeine across race, suspects 6–8 mg/kg total",
+      target_event: "100 km mountain ultra",
+      target_time: "sub-12 h",
+      race_timeline: "8 weeks out",
+      conditions: "hot, exposed, midsummer, mountain",
+      background: "road marathons, first ultra",
+      weight_kg: 50,
+      curiosity: "Wants a deliberate distributed caffeine plan; nervous about caffeine + heat + gut on a new distance",
+      long_run_plan: "6 long runs of 9–10 hours",
       data_sources_available: ["Garmin", "Strava", "TrainingPeaks"],
       demo_scenario_slug: "ironman-kona-self-test",
     }),
@@ -146,16 +148,16 @@ function seed(db: Database.Database) {
 
   insert.run(
     "percy-racewalk",
-    "Percy",
+    "Max",
     null,
     null,
     null,
-    "Race walk, 35 km, World Championships",
+    "Race walk, 20 km, World Championships",
     "Elite, podium-contention",
-    "World Championships 35 km race walker. Records demo scenario 4 (race postponed at the start line by an electrical storm).",
+    "World Championships 20 km race walker. Records demo scenario 4 (race postponed at the start line by an electrical storm).",
     JSON.stringify({
       bicarb_protocol: "20 g (~300 mg/kg) in capsules with 1600 ml fluid, pre-race",
-      caffeine_protocol: "200 mg gum in the call room + 200 mg planned at the 20 km mark",
+      caffeine_protocol: "200 mg gum in the call room + 200 mg planned at the 15 km mark",
       demo_scenario_slug: "race-walk-postponed",
     }),
     now,
@@ -166,55 +168,113 @@ function seed(db: Database.Database) {
 }
 
 /**
- * Idempotent fix-ups for databases seeded before the demo-recording cast was
- * locked: Mia records scenarios 1+2 as one flow, Matt (was "Tom") records
- * scenario 3, Percy records scenario 4.
+ * Idempotent fix-ups for databases seeded before the current demo-recording cast
+ * was locked: Mia records scenarios 1+2 as one flow, Coco (was "Matt"/"Tom")
+ * records scenario 3 (100 km ultra), Max (was "Percy") records scenario 4.
+ * This fully retargets the seeded rows so an existing DB picks up the new
+ * names, demographics, sport, and profile without needing a wipe.
  */
 function migrateSeeds(db: Database.Database) {
   const now = Date.now();
 
-  // Enforce the cast names + scenario slugs on the seeded roster.
-  const cast: Array<{ id: string; name: string; slug: string }> = [
-    { id: "mia-aflw", name: "Mia", slug: "aflw-mia-dialogue" },
-    { id: "kona-tom", name: "Matt", slug: "ironman-kona-self-test" },
-    { id: "percy-racewalk", name: "Percy", slug: "race-walk-postponed" },
-  ];
-  for (const member of cast) {
-    const row = db.prepare("SELECT id, name, profile_json FROM athletes WHERE id = ?").get(member.id) as
-      | { id: string; name: string; profile_json: string | null }
-      | undefined;
-    if (!row) continue;
-    let profile: Record<string, unknown> = {};
-    try { profile = JSON.parse(row.profile_json ?? "{}"); } catch { /* keep empty */ }
-    if (row.name === member.name && profile.demo_scenario_slug === member.slug) continue;
-    profile.demo_scenario_slug = member.slug;
-    db.prepare("UPDATE athletes SET name = ?, profile_json = ?, updated_at = ? WHERE id = ?")
-      .run(member.name, JSON.stringify(profile), now, member.id);
-  }
-
-  // Ensure Percy (scenario 4) exists.
-  const percy = db.prepare("SELECT COUNT(*) as n FROM athletes WHERE id = 'percy-racewalk'").get() as { n: number };
-  if (percy.n === 0) {
-    db.prepare(`
-      INSERT INTO athletes (id, name, sex, age, weight_kg, sport, level, context, profile_json, seeded, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
-    `).run(
-      "percy-racewalk",
-      "Percy",
-      null,
-      null,
-      null,
-      "Race walk, 35 km, World Championships",
-      "Elite, podium-contention",
-      "World Championships 35 km race walker. Records demo scenario 4 (race postponed at the start line by an electrical storm).",
-      JSON.stringify({
+  // The full, authoritative seeded roster — keep in sync with seed() above.
+  const cast: Array<{
+    id: string;
+    name: string;
+    sex: string | null;
+    age: number | null;
+    weight_kg: number | null;
+    sport: string;
+    level: string;
+    context: string;
+    profile: Record<string, unknown>;
+  }> = [
+    {
+      id: "mia-aflw",
+      name: "Mia",
+      sex: "F",
+      age: 28,
+      weight_kg: null,
+      sport: "AFLW (Australian rules football, women's)",
+      level: "Professional, with a demanding day job",
+      context: "Currently in finals run. Anxious before night semi-final. Building toward Grand Final. Records demo scenarios 1 and 2 as one continuous flow.",
+      profile: {
+        caffeine_history: "5 No-Doz pre-match like male players (~500 mg, ~6–7 mg/kg)",
+        sleep_sensitivity: "Cannot have coffee after 4pm without lying awake",
+        side_effects_observed: "Wired in first quarter, can't wind down post-match, exhausted but can't sleep",
+        work_constraint: "Demanding day job, can't be wrecked for 3–4 days post-match",
+        next_event: "Semi-final tonight; targeting Grand Final",
+        typical_caffeine_use: "Coffee in mornings only, sensitive to afternoon caffeine",
+        demo_scenario_slug: "aflw-mia-dialogue",
+      },
+    },
+    {
+      id: "kona-tom",
+      name: "Coco",
+      sex: "F",
+      age: 38,
+      weight_kg: 50,
+      sport: "Trail / ultra running — 100 km mountain ultra",
+      level: "Road-marathon background, first ultra",
+      context: "First 100 km mountain ultra in 8 weeks; hot, exposed, midsummer race; sub-12 h goal. Plans 6 long runs of 9–10 hours. Open to N-of-1 caffeine testing. Records demo scenario 3.",
+      profile: {
+        target_event: "100 km mountain ultra",
+        target_time: "sub-12 h",
+        race_timeline: "8 weeks out",
+        conditions: "hot, exposed, midsummer, mountain",
+        background: "road marathons, first ultra",
+        weight_kg: 50,
+        curiosity: "Wants a deliberate distributed caffeine plan; nervous about caffeine + heat + gut on a new distance",
+        long_run_plan: "6 long runs of 9–10 hours",
+        data_sources_available: ["Garmin", "Strava", "TrainingPeaks"],
+        demo_scenario_slug: "ironman-kona-self-test",
+      },
+    },
+    {
+      id: "percy-racewalk",
+      name: "Max",
+      sex: null,
+      age: null,
+      weight_kg: null,
+      sport: "Race walk, 20 km, World Championships",
+      level: "Elite, podium-contention",
+      context: "World Championships 20 km race walker. Records demo scenario 4 (race postponed at the start line by an electrical storm).",
+      profile: {
         bicarb_protocol: "20 g (~300 mg/kg) in capsules with 1600 ml fluid, pre-race",
-        caffeine_protocol: "200 mg gum in the call room + 200 mg planned at the 20 km mark",
+        caffeine_protocol: "200 mg gum in the call room + 200 mg planned at the 15 km mark",
         demo_scenario_slug: "race-walk-postponed",
-      }),
+      },
+    },
+  ];
+
+  const upsert = db.prepare(`
+    INSERT INTO athletes (id, name, sex, age, weight_kg, sport, level, context, profile_json, seeded, created_at, updated_at)
+    VALUES (@id, @name, @sex, @age, @weight_kg, @sport, @level, @context, @profile_json, 1, @now, @now)
+    ON CONFLICT(id) DO UPDATE SET
+      name = excluded.name,
+      sex = excluded.sex,
+      age = excluded.age,
+      weight_kg = excluded.weight_kg,
+      sport = excluded.sport,
+      level = excluded.level,
+      context = excluded.context,
+      profile_json = excluded.profile_json,
+      updated_at = excluded.updated_at
+  `);
+
+  for (const member of cast) {
+    upsert.run({
+      id: member.id,
+      name: member.name,
+      sex: member.sex,
+      age: member.age,
+      weight_kg: member.weight_kg,
+      sport: member.sport,
+      level: member.level,
+      context: member.context,
+      profile_json: JSON.stringify(member.profile),
       now,
-      now,
-    );
+    });
   }
 }
 
@@ -289,8 +349,8 @@ export function createAthlete(name: string): AthleteProfile {
 
 /**
  * Delete a non-seeded athlete and everything attached to them — sessions,
- * messages, and protocols cascade. The seeded demo-cast profiles (Mia, Matt,
- * Percy) are protected and cannot be deleted.
+ * messages, and protocols cascade. The seeded demo-cast profiles (Mia, Coco,
+ * Max) are protected and cannot be deleted.
  */
 export function deleteAthlete(id: string): boolean {
   const row = getDb().prepare("SELECT seeded FROM athletes WHERE id = ?").get(id) as { seeded: number } | undefined;

@@ -29,7 +29,7 @@ export function WotcView() {
   const [experts, setExperts] = useState<ExpertInfo[]>([]);
   const [question, setQuestion] = useState(initialQuestion);
   const [askMode, setAskMode] = useState<AskMode>("crowd");
-  const [expertId, setExpertId] = useState<string>("stellingwerff");
+  const [expertId, setExpertId] = useState<string>("burke");
   const [expertKind, setExpertKind] = useState<ExpertKind>("ai");
   const [askedMode, setAskedMode] = useState<AskMode>("crowd");
   const [askedExpert, setAskedExpert] = useState<ExpertInfo | null>(null);
@@ -474,9 +474,11 @@ export function WotcView() {
   );
 }
 
-/** "Dr Trent Stellingwerff" → "Stellingwerff" for compact button labels. */
+/** "Dr Louise Burke" → "Burke" for compact button labels. Anonymous
+ *  "Panel Member N" labels are kept whole (a bare "N" would read oddly). */
 function shortName(full?: string): string | null {
   if (!full) return null;
+  if (/^panel member/i.test(full.trim())) return full.trim();
   const parts = full.replace(/^Dr\s+/i, "").trim().split(/\s+/);
   return parts[parts.length - 1] ?? null;
 }

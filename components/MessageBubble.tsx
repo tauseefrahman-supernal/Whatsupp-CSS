@@ -128,7 +128,7 @@ const MD_COMPONENTS = {
     <li className="[overflow-wrap:anywhere] [word-break:break-word]" {...props} />
   ),
   strong: (props: React.HTMLAttributes<HTMLElement>) => (
-    <strong className="font-semibold text-foreground" {...props} />
+    <strong className="font-semibold text-lime" {...props} />
   ),
   em: (props: React.HTMLAttributes<HTMLElement>) => (
     <em className="italic text-muted" {...props} />

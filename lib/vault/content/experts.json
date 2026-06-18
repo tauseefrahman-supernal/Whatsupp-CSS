@@ -10,74 +10,74 @@
     },
     {
       "id": "spriet",
-      "name": "Dr Lawrence Spriet",
-      "affiliation": "University of Guelph",
+      "name": "Panel Member 2",
+      "affiliation": "",
       "domains": ["caffeine", "exercise metabolism", "fuel selection"],
-      "bio": "Decades of caffeine and exercise metabolism research. Authoritative voice on how caffeine alters fuel use during endurance and intermittent exercise.",
+      "bio": "Panel specialist in caffeine, exercise metabolism, and fuel selection.",
       "voice_notes": "Mechanism-first. Likes to ground recommendations in the underlying physiology."
     },
     {
       "id": "jeukendrup",
-      "name": "Dr Asker Jeukendrup",
-      "affiliation": "Maastricht University / Loughborough University",
+      "name": "Panel Member 3",
+      "affiliation": "",
       "domains": ["carbohydrate", "GI physiology", "endurance fuelling"],
-      "bio": "Foremost authority on race-day carbohydrate strategies, multiple-transportable carb protocols, and gut training. His GI caution is the strongest voice on supplement-stacking risk.",
+      "bio": "Panel specialist in carbohydrate strategy, GI physiology, and endurance fuelling. The strongest voice on supplement-stacking risk.",
       "voice_notes": "Cautious on stacking. Always flags GI cost. Pragmatic about form (liquid > gel > solid)."
     },
     {
       "id": "maughan",
-      "name": "Dr Ron Maughan",
-      "affiliation": "Loughborough University / St Andrews",
+      "name": "Panel Member 4",
+      "affiliation": "",
       "domains": ["fluid balance", "electrolytes", "hydration"],
-      "bio": "Pioneering work on hydration, sodium balance, and over-drinking risk in endurance events. Long-standing voice on practical race-day fluid strategy.",
+      "bio": "Panel specialist in fluid balance, sodium, and hydration, including over-drinking risk in endurance events.",
       "voice_notes": "Sodium-emphasis. Cautions against blanket recommendations — individual sweat rates matter."
     },
     {
       "id": "gibala",
-      "name": "Dr Martin Gibala",
-      "affiliation": "McMaster University",
+      "name": "Panel Member 5",
+      "affiliation": "",
       "domains": ["metabolic stress", "high-intensity exercise", "buffering"],
-      "bio": "Author of the foundational HIIT and metabolic-stress research. Voice on intensity-dependent supplementation strategy.",
+      "bio": "Panel specialist in metabolic stress, high-intensity exercise, and intensity-dependent supplementation.",
       "voice_notes": "Pragmatic on protocols; aligned with median crowd recommendations."
     },
     {
       "id": "stellingwerff",
-      "name": "Dr Trent Stellingwerff",
-      "affiliation": "Canadian Sport Institute Pacific",
+      "name": "Panel Member 6",
+      "affiliation": "",
       "domains": ["race walk", "athletics nutrition", "bicarbonate", "elite-endurance"],
-      "bio": "Coach, former athlete, and elite-endurance sports scientist. Domain expert on race-walk and athletics-specific bicarb and caffeine protocols. The first expert George channels in-line for race-walk and athletics questions.",
+      "bio": "Panel specialist in race-walk and athletics-specific bicarb and caffeine protocols. The first expert George channels in-line for race-walk and athletics questions.",
       "voice_notes": "Tactical and event-specific. Strong on bicarb loading and race-pacing interactions with supplements."
     },
     {
       "id": "peeling",
-      "name": "Dr Peter Peeling",
-      "affiliation": "University of Western Australia",
+      "name": "Panel Member 7",
+      "affiliation": "",
       "domains": ["bicarbonate", "iron", "individual response"],
-      "bio": "Specialist on bicarbonate dosing protocols and iron status in athletes. The go-to voice for bicarb individual-variation questions.",
+      "bio": "Panel specialist in bicarbonate dosing protocols and individual-variation questions.",
       "voice_notes": "Individual-response-first. Comfortable at higher bicarb doses for tolerant athletes."
     },
     {
       "id": "guest",
-      "name": "Dr Nanci Guest",
-      "affiliation": "University of Toronto",
+      "name": "Panel Member 8",
+      "affiliation": "",
       "domains": ["caffeine pharmacogenomics", "CYP1A2", "individual variation"],
-      "bio": "Foremost voice on caffeine pharmacogenomics. Brings genuine individual-variation insight to caffeine dosing that single-expert recommendations often miss.",
+      "bio": "Panel specialist in caffeine pharmacogenomics and individual variation in caffeine response.",
       "voice_notes": "Genotype-aware. Conservative dosing for unknown metabolisers."
     },
     {
       "id": "cox",
-      "name": "Dr Greg Cox",
-      "affiliation": "Australian Institute of Sport",
+      "name": "Panel Member 9",
+      "affiliation": "",
       "domains": ["practical race-day supplementation", "logistics"],
-      "bio": "Decades of practical race-day implementation experience. The voice for 'how does this actually work at the venue' questions.",
+      "bio": "Panel specialist in practical race-day implementation — 'how does this actually work at the venue'.",
       "voice_notes": "Logistics-first. Practical-over-perfect."
     },
     {
       "id": "meeusen",
-      "name": "Dr Romain Meeusen",
-      "affiliation": "Vrije Universiteit Brussel",
+      "name": "Panel Member 10",
+      "affiliation": "",
       "domains": ["caffeine", "CNS fatigue", "neuroendocrine response"],
-      "bio": "Authority on caffeine and central nervous system fatigue. Brings the CNS-receptor-saturation perspective on high caffeine doses.",
+      "bio": "Panel specialist in caffeine and central nervous system fatigue, including the CNS-receptor-saturation perspective on high caffeine doses.",
       "voice_notes": "Cautious on high caffeine doses; flags anxiety-amplification risk."
     }
   ]

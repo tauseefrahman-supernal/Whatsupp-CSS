@@ -3,7 +3,7 @@
   "scenarios": [4],
   "variant": "synthetic-consensus",
   "linked_question": "race-walk-postponed",
-  "methodology": "Each expert independently assesses the scenario through their specific lens, provides independent estimates/recommendations, then we aggregate using structured wisdom-of-crowd principles — looking for convergence, weighting for domain specificity, and flagging genuine disagreement.",
+  "methodology": "Each panel member independently assesses the scenario through their specific lens, provides independent estimates/recommendations, then we aggregate using structured wisdom-of-crowd principles — looking for convergence, weighting for domain specificity, and flagging genuine disagreement.",
   "panel_ids": ["burke", "spriet", "jeukendrup", "maughan", "gibala", "stellingwerff", "peeling", "guest", "cox", "meeusen"],
   "variables_assessed": [
     {
@@ -16,14 +16,14 @@
         {"expert": "maughan", "estimate": "40–50%", "recommendation": "75 mg/kg with fluid", "confidence": "Moderate"},
         {"expert": "gibala", "estimate": "35–50%", "recommendation": "75–100 mg/kg", "confidence": "Moderate"},
         {"expert": "stellingwerff", "estimate": "45–55%", "recommendation": "75–100 mg/kg — race-walk data", "confidence": "Moderate–High"},
-        {"expert": "peeling", "estimate": "40–60%", "recommendation": "75–100 mg/kg — his specialty", "confidence": "High (with caveats)"},
+        {"expert": "peeling", "estimate": "40–60%", "recommendation": "75–100 mg/kg — domain specialty", "confidence": "High (with caveats)"},
         {"expert": "guest", "estimate": "35–50%", "recommendation": "75 mg/kg", "confidence": "Moderate"},
         {"expert": "cox", "estimate": "40–50%", "recommendation": "75 mg/kg, prioritise GI check first", "confidence": "Moderate"},
         {"expert": "meeusen", "estimate": "35–45%", "recommendation": "50–75 mg/kg", "confidence": "Moderate"}
       ],
-      "aggregation": "Consensus dose: ~75 mg/kg, taken ~75 minutes before revised start, conditional on GI being completely settled. Jeukendrup's caution is noted as a genuine minority position that should gate the decision — if any GI symptoms are present, skip the top-up. Peeling and Stellingwerff (highest domain specificity here) anchor toward the higher end of the range, which nudges the aggregate slightly upward from 50 mg/kg.",
+      "aggregation": "Consensus dose: ~75 mg/kg, taken ~75 minutes before revised start, conditional on GI being completely settled. Panel Member 3's caution is noted as a genuine minority position that should gate the decision — if any GI symptoms are present, skip the top-up. Panel Member 7 and Panel Member 6 (highest domain specificity here) anchor toward the higher end of the range, which nudges the aggregate slightly upward from 50 mg/kg.",
       "central_tendency": "~42–50% remaining; modal top-up 75 mg/kg",
-      "dissent": "Jeukendrup — strongest GI caution, notes compounding gut stress before 35 km is underappreciated as a risk"
+      "dissent": "Panel Member 3 — strongest GI caution, notes compounding gut stress before the finish is underappreciated as a risk"
     },
     {
       "name": "Caffeine — pre-race top-up",
@@ -40,28 +40,28 @@
         {"expert": "cox", "estimate": "65–75%", "recommendation": "100–150 mg", "timing": "45–60 min"},
         {"expert": "meeusen", "estimate": "70–80%", "recommendation": "100 mg — CNS receptor saturation concern", "timing": "45 min"}
       ],
-      "aggregation": "Consensus dose: 100 mg, with 150 mg as the upper bound for fast metabolisers. Timing: 45–60 minutes before revised start. Meeusen and Guest both independently push toward the conservative 100 mg end, which outweighs the Stellingwerff 150 mg anchor. The athlete's self-reported nervousness is a genuine signal to stay at the lower end.",
+      "aggregation": "Consensus dose: 100 mg, with 150 mg as the upper bound for fast metabolisers. Timing: 45–60 minutes before revised start. Panel Member 10 and Panel Member 8 both independently push toward the conservative 100 mg end, which outweighs the Panel Member 6 150 mg anchor. The athlete's self-reported nervousness is a genuine signal to stay at the lower end.",
       "key_insights": [
-        "Guest: CYP1A2 genotype creates real individual variation in half-life (fast metabolisers clear faster; slow metabolisers retain more). Without knowing genotype, conservative dosing is safer.",
-        "Meeusen: at high caffeine loads, adenosine receptor occupancy may plateau — more caffeine does not proportionally increase CNS benefit and may increase anxiety, already flagged as a problem for this athlete."
+        "Panel Member 8: CYP1A2 genotype creates real individual variation in half-life (fast metabolisers clear faster; slow metabolisers retain more). Without knowing genotype, conservative dosing is safer.",
+        "Panel Member 10: at high caffeine loads, adenosine receptor occupancy may plateau — more caffeine does not proportionally increase CNS benefit and may increase anxiety, already flagged as a problem for this athlete."
       ]
     },
     {
-      "name": "Caffeine — in-race dose at 20 km",
-      "question": "Adjusted 20 km dose given revised pre-race top-up?",
+      "name": "Caffeine — in-race dose at 15 km",
+      "question": "Adjusted 15 km dose given revised pre-race top-up?",
       "rows": [
         {"expert": "burke", "recommendation": "100 mg", "rationale": "Maintain threshold without stacking"},
-        {"expert": "spriet", "recommendation": "75–100 mg", "rationale": "Plasma will still be meaningful at 20 km"},
+        {"expert": "spriet", "recommendation": "75–100 mg", "rationale": "Plasma will still be meaningful at 15 km"},
         {"expert": "jeukendrup", "recommendation": "100 mg", "rationale": "Standard maintenance"},
         {"expert": "maughan", "recommendation": "100 mg", "rationale": "Consistent with fluid/gut management"},
-        {"expert": "gibala", "recommendation": "100 mg", "rationale": "No change needed from Burke estimate"},
+        {"expert": "gibala", "recommendation": "100 mg", "rationale": "No change needed from chair estimate"},
         {"expert": "stellingwerff", "recommendation": "100–150 mg", "rationale": "Race walk is long; late-race fatigue is real"},
         {"expert": "peeling", "recommendation": "100 mg", "rationale": "Conservative given earlier loading"},
         {"expert": "guest", "recommendation": "75–100 mg", "rationale": "Pharmacogenomic caution maintained"},
         {"expert": "cox", "recommendation": "100 mg", "rationale": "Logistics simplicity"},
         {"expert": "meeusen", "recommendation": "75 mg", "rationale": "CNS fatigue + anxiety — reduce late-race dose"}
       ],
-      "aggregation": "9/10 land at 100 mg. Meeusen's 75 mg is the lone dissent. Consensus: 100 mg, with Meeusen's 75 mg as a reasonable alternative if anxiety or cardiac awareness is elevated during the race.",
+      "aggregation": "9/10 land at 100 mg. Panel Member 10's 75 mg is the lone dissent. Consensus: 100 mg, with Panel Member 10's 75 mg as a reasonable alternative if anxiety or cardiac awareness is elevated during the race.",
       "convergence_strength": "Strong"
     },
     {
@@ -78,7 +78,7 @@
         {"expert": "cox", "amount": "40–60 g", "form": "Gel — easiest at venue"},
         {"expert": "meeusen", "amount": "30–40 g", "form": "Small dose — avoid gut load"}
       ],
-      "aggregation": "Consensus: 40–50 g in liquid or gel form, consumed over the waiting period, not as a bolus. Solid food acceptable if tolerated but liquid/gel minimises GI risk. Jeukendrup's domain weight on form (liquid/gel preferred) raises the form recommendation specificity."
+      "aggregation": "Consensus: 40–50 g in liquid or gel form, consumed over the waiting period, not as a bolus. Solid food acceptable if tolerated but liquid/gel minimises GI risk. Panel Member 3's domain weight on form (liquid/gel preferred) raises the form recommendation specificity."
     },
     {
       "name": "Fluid management",
@@ -86,7 +86,7 @@
         {"expert": "burke", "amount": "400–600 mL", "note": "Yes — sodium"},
         {"expert": "spriet", "amount": "300–500 mL", "note": "Moderate"},
         {"expert": "jeukendrup", "amount": "300–500 mL", "note": "Yes — but avoid over-drinking"},
-        {"expert": "maughan", "amount": "400–600 mL, sodium critical", "note": "Strong — his domain"},
+        {"expert": "maughan", "amount": "400–600 mL, sodium critical", "note": "Strong — domain"},
         {"expert": "gibala", "amount": "400–500 mL", "note": "Moderate"},
         {"expert": "stellingwerff", "amount": "400–600 mL", "note": "Yes"},
         {"expert": "peeling", "amount": "300–500 mL", "note": "Moderate"},
@@ -94,19 +94,19 @@
         {"expert": "cox", "amount": "400–600 mL", "note": "Practical sports drink covers both"},
         {"expert": "meeusen", "amount": "300–500 mL", "note": "Moderate"}
       ],
-      "aggregation": "Consensus: 400–500 mL with sodium (either sports drink or water + electrolyte tablet), sipped steadily. Do not attempt to replicate the original 1600 mL fluid load — that ship has sailed and attempting it will cause GI distress. Maughan (domain expert on fluid) anchors the sodium emphasis; Maughan and Jeukendrup both flag over-drinking risk."
+      "aggregation": "Consensus: 400–500 mL with sodium (either sports drink or water + electrolyte tablet), sipped steadily. Do not attempt to replicate the original 1600 mL fluid load — that ship has sailed and attempting it will cause GI distress. Panel Member 4 (domain expert on fluid) anchors the sodium emphasis; Panel Member 4 and Panel Member 3 both flag over-drinking risk."
     }
   ],
   "cross_expert_disagreements": [
-    {"issue": "Bicarb top-up safety", "dissenting": "Jeukendrup: GI risk may outweigh benefit", "majority": "9/10: top-up if GI settled", "significance": "High — gate decision on GI status"},
-    {"issue": "Caffeine top-up dose", "dissenting": "Guest/Meeusen: 100 mg ceiling", "majority": "Stellingwerff: 150 mg acceptable", "significance": "Moderate — athlete's anxiety tips toward 100 mg"},
-    {"issue": "Late-race caffeine", "dissenting": "Meeusen: reduce to 75 mg", "majority": "9/10: 100 mg", "significance": "Low–Moderate — monitor in-race anxiety"},
-    {"issue": "CHO form", "dissenting": "Jeukendrup: liquid/gel only", "majority": "Others: solid acceptable", "significance": "Moderate — liquid preferred but not mandatory"}
+    {"issue": "Bicarb top-up safety", "dissenting": "Panel Member 3: GI risk may outweigh benefit", "majority": "9/10: top-up if GI settled", "significance": "High — gate decision on GI status"},
+    {"issue": "Caffeine top-up dose", "dissenting": "Panel Member 8 / Panel Member 10: 100 mg ceiling", "majority": "Panel Member 6: 150 mg acceptable", "significance": "Moderate — athlete's anxiety tips toward 100 mg"},
+    {"issue": "Late-race caffeine", "dissenting": "Panel Member 10: reduce to 75 mg", "majority": "9/10: 100 mg", "significance": "Low–Moderate — monitor in-race anxiety"},
+    {"issue": "CHO form", "dissenting": "Panel Member 3: liquid/gel only", "majority": "Others: solid acceptable", "significance": "Moderate — liquid preferred but not mandatory"}
   ],
   "master_protocol": [
     {"variable": "Bicarb top-up", "recommendation": "75 mg/kg ~75 min before revised start — only if GI completely asymptomatic"},
     {"variable": "Pre-race caffeine top-up", "recommendation": "100 mg ~45–60 min before revised start"},
-    {"variable": "In-race caffeine at 20 km", "recommendation": "100 mg (reduce to 75 mg if anxiety is elevated during race)"},
+    {"variable": "In-race caffeine at 15 km", "recommendation": "100 mg (reduce to 75 mg if anxiety is elevated during race)"},
     {"variable": "Carbohydrate during delay", "recommendation": "40–50 g in gel or liquid form, spread over the delay"},
     {"variable": "Fluid during delay", "recommendation": "400–500 mL with sodium, sipped steadily"},
     {"variable": "Final 15 min pre-start", "recommendation": "Small gel (20–25 g CHO) if using one routinely; mouth rinse otherwise"}
@@ -114,7 +114,7 @@
   "what_the_crowd_adds_beyond_solo": [
     {"insight": "Pharmacogenomic individualisation", "expert": "guest", "detail": "CYP1A2 variation is a real source of caffeine half-life uncertainty that the athlete should ideally know about themselves. Without that data, conservatism (100 mg not 150 mg) is the rational default."},
     {"insight": "CNS receptor saturation", "expert": "meeusen", "detail": "High caffeine loads may not produce proportional CNS benefit and may amplify anxiety — particularly relevant because the athlete has already flagged nervousness. This argues more strongly for the conservative caffeine dose than any single expert articulated alone."},
-    {"insight": "GI form of carbohydrate", "expert": "jeukendrup", "detail": "Recommending liquid/gel over solid food is stronger when it comes from the panel's foremost GI physiologist, and adds practical precision to the advice."}
+    {"insight": "GI form of carbohydrate", "expert": "jeukendrup", "detail": "Recommending liquid/gel over solid food is stronger when it comes from the panel's foremost GI specialist, and adds practical precision to the advice."}
   ],
   "closing": "The crowd has spoken. Go race."
 }
